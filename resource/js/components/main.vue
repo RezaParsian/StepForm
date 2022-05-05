@@ -12,10 +12,19 @@
 
       <hr>
 
+      <!-- Step 0 - Start -->
       <div v-show="current_step===0">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed libero enim. Quis hendrerit dolor magna eget est lorem ipsum. Fringilla ut morbi tincidunt augue. Eget nulla facilisi etiam dignissim diam quis enim lobortis. Justo laoreet sit amet cursus sit amet. Etiam non quam lacus suspendisse faucibus interdum posuere. Eget mauris pharetra et ultrices neque. A diam sollicitudin tempor id eu nisl nunc mi ipsum. Facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum. Eu tincidunt tortor aliquam nulla facilisi cras fermentum. Dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. At tellus at urna condimentum mattis pellentesque. Augue ut lectus arcu bibendum. Viverra orci sagittis eu volutpat. Vulputate enim nulla aliquet porttitor. Mattis aliquam faucibus purus in massa tempor nec feugiat. Amet volutpat consequat mauris nunc congue nisi vitae suscipit tellus.
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed libero enim. Quis hendrerit dolor magna eget est lorem ipsum. Fringilla ut morbi
+          tincidunt augue. Eget nulla facilisi etiam dignissim diam quis enim lobortis. Justo laoreet sit amet cursus sit amet. Etiam non quam lacus suspendisse faucibus interdum posuere. Eget mauris pharetra et ultrices neque. A diam sollicitudin tempor
+          id eu nisl nunc mi ipsum. Facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum. Eu tincidunt tortor aliquam nulla facilisi cras fermentum. Dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. At tellus at urna
+          condimentum mattis pellentesque. Augue ut lectus arcu bibendum. Viverra orci sagittis eu volutpat. Vulputate enim nulla aliquet porttitor. Mattis aliquam faucibus purus in massa tempor nec feugiat. Amet volutpat consequat mauris nunc congue nisi
+          vitae suscipit tellus.
+        </p>
+        <start></start>
       </div>
 
+      <!--  Step 1 - Map    -->
       <div v-show="current_step===1">
         <div class="row justify-content-center">
           <button class="btn mx-3 px-5" :class="selectedPlaceButton==='county' ? 'btn-success' : 'btn-outline-success'" @click="selectAllCity" type="button">کشوری</button>
@@ -33,6 +42,21 @@
         <div class="row text-center justify-content-center">
           <iran ref="iran"></iran>
         </div>
+      </div>
+
+      <!--  Step 2 - Advertise -->
+      <div v-show="current_step===2">
+        <advertise></advertise>
+      </div>
+
+      <!--  Step 3 - Budget -->
+      <div v-show="current_step===3">
+        <budget></budget>
+      </div>
+
+      <!--  Step 3 - SocialMedia -->
+      <div v-show="current_step===4">
+        <social-media></social-media>
       </div>
 
       <button type="button" @click="current_step++" class="btn btn-primary float-left">
@@ -70,6 +94,18 @@ export default {
         },
         {
           id: 3,
+          name: "بودجه"
+        },
+        {
+          id: 4,
+          name: "شبکه اجتماعی"
+        },
+        {
+          id: 5,
+          name: "نوع پست"
+        },
+        {
+          id: 6,
           name: "تایید"
         }
       ],
@@ -101,7 +137,7 @@ export default {
     }
   },
   mounted() {
-    this.current_step = 1;
+    this.current_step = 4;
     this.$refs.iran.$watch("selected", () => {
       if (this.$refs.iran.selected.length < 31)
         this.selectedPlaceButton = "city";

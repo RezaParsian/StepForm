@@ -1,0 +1,158 @@
+<template>
+  <div id="vue_social_media" class="position-relative mx-auto" :key="fresh">
+    <button v-if="selected_media!==null" type="button" class="btn reset btn-danger rounded-circle position-absolute" title="بارگذاری مجدد" @click="reset">
+      <i class="fa fa-refresh"></i>
+    </button>
+
+    <div class="row mx-auto justify-content-center">
+      <div
+          class="col-md-4 rounded border m-1 p-2"
+          v-for="item in social_medias"
+          :data-id="item.id"
+          @click="selectMedia(item.id)"
+          :title="item.tooltip"
+          data-toggle="tooltip">
+        <div class="row">
+          <img class="col-md-3 mx-auto img-fluid" :src="item.image" :alt="item.name">
+        </div>
+        <h5 class="text-center my-3">{{ item.name }} <span v-if="selected_post_type!==null"> - {{ post_types[selected_post_type].name }}</span></h5>
+      </div>
+    </div>
+
+    <div class="row mx-auto justify-content-center" v-if="selected_post_type===null">
+      <div
+          class="col-md-4 rounded border m-1 p-2"
+          v-for="(item,index) in post_types"
+          :data-id="item.id"
+          @click="doAction(index)"
+          :title="item.tooltip"
+          data-toggle="tooltip">
+        <div class="row">
+          <i :class="item.icon" class="fa-3x mx-auto"></i>
+        </div>
+        <h5 class="text-center my-3">{{ item.name }}</h5>
+        <ul>
+          <li v-for="detail in item.details">{{ detail }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <component v-if="selected_post_type!==null" :is="post_types[selected_post_type].component"></component>
+
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: "social_media",
+  data() {
+    return {
+      fresh: 0,
+      selected_media: null,
+      social_medias: [
+        {
+          id: 0,
+          name: "Instagram",
+          image: "https://www.instagram.com/static/images/ico/favicon-192.png/68d99ba29cc8.png",
+          services: [
+            {
+              id: 0,
+              name: "پست",
+              details: [
+                "رضا",
+                "شایان",
+                "آرش",
+                "آرمین",
+              ],
+              icon: "fa fa-camera-retro",
+              component: "instagram_post",
+            },
+            {
+              id: 1,
+              name: "استوری",
+              details: [],
+              icon: "fa fa-clock-o",
+              component: "instagram_story",
+            }
+          ]
+        },
+        {
+          id: 1,
+          name: "Telegram",
+          image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Telegram_2019_Logo.svg/121px-Telegram_2019_Logo.svg.png",
+          services: [
+            {
+              id: 0,
+              name: "پست",
+              details: [],
+              icon: "fa fa-paper-plane-o",
+              component: "telegram"
+            },
+          ]
+        },
+        {
+          id: 2,
+          name: "Influencer",
+          image: "https://cdn1.iconfinder.com/data/icons/influencer-2/64/1M-social-media-marketing-512.png",
+          services: [
+            {
+              id: 0,
+              name: "تبلیغات اینفلوئنسری",
+              details: [],
+              icon: "fa fa-wpexplorer",
+              component: "instagram_story",
+            }
+          ],
+        },
+      ],
+      selected_post_type: null,
+      post_types: [],
+    }
+  },
+  watch: {
+    selected_media(new_advertise) {
+      const $selector = $("#vue_social_media");
+      $selector.find(`[data-id]`).removeClass("border").hide();
+      $selector.find(`[data-id='${new_advertise}']`).show(750);
+    }
+  },
+  methods: {
+    selectMedia(advertise_id) {
+      this.selected_media = advertise_id;
+      this.post_types = this.social_medias[advertise_id].services;
+    },
+    reset() {
+      this.fresh++;
+      this.post_types = [];
+      this.selected_post_type = null;
+      this.selected_media = null;
+    },
+    doAction(id) {
+      this.selected_post_type = id;
+    }
+  }
+}
+</script>
+
+<style scoped>
+.selected {
+  border-width: 3px !important;
+}
+
+ul {
+  list-style: none !important;
+}
+
+ul li:before {
+  content: "\f067";
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: 12pt;
+  color: #22C55E;
+  margin: 2px;
+}
+
+.reset {
+  right: 0;
+}
+</style>

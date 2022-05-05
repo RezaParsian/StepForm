@@ -1,0 +1,92 @@
+<template>
+  <div>
+    <div class="row mx-auto">
+      <div class="col-md-7">
+        <div class="form-group">
+          <label>عکس یا ویدیو</label>
+          <input type="file" name="files" class="form-control-file border rounded mb-1" @change="readFile">
+          <small>تصاویر باید در فرمت‌های .jpeg, .jpg, .png یا .gif و ویدیوها در فرمت .mp4 باشند. حداکثر حجم مجاز تصاویر ۵ و ویدیوها ۱۹ مگابایت است.</small>
+        </div>
+
+        <div class="form-group">
+          <label>متن </label>
+          <textarea class="form-control" rows="3" maxlength="50" id="post_text"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>منشن</label>
+          <select class="form-control" multiple="multiple" name="mention[]">
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>هشتگ</label>
+          <select class="form-control" multiple="multiple" name="hashtag[]">
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>لینک استوری</label>
+          <input type="url" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label>سایر توضیحات</label>
+          <textarea class="form-control" rows="3" id="post_text"></textarea>
+        </div>
+
+      </div>
+
+      <div class="col-md">
+        <h5 class="text-center">پیش‌نمایش پست</h5>
+        <div class="col mx-auto border rounded" id="preview_panel">
+          <video id="preview" poster="" class="col img-fluid">
+            <source src="" type="">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "instagram_story",
+  data() {
+    return {
+      post_comment: true,
+    }
+  },
+  methods: {
+    readFile(element) {
+      console.log(element)
+      if (element.target.files && element.target.files[0]) {
+        let reader = new FileReader();
+
+        reader.onload = function (e) {
+          const $selector = $(`#preview`);
+          let type = e.target.result.indexOf("video") > 0 ? "src" : "poster";
+          $selector.attr("src", "");
+          $selector.attr("poster", "");
+          $selector.attr(type, e.target.result);
+        }
+
+        reader.readAsDataURL(element.target.files[0]);
+      }
+    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      $("select").select2({
+        tags: true
+      });
+    });
+  }
+}
+</script>
+
+<style scoped>
+#preview_panel {
+  min-height: 75% !important;
+}
+</style>
