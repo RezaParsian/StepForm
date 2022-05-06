@@ -1,5 +1,6 @@
 <template>
   <div id="vue_advertise" class="row mx-auto justify-content-center">
+    <input type="hidden" name="advertise_type">
     <div
         class="position-relative overflow-hidden col-md-4 rounded border m-1 p-2"
         v-for="item in advertise_items"
@@ -16,7 +17,7 @@
 
 <script>
 export default {
-  name: "advertise",
+  name: "Advertise",
   data() {
     return {
       selected_advertise: null,
@@ -57,9 +58,14 @@ export default {
       const $selector = $("#vue_advertise");
       $selector.find(`[data-id]`).removeClass("border-success selected");
       $selector.find(`[data-id='${new_advertise}']`).addClass("border-success selected");
+      $(`input[name='advertise_type']`).val(new_advertise);
+      this.checkData();
     }
   },
   methods: {
+    checkData() {
+        this.$emit("go_next", $(`input[name='advertise_type']`).val() != "");
+    },
     selectAdvertise(advertise_id) {
       this.selected_advertise = advertise_id;
     }

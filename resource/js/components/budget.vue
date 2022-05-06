@@ -2,7 +2,7 @@
   <div>
     <div class="row mx-auto">
       <div class="input-group mb-3 col-md-6">
-        <input type="text" class="form-control text-center" v-model="budgetAmount" placeholder="بودجه شما">
+        <input type="text" class="form-control text-center" v-model="budgetAmount" name="budget" placeholder="بودجه شما">
         <div class="input-group-prepend">
           <span class="input-group-text">تومان</span>
         </div>
@@ -10,7 +10,7 @@
     </div>
     <small>مبالغ پیشنهادی : </small>
 
-    <button type="button" @click="current_budget=price.tooltip" class="btn btn-info m-2" v-for="price in prices" :title="price.tooltip" data-toggle="tooltip">{{ price.price }}</button>
+    <button type="button" @click="budgetAmount=price.tooltip" class="btn btn-info m-2" v-for="price in prices" :title="price.tooltip" data-toggle="tooltip">{{ price.price }}</button>
 
     <div class="row mx-auto">
       <strong>بازدید تخمینی:</strong>
@@ -31,6 +31,7 @@
 <script>
 export default {
   name: "budget",
+  props:["value"],
   data() {
     return {
       current_budget: "",
@@ -49,14 +50,21 @@ export default {
       ],
     }
   },
+  methods: {
+    checkData() {
+      this.$emit("input", this.budgetAmount);
+      this.$emit("go_next", this.budgetAmount !== "0");
+    }
+  },
   computed: {
     budgetAmount: {
       get() {
-        let price=this.current_budget.replaceAll(",", "");
+        let price = this.current_budget.replaceAll(",", "");
         return new Intl.NumberFormat('en-US', {style: 'decimal'}).format(price);
       },
       set(value) {
         this.current_budget = value;
+        this.checkData();
       }
     }
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div id="vue_main" class="card">
     <div class="card-header">
       ساخت کمپین جدید
     </div>
@@ -14,14 +14,12 @@
 
       <!-- Step 0 - Start -->
       <div v-show="current_step===0">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultrices dui sapien eget mi proin sed libero enim. Quis hendrerit dolor magna eget est lorem ipsum. Fringilla ut morbi
-          tincidunt augue. Eget nulla facilisi etiam dignissim diam quis enim lobortis. Justo laoreet sit amet cursus sit amet. Etiam non quam lacus suspendisse faucibus interdum posuere. Eget mauris pharetra et ultrices neque. A diam sollicitudin tempor
-          id eu nisl nunc mi ipsum. Facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum. Eu tincidunt tortor aliquam nulla facilisi cras fermentum. Dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. At tellus at urna
-          condimentum mattis pellentesque. Augue ut lectus arcu bibendum. Viverra orci sagittis eu volutpat. Vulputate enim nulla aliquet porttitor. Mattis aliquam faucibus purus in massa tempor nec feugiat. Amet volutpat consequat mauris nunc congue nisi
-          vitae suscipit tellus.
+        <p class="text-justify">
+          لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای
+          کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می
+          توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
         </p>
-        <start></start>
+        <start @go_next="nextStep" v-model="camping" ref="start"></start>
       </div>
 
       <!--  Step 1 - Map    -->
@@ -40,31 +38,38 @@
         </div>
 
         <div class="row text-center justify-content-center">
-          <iran ref="iran"></iran>
+          <iran ref="iran" @go_next="nextStep"></iran>
         </div>
       </div>
 
       <!--  Step 2 - Advertise -->
       <div v-show="current_step===2">
-        <advertise></advertise>
+        <advertise @go_next="nextStep" ref="advertise"></advertise>
       </div>
 
       <!--  Step 3 - Budget -->
       <div v-show="current_step===3">
-        <budget></budget>
+        <budget v-model="budget" @go_next="nextStep" ref="budget"></budget>
       </div>
 
       <!--  Step 3 - SocialMedia -->
       <div v-show="current_step===4">
-        <social-media></social-media>
+        <social-media v-model="socialModel" @go_next="nextStep" ref="social-media"></social-media>
       </div>
 
-      <button type="button" @click="current_step++" class="btn btn-primary float-left">
+      <!--  Step 6 - Checkout -->
+      <div v-show="current_step===6">
+        <checkout @go_next="nextStep" :social="social" :camping="camping" :budget="budget" :content="content" ref="checkout"></checkout>
+      </div>
+
+      <hr>
+
+      <button type="button" v-if="next_step" @click="next" class="btn btn-primary float-left">
         مرحله بعد
         <i class="fa fa-caret-left"></i>
       </button>
 
-      <button type="button" v-if="current_step>0" @click="current_step--" class="btn btn-primary float-right">
+      <button type="button" v-if="current_step>0" @click="goBack" class="btn btn-primary float-right">
         <i class="fa fa-caret-right"></i>
         مرحله قبل
       </button>
@@ -77,41 +82,64 @@ export default {
   name: "Main",
   data() {
     return {
+      next_step: false,
       selectedPlaceButton: null,
+      social: "",
+      camping: "",
+      budget: "",
+      content: "",
       current_step: -1,
       steps: [
         {
           id: 0,
-          name: "شروع"
+          name: "شروع",
+          component: "start"
         },
         {
           id: 1,
-          name: "موقعیت جغرافیایی تبلیغ"
+          name: "موقعیت جغرافیایی تبلیغ",
+          component: "iran"
         },
         {
           id: 2,
-          name: "نوع تبلیغ"
+          name: "نوع تبلیغ",
+          component: "advertise"
         },
         {
           id: 3,
-          name: "بودجه"
+          name: "بودجه",
+          component: "budget"
         },
         {
           id: 4,
-          name: "شبکه اجتماعی"
+          name: "شبکه اجتماعی",
+          component: "social-media"
         },
         {
           id: 5,
-          name: "نوع پست"
+          name: "کانال ها"
         },
         {
           id: 6,
-          name: "تایید"
+          name: "تایید",
+          component: "checkout"
         }
       ],
     };
   },
   methods: {
+    goBack() {
+      this.current_step--;
+      this.$refs[this.steps[this.current_step].component].checkData();
+    },
+    next() {
+      this.current_step++;
+      this.nextStep(false);
+      this.$refs[this.steps[this.current_step].component].checkData();
+    },
+    nextStep(condition) {
+      this.next_step = condition;
+    },
     selectAllCity() {
       this.selectedPlaceButton = "county"
       $("[id^='svg'][fill='#333']").each((index, item) => {
@@ -122,7 +150,6 @@ export default {
       this.selectedPlaceButton = "city"
       $("[id^='svg'][fill='#008400']").each((index, item) => {
         $(item).trigger("hover")
-        console.log(item)
         this.$refs.iran.select({target: item});
       });
     }
@@ -134,10 +161,28 @@ export default {
       for (let i = 0; i < current; i++) {
         $(`#${i}`).removeClass("inactive")
       }
+
+      if (current === 6) {
+        $("#show_here").html($("#preview_section").html());
+      }
+    }
+  },
+  computed:{
+    socialModel:{
+      get(){
+        return [
+          this.social,
+          this.content
+        ];
+      },
+      set(value){
+        this.social = value[0];
+        this.content = value[1];
+      }
     }
   },
   mounted() {
-    this.current_step = 4;
+    this.current_step = 0;
     this.$refs.iran.$watch("selected", () => {
       if (this.$refs.iran.selected.length < 31)
         this.selectedPlaceButton = "city";

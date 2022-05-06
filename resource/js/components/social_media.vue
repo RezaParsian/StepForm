@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <component v-if="selected_post_type!==null" :is="post_types[selected_post_type].component"></component>
+    <component :ref="post_types[selected_post_type].component" @check_me="checkData" v-if="selected_post_type!==null" :is="post_types[selected_post_type].component"></component>
 
   </div>
 </template>
@@ -46,6 +46,7 @@
 
 export default {
   name: "social_media",
+  props:["value"],
   data() {
     return {
       fresh: 0,
@@ -101,7 +102,7 @@ export default {
               name: "تبلیغات اینفلوئنسری",
               details: [],
               icon: "fa fa-wpexplorer",
-              component: "instagram_story",
+              component: "instagram_post",
             }
           ],
         },
@@ -118,6 +119,19 @@ export default {
     }
   },
   methods: {
+    checkData() {
+      this.$nextTick(() => {
+        this.$emit('input', [
+          this.social_medias[this.selected_media].name,
+          this.social_medias[this.selected_media].services[this.selected_post_type].name
+        ]);
+
+        if (this.selected_post_type !== null)
+          this.$emit("go_next", this.$refs[this.post_types[this.selected_post_type].component].checkData());
+        else
+          this.$emit("go_next", false);
+      });
+    },
     selectMedia(advertise_id) {
       this.selected_media = advertise_id;
       this.post_types = this.social_medias[advertise_id].services;
@@ -127,6 +141,7 @@ export default {
       this.post_types = [];
       this.selected_post_type = null;
       this.selected_media = null;
+      this.checkData();
     },
     doAction(id) {
       this.selected_post_type = id;

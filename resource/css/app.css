@@ -1,3 +1,11 @@
 .select2-search__field {
     line-height: 1;
 }
+
+.vpd-icon-btn svg{
+    height: 2.37989rem;
+}
+
+.ltr {
+    direction: ltr;
+}

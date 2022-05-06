@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="vue_instagram_post">
     <div class="row mx-auto">
       <div class="col-md-7">
         <div class="form-group">
@@ -10,19 +10,19 @@
           <button class="btn btn-outline-danger btn-sm" title="حذف کردن فایل" data-toggle="tooltip" @click="post_count!== 1 ? post_count-- : ''" type="button">
             <i class="fa fa-times"></i>
           </button>
-          <input v-for="item in post_count" type="file" name="files[]" class="form-control-file border rounded mt-2 mb-1" :data-id="item" @change="readFile">
+          <input v-for="item in post_count" type="file" name="file[]" required class="form-control-file border rounded mt-2 mb-1" :data-id="item" @change="readFile">
           <small>تصاویر باید در فرمت‌های .jpeg, .jpg, .png یا .gif و ویدیوها در فرمت .mp4 باشند. حداکثر حجم مجاز تصاویر ۵ و ویدیوها ۱۹ مگابایت است.</small>
         </div>
 
         <div class="form-group">
           <label>کپشن</label>
-          <textarea class="form-control" v-model="post_text" rows="3" id="post_text"></textarea>
+          <textarea class="form-control" v-model="post_text" required rows="3" id="post_text" name="post_text"></textarea>
         </div>
 
         <div class="form-group">
           <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" v-model="post_comment" id="switch1">
-            <label class="custom-control-label" for="switch1">وضعیت کامنت : <span class="text-primary">{{post_comment ? "باز" : "بسته"}}</span></label>
+            <input type="checkbox" class="custom-control-input" v-model="post_comment" id="switch1" name="post_comment">
+            <label class="custom-control-label" for="switch1">وضعیت کامنت : <span class="text-primary">{{ post_comment ? "باز" : "بسته" }}</span></label>
           </div>
         </div>
 
@@ -32,13 +32,13 @@
           </select>
         </div>
       </div>
-      <div class="col-md">
+      <div id="preview_section" class="col-md">
         <h5 class="text-center">پیش‌نمایش پست</h5>
         <div class="col mx-auto border rounded" id="preview_panel">
-         <div class="border-bottom row mb-2">
-           <span class="m-2 mt-3 mb-3">استپ فرم</span>
-           <span class="ml-auto px-3 align-self-center">...</span>
-         </div>
+          <div class="border-bottom row mb-2">
+            <span class="m-2 mt-3 mb-3">استپ فرم</span>
+            <span class="ml-auto px-3 align-self-center">...</span>
+          </div>
 
           <div id="demo" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
@@ -80,6 +80,7 @@
         </div>
       </div>
     </div>
+    <input type="hidden" v-model="check">
   </div>
 </template>
 
@@ -88,14 +89,19 @@ export default {
   name: "instagram_post",
   data() {
     return {
-      post_count:1,
+      file: [],
+      post_count: 1,
       post_text: "",
       post_comment: true,
     }
   },
   methods: {
+    checkData() {
+      return this.file.length > 0 && this.post_text != "";
+    },
     readFile(element) {
-      const $id=$(element.target).data('id');
+      const vm = this;
+      const $id = $(element.target).data('id');
 
       if (element.target.files && element.target.files[0]) {
         let reader = new FileReader();
@@ -106,15 +112,26 @@ export default {
           $selector.attr("src", "");
           $selector.attr("poster", "");
           $selector.attr(type, e.target.result);
+
+          vm.file.push(element.target.files[0].name);
         }
 
         reader.readAsDataURL(element.target.files[0]);
       }
     }
   },
+  computed: {
+    check() {
+      const condition = this.file.length > 0 && this.post_text != "";
+
+      this.$emit("check_me")
+
+      return condition;
+    }
+  },
   mounted() {
     this.$nextTick(() => {
-      $("select").select2({
+      $("#vue_instagram_post").find("select").select2({
         tags: true
       });
     });

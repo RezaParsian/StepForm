@@ -1,7 +1,9 @@
-window.$=window.jQuery=require("jquery");
+window.$ = window.jQuery = require("jquery");
 const Vue = require("vue").default;
 require("select2");
 require("bootstrap-v4-rtl");
+import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
+
 require("./custom");
 
 
@@ -14,7 +16,21 @@ Vue.component("social-media", require("./components/social_media").default);
 Vue.component("telegram", require("./components/telegram").default);
 Vue.component("instagram_post", require("./components/instagram_post").default);
 Vue.component("instagram_story", require("./components/instagram_story").default);
+Vue.component("checkout", require("./components/checkout").default);
 
-const app=new Vue({
+Vue.use(VuePersianDatetimePicker, {
+    name: "datePicker",
+    props: {
+        format: 'YYYY-MM-DD HH:mm:ss',
+        displayFormat: 'jYYYY-jMM-jDD HH:mm',
+        color: '#008400',
+        inputClass:"form-control ltr text-center",
+        autoSubmit: true,
+        clearable: true,
+        placeholder: "",
+    }
+});
+
+const app = new Vue({
     el: "#step_form"
 });

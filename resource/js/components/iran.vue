@@ -1,11 +1,12 @@
 <template>
-  <div class="row mx-auto">
+  <div id="vue_iran" class="row mx-auto">
+    <input type="hidden" name="province" v-model="province">
     <div class="col-md align-self-center text-left" style="column-count: 3;column-gap: 2rem;">
       <p v-for="item in cities" @click="selectCity" :data-id="+item.id">{{ item.name }}</p>
     </div>
     <div class="col-md">
       <svg viewBox="0 0 936 843" version="1.1" xmlns="http://www.w3.org/2000/svg" class="" id="iran-svg">
-        <g :id="colorfd">
+        <g>
           <a @click="select" xlink:href="#ostan_AzQa">
             <path :fill="color" id="svg-AzQa" opacity="1.00" data-province="2"
                   d=" M 23.30 0.00 L 24.20 0.00 C 28.53 2.86 32.78 5.88 36.73 9.24 C 39.99 12.77 42.11 17.19 45.26 20.83 C 50.48 28.02 57.81 33.21 63.77 39.73 C 56.76 47.62 57.45 58.74 60.41 68.18 C 57.05 70.03 53.67 71.83 50.29 73.64 C 50.35 80.84 46.35 86.79 43.45 93.03 C 47.10 93.35 50.76 93.52 54.42 93.66 C 51.64 96.99 47.20 99.48 46.19 103.93 C 46.29 110.23 55.12 110.48 56.12 116.30 C 58.36 126.99 56.30 139.18 63.78 148.17 C 65.84 151.20 69.87 152.65 73.27 151.10 C 75.97 149.24 76.66 145.58 78.28 142.96 C 83.20 145.42 88.82 146.50 93.42 149.57 C 96.54 153.57 96.65 161.55 103.28 161.44 C 112.71 159.36 121.79 153.50 131.72 154.13 C 135.80 159.47 135.23 166.79 139.09 172.25 C 143.20 170.31 147.47 168.79 151.80 167.46 C 154.52 175.94 158.01 184.50 157.65 193.58 C 156.85 198.06 151.09 198.77 147.54 197.21 C 142.32 194.78 137.58 191.35 132.17 189.30 C 123.44 188.02 114.23 190.65 105.74 187.62 C 101.32 186.36 96.73 185.90 92.19 185.28 C 92.08 188.07 91.88 193.67 91.77 196.46 C 87.99 197.41 83.71 197.29 80.37 199.41 C 75.24 204.74 71.72 212.52 63.89 214.32 C 62.88 206.33 61.12 198.36 58.10 190.90 C 55.73 188.91 52.07 189.47 49.15 188.89 C 48.15 184.03 48.35 179.00 47.43 174.14 C 45.88 171.22 42.59 169.63 40.37 167.28 C 41.05 164.04 41.99 160.61 41.06 157.32 C 39.80 154.58 37.13 152.77 35.91 150.03 C 35.16 146.60 36.63 143.24 37.54 140.00 C 34.40 137.29 30.98 134.85 28.25 131.71 C 23.76 125.90 29.89 116.69 23.04 112.13 C 18.73 108.79 13.87 106.20 8.92 103.94 C 13.04 96.67 17.72 89.54 20.20 81.49 C 21.11 77.70 16.26 76.66 13.71 75.39 C 13.03 68.46 12.52 61.50 11.32 54.64 C 10.49 50.10 6.74 46.46 6.99 41.65 C 8.30 34.29 3.18 28.45 0.00 22.45 L 0.00 21.72 C 5.47 21.57 11.74 23.41 16.43 19.75 C 19.09 13.31 20.42 6.37 23.30 0.00 Z"/>
@@ -139,6 +140,7 @@ export default {
   name: "Iran",
   data() {
     return {
+      province: [],
       color: "#333",
       selected: [],
       cities: [
@@ -177,34 +179,47 @@ export default {
     };
   },
   methods: {
+    checkData() {
+        this.$emit("go_next", this.province.length > 0);
+    },
     select(element) {
-      const $current = $(element.target).attr("fill");
+      const $selector = $("#vue_iran");
+      const $current = $selector.find(element.target).attr("fill");
       let selected = [];
 
-      $(element.target).attr("fill", $current === "#008400" ? this.color : "#008400");
+      $selector.find(element.target).attr("fill", $current === "#008400" ? this.color : "#008400");
 
-      $("[fill='#008400']").each((index, element) => {
+      $selector.find("[fill='#008400']").each((index, element) => {
         selected.push($(element).attr("id"));
       });
 
       this.selected = selected;
-    },
-    selectCity(element){
-      const  province=$(element.target).data('id');
+      this.province = [];
+
+      this.selected.forEach((item) => {
+        this.province.push($(`#${item}`).data("province"));
+      })
+    }
+    ,
+    selectCity(element) {
+      const province = $("#vue_iran").find(element.target).data('id');
       this.select(`[data-province='${province}']`);
     }
   },
   watch: {
+    province() {
+      this.checkData();
+    },
     selected(newValue) {
-      $(`[data-id]`).css({
+      $("#vue_iran").find(`[data-id]`).css({
         "color": "inherit",
         "font-weight": "inherit"
       });
 
       this.$nextTick(() => {
         newValue.forEach((element) => {
-          const $current = $(`#${element}`).data("province");
-          $(`[data-id="${$current}"]`).css({
+          const $current = $("#vue_iran").find(`#${element}`).data("province");
+          $("#vue_iran").find(`[data-id="${$current}"]`).css({
             "color": "red",
             "font-weight": "bold"
           });
@@ -214,28 +229,28 @@ export default {
   },
   mounted() {
     // hover on map then list of cities will be change
-    $("[data-province]").hover(function () {
-      $(`[data-id='${$(this).attr("data-province")}']`).css({
+    $("#vue_iran").find("[data-province]").hover(function () {
+      $("#vue_iran").find(`[data-id='${$(this).attr("data-province")}']`).css({
         "color": "red",
         "font-weight": "bold"
       });
     }, (element) => {
-      if (this.selected.find((x) => x === $(element.target).attr("id")) === undefined)
-        $(`[data-id='${$(element.target).attr("data-province")}']`).css({
+      if (this.selected.find((x) => x === $("#vue_iran").find(element.target).attr("id")) === undefined)
+        $("#vue_iran").find(`[data-id='${$(element.target).attr("data-province")}']`).css({
           "color": "inherit",
           "font-weight": "inherit"
         });
     });
 
     // hove on city then map will be change
-    $("[data-id]").hover(function () {
-      $(`[data-province='${$(this).data("id")}']`).attr("fill", "#008400");
+    $("#vue_iran").find("[data-id]").hover(function () {
+      $("#vue_iran").find(`[data-province='${$(this).data("id")}']`).attr("fill", "#008400");
     }, (element) => {
-      const hovered = $(element.target).data("id");
-      const province = $(`[data-province='${hovered}']`).attr("id");
+      const hovered = $("#vue_iran").find(element.target).data("id");
+      const province = $("#vue_iran").find(`[data-province='${hovered}']`).attr("id");
 
       if (this.selected.find((x) => x === province) === undefined)
-        $(`[data-province='${$(element.target).data("id")}']`).attr("fill", "#333");
+        $("#vue_iran").find(`[data-province='${$(element.target).data("id")}']`).attr("fill", "#333");
     });
 
   }
@@ -254,10 +269,12 @@ export default {
 #iran-svg > g > a > path:hover {
   fill: #605d5d;
 }
-[data-id]{
+
+[data-id] {
   cursor: pointer;
 }
-[data-id]:hover{
+
+[data-id]:hover {
   color: red;
   font-weight: bold;
 }
