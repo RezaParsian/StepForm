@@ -3,11 +3,9 @@
     <form>
       <div class="mx-auto col-md-5 col position-relative">
         <div class="box btn-grad form-box py-5 mt-5">
-        <div class="col-md-4 col-5 user position-absolute">
-          <svg viewBox="0 0 120 120" xmlns="">
-            <circle cx="60" cy="60" r="60"/>
-          </svg>
-        </div>
+          <div class="col-md-4 col-5 user position-absolute">
+            <img src="/img/logo-01.png" alt="user" class="img-fluid">
+          </div>
 
         <div class="form-group pt-2 mt-5">
           <div class="input-group col-md-9 mx-auto">
@@ -26,20 +24,20 @@
         <div class="form-group pt-1">
           <div class="input-group col-md-9 mx-auto">
             <span class="input-group-addon p-1 px-3 pt-1"><i class="fa fa-lock text-white mt-2"></i></span>
-            <input type="password" class="form-control text-white" id="password" v-model="password" placeholder="رمز عبور">
+            <input type="password" class="form-control text-white" name="password" id="password" v-model="password" placeholder="رمز عبور">
           </div>
         </div>
 
         <div class="form-group pt-1">
           <div class="input-group col-md-9 mx-auto">
             <span class="input-group-addon p-1 px-3 pt-2"><i class="fa fa-lock text-white mt-2"></i></span>
-            <input type="password" class="form-control text-white" id="passwordRepeat" v-model="passwordRepeat" placeholder="تکرار رمز عبور">
+            <input type="password" name="password-confirmation"  class="form-control text-white" id="password-confirm" v-model="passwordRepeat" placeholder="تکرار رمز عبور">
           </div>
         </div>
 
         <div class="row mx-auto text-center mt-5 px-0">
           <div class="col-md-6">
-            <a class="text-center">ورود</a>
+            <a @click="login" class="text-center">ورود</a>
           </div>
           <div class="col-md-6 mx-auto">
             <a class="text-center">فراموشی رمز عبور</a>
@@ -77,6 +75,9 @@ export default {
       } else {
         this.$store.dispatch("setError", "رمز عبور با تکرار آن یکسان نمی باشد.");
       }
+    },
+    login(){
+      this.$emit('lets_fade')
     }
   }
 };
@@ -114,7 +115,11 @@ input::placeholder {
 
 .user{
   top: -4rem;
-  right: 32%;
+  right: 36%;
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  background-color: #1D2B64;
 }
 
 .register-container{
@@ -137,9 +142,6 @@ a{
 }
 i{
   font-size: 14pt;
-}
-svg{
-  fill:#1D2B64;
 }
 .box{
   box-shadow: 0 0 43px rgba(0,0,0,0.78);

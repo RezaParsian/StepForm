@@ -927,6 +927,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    register: function register() {
+      this.$emit('lets_fade');
+    },
     login: function login() {
       this.$store.dispatch("login", {
         chatID: this.chatID,
@@ -1004,8 +1007,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "registerForm",
   data: function data() {
@@ -1027,6 +1028,9 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.$store.dispatch("setError", "رمز عبور با تکرار آن یکسان نمی باشد.");
       }
+    },
+    login: function login() {
+      this.$emit('lets_fade');
     }
   }
 });
@@ -1055,20 +1059,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "uerEntrance",
   data: function data() {
     return {
-      isLogin: true,
-      isRegister: false
+      is_login: true
     };
   },
   methods: {
-    show: function show() {
-      this.isLogin = !this.isLogin;
-      this.isRegister = !this.isRegister;
+    fadeMe: function fadeMe() {
+      this.is_login = !this.is_login;
     }
   }
 });
@@ -6359,7 +6359,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-grad[data-v-db65c0fe] {background-image: linear-gradient(to right, #DAE2F8 0%, #D6A4A4  51%, #DAE2F8  100%)}\n.form-control[data-v-db65c0fe]{\n  background-color: rgba(33, 45, 105, 0.76);\n  border: none;\n  border-radius: 0rem!important;\n  font-size: 12pt;\n  padding: 0.5rem;\n  height: 3rem;\n}\ninput[data-v-db65c0fe]::-moz-placeholder {\n  color: #fff;\n}\ninput[data-v-db65c0fe]:-ms-input-placeholder {\n  color: #fff;\n}\ninput[data-v-db65c0fe]::placeholder {\n  color: #fff;\n}\n.form-control[data-v-db65c0fe]:focus{\n  background-color: rgba(33, 45, 105, 0.76);\n  color: white!important;\n}\n.input-group-addon[data-v-db65c0fe] {\n  background-color: #1D2B64;\n}\n.form-box[data-v-db65c0fe]{\n  border-radius: 2rem;\n}\n.user[data-v-db65c0fe]{\n  top: -4rem;\n  right: 32%;\n}\n.login-container[data-v-db65c0fe]{\n  position: absolute;\n  bottom: -17%;\n  right: 10%;\n  width: 80%;\n  text-align: center;\n  z-index: -1;\n}\n.btn-block[data-v-db65c0fe]{\n  border-bottom-left-radius: 2rem;\n  border-bottom-right-radius: 2rem;\n}\na[data-v-db65c0fe]{\n  text-decoration: none;\n  color: #1D2B64;\n}\ni[data-v-db65c0fe]{\n  font-size: 14pt;\n}\nsvg[data-v-db65c0fe]{\n  fill:#1D2B64;\n}\n.box[data-v-db65c0fe]{\n  box-shadow: 0 0 43px rgba(0,0,0,0.78);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-grad[data-v-db65c0fe] {background-image: linear-gradient(to right, #DAE2F8 0%, #D6A4A4  51%, #DAE2F8  100%)}\n.form-control[data-v-db65c0fe]{\n  background-color: rgba(33, 45, 105, 0.76);\n  border: none;\n  border-radius: 0rem!important;\n  font-size: 12pt;\n  padding: 0.5rem;\n  height: 3rem;\n}\ninput[data-v-db65c0fe]::-moz-placeholder {\n  color: #fff;\n}\ninput[data-v-db65c0fe]:-ms-input-placeholder {\n  color: #fff;\n}\ninput[data-v-db65c0fe]::placeholder {\n  color: #fff;\n}\n.form-control[data-v-db65c0fe]:focus{\n  background-color: rgba(33, 45, 105, 0.76);\n  color: white!important;\n}\n.input-group-addon[data-v-db65c0fe] {\n  background-color: #1D2B64;\n}\n.form-box[data-v-db65c0fe]{\n  border-radius: 2rem;\n}\n.user[data-v-db65c0fe]{\n  top: -4rem;\n  right: 36%;\n  width: 125px;\n  height: 125px;\n  border-radius: 50%;\n  background-color: #1D2B64;\n}\n.login-container[data-v-db65c0fe]{\n  position: absolute;\n  bottom: -17%;\n  right: 10%;\n  width: 80%;\n  text-align: center;\n  z-index: -1;\n}\n.btn-block[data-v-db65c0fe]{\n  border-bottom-left-radius: 2rem;\n  border-bottom-right-radius: 2rem;\n}\na[data-v-db65c0fe]{\n  text-decoration: none;\n  color: #1D2B64;\n}\ni[data-v-db65c0fe]{\n  font-size: 14pt;\n}\n.box[data-v-db65c0fe]{\n  box-shadow: 0 0 43px rgba(0,0,0,0.78);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -6383,7 +6383,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-grad[data-v-1787fffa] {background-image: linear-gradient(to right, #DAE2F8 0%, #D6A4A4  51%, #DAE2F8  100%)}\n.form-control[data-v-1787fffa]{\n  background-color: rgba(33, 45, 105, 0.76);\n  border: none;\n  border-radius: 0rem!important;\n  font-size: 12pt;\n  padding: 0.5rem;\n  height: 3rem;\n}\ninput[data-v-1787fffa]::-moz-placeholder {\n  color: #fff;\n}\ninput[data-v-1787fffa]:-ms-input-placeholder {\n  color: #fff;\n}\ninput[data-v-1787fffa]::placeholder {\n  color: #fff;\n}\n.form-control[data-v-1787fffa]:focus{\n  background-color: rgba(33, 45, 105, 0.76);\n  color: white;\n}\n.input-group-addon[data-v-1787fffa] {\n  background-color: #1D2B64;\n}\n.form-box[data-v-1787fffa]{\n  border-radius: 2rem;\n}\n.user[data-v-1787fffa]{\n  top: -4rem;\n  right: 32%;\n}\n.register-container[data-v-1787fffa]{\n  position: absolute;\n  bottom: -13%;\n  right: 10%;\n  width: 80%;\n  text-align: center;\n  z-index: -1;\n}\n.btn-block[data-v-1787fffa]{\n  border-bottom-left-radius: 2rem;\n  border-bottom-right-radius: 2rem;\n}\na[data-v-1787fffa]{\n  text-decoration: none;\n  color: #1D2B64;\n}\ni[data-v-1787fffa]{\n  font-size: 14pt;\n}\nsvg[data-v-1787fffa]{\n  fill:#1D2B64;\n}\n.box[data-v-1787fffa]{\n  box-shadow: 0 0 43px rgba(0,0,0,0.78);\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.btn-grad[data-v-1787fffa] {background-image: linear-gradient(to right, #DAE2F8 0%, #D6A4A4  51%, #DAE2F8  100%)}\n.form-control[data-v-1787fffa]{\n  background-color: rgba(33, 45, 105, 0.76);\n  border: none;\n  border-radius: 0rem!important;\n  font-size: 12pt;\n  padding: 0.5rem;\n  height: 3rem;\n}\ninput[data-v-1787fffa]::-moz-placeholder {\n  color: #fff;\n}\ninput[data-v-1787fffa]:-ms-input-placeholder {\n  color: #fff;\n}\ninput[data-v-1787fffa]::placeholder {\n  color: #fff;\n}\n.form-control[data-v-1787fffa]:focus{\n  background-color: rgba(33, 45, 105, 0.76);\n  color: white;\n}\n.input-group-addon[data-v-1787fffa] {\n  background-color: #1D2B64;\n}\n.form-box[data-v-1787fffa]{\n  border-radius: 2rem;\n}\n.user[data-v-1787fffa]{\n  top: -4rem;\n  right: 36%;\n  width: 125px;\n  height: 125px;\n  border-radius: 50%;\n  background-color: #1D2B64;\n}\n.register-container[data-v-1787fffa]{\n  position: absolute;\n  bottom: -13%;\n  right: 10%;\n  width: 80%;\n  text-align: center;\n  z-index: -1;\n}\n.btn-block[data-v-1787fffa]{\n  border-bottom-left-radius: 2rem;\n  border-bottom-right-radius: 2rem;\n}\na[data-v-1787fffa]{\n  text-decoration: none;\n  color: #1D2B64;\n}\ni[data-v-1787fffa]{\n  font-size: 14pt;\n}\n.box[data-v-1787fffa]{\n  box-shadow: 0 0 43px rgba(0,0,0,0.78);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -6407,7 +6407,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/*\n  Enter and leave animations can use different\n  durations and timing functions.\n*/\n.slide-fade-enter-active[data-v-42643161] {\n  transition: all 2s ease-out;\n}\n.slide-fade-leave-active[data-v-42643161] {\n  transition: all 0.9s cubic-bezier(1, 0.5, 0.8, 1);\n}\n.slide-fade-enter-from[data-v-42643161],\n.slide-fade-leave-to[data-v-42643161] {\n  transform: translateX(20px);\n  opacity: 0;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.slide-fade-enter-active[data-v-42643161] {\n  transition: all .9s ease-out;\n}\n.slide-fade-leave-active[data-v-42643161] {\n  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);\n}\n.slide-fade-enter-from[data-v-42643161],\n.slide-fade-leave-to[data-v-42643161] {\n  transform: translateX(40px);\n  opacity: 0;\n}\n.bounce-enter-active[data-v-42643161] {\n  -webkit-animation: bounce-in-data-v-42643161 0.8s;\n          animation: bounce-in-data-v-42643161 0.8s;\n}\n.bounce-leave-active[data-v-42643161] {\n  animation: bounce-in-data-v-42643161 0.5s reverse;\n}\n@-webkit-keyframes bounce-in-data-v-42643161 {\n0% {\n    transform: scale(0);\n}\n50% {\n    transform: scale(1.25);\n}\n100% {\n    transform: scale(1);\n}\n}\n@keyframes bounce-in-data-v-42643161 {\n0% {\n    transform: scale(0);\n}\n50% {\n    transform: scale(1.25);\n}\n100% {\n    transform: scale(1);\n}\n}\n\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -52526,19 +52526,11 @@ var render = function () {
         [
           _c("div", { staticClass: "mx-auto col-md-5 position-relative" }, [
             _c("div", { staticClass: "box btn-grad form-box py-5 mt-5 " }, [
-              _c(
-                "div",
-                { staticClass: "col-md-4 col-5 user position-absolute" },
-                [
-                  _c("svg", { attrs: { viewBox: "0 0 120 120", xmlns: "" } }, [
-                    _c("circle", { attrs: { cx: "60", cy: "60", r: "60" } }),
-                  ]),
-                ]
-              ),
+              _vm._m(0),
               _vm._v(" "),
               _c("div", { staticClass: "form-group pt-3 mt-4" }, [
                 _c("div", { staticClass: "input-group col-md-9 mx-auto" }, [
-                  _vm._m(0),
+                  _vm._m(1),
                   _vm._v(" "),
                   _c("input", {
                     directives: [
@@ -52551,10 +52543,10 @@ var render = function () {
                     ],
                     staticClass: "form-control",
                     attrs: {
-                      id: "chat",
+                      id: "email",
                       type: "text",
-                      name: "chat-id",
-                      placeholder: "جت ای دی",
+                      name: "email",
+                      placeholder: "چت ای دی",
                     },
                     domProps: { value: _vm.chatID },
                     on: {
@@ -52571,7 +52563,7 @@ var render = function () {
               _vm._v(" "),
               _c("div", { staticClass: "form-group pt-1" }, [
                 _c("div", { staticClass: "input-group col-md-9 mx-auto" }, [
-                  _vm._m(1),
+                  _vm._m(2),
                   _vm._v(" "),
                   _c("input", {
                     directives: [
@@ -52602,10 +52594,20 @@ var render = function () {
                 ]),
               ]),
               _vm._v(" "),
-              _vm._m(2),
+              _c("div", { staticClass: "row mx-auto text-center mt-5 px-0" }, [
+                _c("div", { staticClass: "col-md-6" }, [
+                  _c(
+                    "a",
+                    { staticClass: "text-center", on: { click: _vm.register } },
+                    [_vm._v("ثبت نام")]
+                  ),
+                ]),
+                _vm._v(" "),
+                _vm._m(3),
+              ]),
             ]),
             _vm._v(" "),
-            _vm._m(3),
+            _vm._m(4),
           ]),
         ]
       ),
@@ -52613,6 +52615,17 @@ var render = function () {
   )
 }
 var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4 col-5 user position-absolute" }, [
+      _c("img", {
+        staticClass: "img-fluid",
+        attrs: { src: "/img/logo-01.png", alt: "user" },
+      }),
+    ])
+  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -52633,14 +52646,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row mx-auto text-center mt-5 px-0" }, [
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("a", { staticClass: "text-center" }, [_vm._v("ثبت نام")]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6 mx-auto" }, [
-        _c("a", { staticClass: "text-center" }, [_vm._v("فراموشی رمز عبور")]),
-      ]),
+    return _c("div", { staticClass: "col-md-6 mx-auto" }, [
+      _c("a", { staticClass: "text-center" }, [_vm._v("فراموشی رمز عبور")]),
     ])
   },
   function () {
@@ -52685,15 +52692,11 @@ var render = function () {
     _c("form", [
       _c("div", { staticClass: "mx-auto col-md-5 col position-relative" }, [
         _c("div", { staticClass: "box btn-grad form-box py-5 mt-5" }, [
-          _c("div", { staticClass: "col-md-4 col-5 user position-absolute" }, [
-            _c("svg", { attrs: { viewBox: "0 0 120 120", xmlns: "" } }, [
-              _c("circle", { attrs: { cx: "60", cy: "60", r: "60" } }),
-            ]),
-          ]),
+          _vm._m(0),
           _vm._v(" "),
           _c("div", { staticClass: "form-group pt-2 mt-5" }, [
             _c("div", { staticClass: "input-group col-md-9 mx-auto" }, [
-              _vm._m(0),
+              _vm._m(1),
               _vm._v(" "),
               _c("input", {
                 directives: [
@@ -52726,7 +52729,7 @@ var render = function () {
           _vm._v(" "),
           _c("div", { staticClass: "form-group pt-1" }, [
             _c("div", { staticClass: "input-group col-md-9 mx-auto" }, [
-              _vm._m(1),
+              _vm._m(2),
               _vm._v(" "),
               _c("input", {
                 directives: [
@@ -52759,7 +52762,7 @@ var render = function () {
           _vm._v(" "),
           _c("div", { staticClass: "form-group pt-1" }, [
             _c("div", { staticClass: "input-group col-md-9 mx-auto" }, [
-              _vm._m(2),
+              _vm._m(3),
               _vm._v(" "),
               _c("input", {
                 directives: [
@@ -52773,6 +52776,7 @@ var render = function () {
                 staticClass: "form-control text-white",
                 attrs: {
                   type: "password",
+                  name: "password",
                   id: "password",
                   placeholder: "رمز عبور",
                 },
@@ -52791,7 +52795,7 @@ var render = function () {
           _vm._v(" "),
           _c("div", { staticClass: "form-group pt-1" }, [
             _c("div", { staticClass: "input-group col-md-9 mx-auto" }, [
-              _vm._m(3),
+              _vm._m(4),
               _vm._v(" "),
               _c("input", {
                 directives: [
@@ -52805,7 +52809,8 @@ var render = function () {
                 staticClass: "form-control text-white",
                 attrs: {
                   type: "password",
-                  id: "passwordRepeat",
+                  name: "password-confirmation",
+                  id: "password-confirm",
                   placeholder: "تکرار رمز عبور",
                 },
                 domProps: { value: _vm.passwordRepeat },
@@ -52821,7 +52826,17 @@ var render = function () {
             ]),
           ]),
           _vm._v(" "),
-          _vm._m(4),
+          _c("div", { staticClass: "row mx-auto text-center mt-5 px-0" }, [
+            _c("div", { staticClass: "col-md-6" }, [
+              _c(
+                "a",
+                { staticClass: "text-center", on: { click: _vm.login } },
+                [_vm._v("ورود")]
+              ),
+            ]),
+            _vm._v(" "),
+            _vm._m(5),
+          ]),
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "register-container" }, [
@@ -52840,6 +52855,17 @@ var render = function () {
   ])
 }
 var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4 col-5 user position-absolute" }, [
+      _c("img", {
+        staticClass: "img-fluid",
+        attrs: { src: "/img/logo-01.png", alt: "user" },
+      }),
+    ])
+  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -52876,14 +52902,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row mx-auto text-center mt-5 px-0" }, [
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("a", { staticClass: "text-center" }, [_vm._v("ورود")]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6 mx-auto" }, [
-        _c("a", { staticClass: "text-center" }, [_vm._v("فراموشی رمز عبور")]),
-      ]),
+    return _c("div", { staticClass: "col-md-6 mx-auto" }, [
+      _c("a", { staticClass: "text-center" }, [_vm._v("فراموشی رمز عبور")]),
     ])
   },
 ]
@@ -52912,17 +52932,25 @@ var render = function () {
   return _c(
     "div",
     [
-      _c("button", { on: { click: _vm.show } }, [_vm._v("Login")]),
-      _vm._v(" "),
       _c(
         "transition",
-        { attrs: { name: "slide-fade" } },
+        { attrs: { name: "bounce" } },
         [
-          _vm.isLogin === false
-            ? _c("register")
-            : _vm.isRegister === false
-            ? _c("login")
+          _vm.is_login
+            ? _c("login", { on: { lets_fade: _vm.fadeMe } })
             : _vm._e(),
+          _vm._v(" "),
+          _c("register", {
+            directives: [
+              {
+                name: "else−if",
+                rawName: "v-else−if",
+                value: !_vm.is_login,
+                expression: "!is_login",
+              },
+            ],
+            on: { lets_fade: _vm.fadeMe },
+          }),
         ],
         1
       ),
