@@ -1,14 +1,10 @@
 <template>
-<div>
-<!--  <transition name="fade">-->
-<!--  </transition>-->
-  <button  @click="show">Login</button>
- <transition name="slide-fade">
-       <register v-if="isLogin===false"></register>
-       <login v-else-if="isRegister===false"></login>
- </transition>
-
-</div>
+  <div>
+    <transition name="bounce">
+      <login @lets_fade="fadeMe" v-if="is_login"></login>
+      <register @lets_fade="fadeMe" v-else></register>
+    </transition>
+  </div>
 </template>
 
 <script>
@@ -16,37 +12,48 @@ export default {
   name: "uerEntrance",
   data() {
     return {
-      isLogin: true,
-      isRegister: false,
+      is_login: true,
     }
   },
   methods: {
-    show() {
-      this.isLogin = !this.isLogin;
-      this.isRegister = !this.isRegister;
+    fadeMe() {
+      this.is_login = !this.is_login;
     },
-
   }
 }
 </script>
 
 <style scoped>
-/*
-  Enter and leave animations can use different
-  durations and timing functions.
-*/
 .slide-fade-enter-active {
-  transition: all 2s ease-out;
+  transition: all .9s ease-out;
 }
 
 .slide-fade-leave-active {
-  transition: all 0.9s cubic-bezier(1, 0.5, 0.8, 1);
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
 .slide-fade-enter-from,
 .slide-fade-leave-to {
-  transform: translateX(20px);
+  transform: translateX(40px);
   opacity: 0;
 }
+.bounce-enter-active {
+  animation: bounce-in 0.8s;
+}
+.bounce-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 
 </style>
