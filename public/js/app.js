@@ -1239,126 +1239,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Start",
   props: ["value"],
   data: function data() {
     return {
-      work_category: [{
-        id: "محصولات هنری و دست ساز",
-        name: "محصولات هنری و دست ساز"
-      }, {
-        id: "کسب و کار مربوط به کودکان",
-        name: "کسب و کار مربوط به کودکان"
-      }, {
-        id: "کتاب و مجله",
-        name: "کتاب و مجله"
-      }, {
-        id: "خدمات مشاوره به کسب و کارها",
-        name: "خدمات مشاوره به کسب و کارها"
-      }, {
-        id: "لباس و کفش و اکسسوری های پوشیدنی",
-        name: "لباس و کفش و اکسسوری های پوشیدنی"
-      }, {
-        id: "کامپیوتر و تجهیزات مربوطه",
-        name: "کامپیوتر و تجهیزات مربوطه"
-      }, {
-        id: "آموزشی",
-        name: "آموزشی"
-      }, {
-        id: "تکنولوژی و پلتفرمهای آنلاین",
-        name: "تکنولوژی و پلتفرمهای آنلاین"
-      }, {
-        id: "سرگرمی",
-        name: "سرگرمی"
-      }, {
-        id: "خدمات مالی",
-        name: "خدمات مالی"
-      }, {
-        id: "خوراکی و غذا",
-        name: "خوراکی و غذا"
-      }, {
-        id: "هدیه و گل",
-        name: "هدیه و گل"
-      }, {
-        id: "دولتی",
-        name: "دولتی"
-      }, {
-        id: "خدمات درمانی و سلامت",
-        name: "خدمات درمانی و سلامت"
-      }, {
-        id: "خدمات مربوط به خانه داری",
-        name: "خدمات مربوط به خانه داری"
-      }, {
-        id: "غیر انتفاعی",
-        name: "غیر انتفاعی"
-      }, {
-        id: "خدمات حیوانات خانگی",
-        name: "خدمات حیوانات خانگی"
-      }, {
-        id: "رمز ارز",
-        name: "رمز ارز"
-      }, {
-        id: "محصولات و خدمات ورزشی",
-        name: "محصولات و خدمات ورزشی"
-      }, {
-        id: "اسباب بازی",
-        name: "اسباب بازی"
-      }, {
-        id: "سفر",
-        name: "سفر"
-      }, {
-        id: "فروش خودرو",
-        name: "فروش خودرو"
-      }, {
-        id: "خدمات خودرو",
-        name: "خدمات خودرو"
-      }, {
-        id: "مشاوره املاک",
-        name: "مشاوره املاک"
-      }, {
-        id: "مهاجرتی",
-        name: "مهاجرتی"
-      }, {
-        id: "انگیزشی و روانشناسی",
-        name: "انگیزشی و روانشناسی"
-      }, {
-        id: "تجهیزات صنعتی",
-        name: "تجهیزات صنعتی"
-      }, {
-        id: "بیمه",
-        name: "بیمه"
-      }, {
-        id: "وکالت",
-        name: "وکالت"
-      }, {
-        id: "سایر",
-        name: "سایر"
-      }, {
-        id: "لاغری",
-        name: "لاغری"
-      }, {
-        id: "دیجیتال مارکتینگ",
-        name: "دیجیتال مارکتینگ"
-      }, {
-        id: "زیبایی و آرایشی بهداشتی بانوان",
-        name: "زیبایی و آرایشی بهداشتی بانوان"
-      }, {
-        id: "زیبایی و آرایشی بهداشتی آقایان",
-        name: "زیبایی و آرایشی بهداشتی آقایان"
-      }, {
-        id: "جواهرات",
-        name: "جواهرات"
-      }, {
-        id: "کنکور",
-        name: "کنکور"
-      }, {
-        id: "دکوراسیون و لوازم خانگی",
-        name: "دکوراسیون و لوازم خانگی"
-      }],
-      model: {
-        value: ''
-      },
+      selected_category: null,
+      work_category: [],
       campaign_goal: [{
         id: "",
         name: "یک هدف انتخاب فرمایید"
@@ -1385,11 +1286,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     checkData: function checkData() {
+      var $work_category = $("#work_category");
+      this.selected_category = this.work_category.filter(function (x) {
+        return $work_category.val().indexOf(x.id + '') > -1;
+      });
       this.$emit("input", $("#vue_start").find("#campaign_goal").find(":selected").text());
-      this.$emit("go_next", $("#campaign_goal").val() != 0 && $("#work_category").val() != 0);
+      this.$emit("go_next", $("#campaign_goal").val() != 0 && $work_category.val() != 0);
     }
   },
   mounted: function mounted() {
+    var _this = this;
+
     this.$nextTick(function () {
       $("#vue_start").find("select").select2({
         placeholder: "انتخاب کنید",
@@ -1401,6 +1308,9 @@ __webpack_require__.r(__webpack_exports__);
     $("#vue_start").find("select").on("change", function (e) {
       this.checkData();
     }.bind(this));
+    $.get("http://51.38.241.252:81/api/cats", function (data) {
+      _this.work_category = data;
+    });
   }
 });
 
@@ -52300,14 +52210,51 @@ var render = function () {
             multiple: "",
           },
         },
-        _vm._l(_vm.work_category, function (item) {
-          return _c("option", { domProps: { value: item.id } }, [
-            _vm._v(_vm._s(item.name)),
-          ])
-        }),
+        _vm._l(
+          _vm.work_category.filter(function (x) {
+            return x.category_isActive === 1
+          }),
+          function (item) {
+            return _c("option", { domProps: { value: item.id } }, [
+              _vm._v(_vm._s(item.category_name)),
+            ])
+          }
+        ),
         0
       ),
     ]),
+    _vm._v(" "),
+    _vm.selected_category !== null
+      ? _c("div", { staticClass: "alert alert-info" }, [
+          _c("div", { staticClass: "row" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md d-flex" }, [
+              _c(
+                "ol",
+                _vm._l(
+                  _vm.selected_category.filter(function (x) {
+                    return (
+                      x.category_discription != "" &&
+                      x.category_discription != null
+                    )
+                  }),
+                  function (item) {
+                    return _c("li", [
+                      _vm._v(
+                        _vm._s(item.category_name) +
+                          ": " +
+                          _vm._s(item.category_discription)
+                      ),
+                    ])
+                  }
+                ),
+                0
+              ),
+            ]),
+          ]),
+        ])
+      : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "form-group" }, [
       _c("label", [_vm._v(" هدف کمپین")]),
@@ -52325,7 +52272,18 @@ var render = function () {
     ]),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-1 d-flex" }, [
+      _c("strong", { staticClass: "my-auto" }, [
+        _c("i", { staticClass: "fa fa-info-circle fa-2x" }),
+      ]),
+    ])
+  },
+]
 render._withStripped = true
 
 
