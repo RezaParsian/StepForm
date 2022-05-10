@@ -1,6 +1,5 @@
 <template>
 <div class="col-md-12 align-content-center mt-5 pt-5 px-0">
-    <form @submit.prevent="login">
        <div class="mx-auto col-md-5 position-relative">
          <div class="box btn-grad form-box py-5 mt-5 ">
 
@@ -11,20 +10,19 @@
            <div class="form-group pt-3 mt-4">
              <div class="input-group col-md-9 mx-auto">
                <span class="input-group-addon px-3 pt-2"><i class="fa fa-user mt-1 text-white"></i></span>
-               <input id="email" type="text" v-model="chatID" class="form-control" name="email" placeholder="چت ای دی">
+               <input required id="email" type="text" v-model="chatID" class="form-control" name="email" placeholder="چت ای دی">
              </div>
            </div>
 
            <div class="form-group pt-1">
              <div class="input-group col-md-9 mx-auto">
                <span class="input-group-addon px-3 pt-2"><i class="fa fa-lock mt-1 text-white"></i></span>
-               <input type="password" name="password" class="form-control" id="password" v-model="password" placeholder="رمز عبور">
+               <input required type="password" name="password" class="form-control" id="password" v-model="password" placeholder="رمز عبور">
              </div>
            </div>
            <div class="row mx-auto text-center mt-5 px-0">
              <div class="col-md-6">
-
-               <a @click="register" class="text-center">ثبت نام</a>
+               <a @click="register" class="text-center">ثبت نام کنید</a>
              </div>
              <div class="col-md-6 mx-auto">
                <a class="text-center">فراموشی رمز عبور</a>
@@ -35,7 +33,6 @@
            <button type="submit" class="btn btn-grad btn-block py-3">ورود</button>
          </div>
        </div>
-    </form>
 </div>
 </template>
 

@@ -1,6 +1,5 @@
 <template>
   <div class="col-md-12 pt-2 mt-5 px-0">
-    <form>
       <div class="mx-auto col-md-5 col position-relative">
         <div class="box btn-grad form-box py-5 mt-5">
           <div class="col-md-4 col-5 user position-absolute">
@@ -10,34 +9,41 @@
         <div class="form-group pt-2 mt-5">
           <div class="input-group col-md-9 mx-auto">
             <span class="input-group-addon p-1 px-3 pt-1"><i class="fa fa-user text-white mt-2"></i></span>
-            <input id="name" type="text" v-model="name" class="form-control text-white" name="name" placeholder="نام و نام خانوادگی">
+            <input required id="name" type="text" v-model="name" class="form-control text-white" name="name" placeholder="نام و نام خانوادگی">
           </div>
         </div>
 
         <div class="form-group pt-1">
           <div class="input-group col-md-9 mx-auto">
+            <span class="input-group-addon p-1 px-3 pt-1"><i class="fa fa-phone text-white mt-2"></i></span>
+            <input id="phone" type="text" v-model="phone" class="form-control text-white" name="phone" placeholder="شماره موبایل">
+          </div>
+        </div>
+
+          <div class="form-group pt-1">
+          <div class="input-group col-md-9 mx-auto">
             <span class="input-group-addon p-1 px-3 pt-1"><i class="fa fa-envelope text-white mt-2"></i></span>
-            <input id="email" type="email" v-model="email" class="form-control text-white" name="email" placeholder="ایمیل">
+            <input required id="email" type="email" v-model="email" class="form-control text-white" name="email" placeholder="ایمیل">
           </div>
         </div>
 
         <div class="form-group pt-1">
           <div class="input-group col-md-9 mx-auto">
             <span class="input-group-addon p-1 px-3 pt-1"><i class="fa fa-lock text-white mt-2"></i></span>
-            <input type="password" class="form-control text-white" name="password" id="password" v-model="password" placeholder="رمز عبور">
+            <input required type="password" class="form-control text-white" name="password" id="password" v-model="password" placeholder="رمز عبور">
           </div>
         </div>
 
         <div class="form-group pt-1">
           <div class="input-group col-md-9 mx-auto">
             <span class="input-group-addon p-1 px-3 pt-2"><i class="fa fa-lock text-white mt-2"></i></span>
-            <input type="password" name="password-confirmation"  class="form-control text-white" id="password-confirm" v-model="passwordRepeat" placeholder="تکرار رمز عبور">
+            <input required type="password" name="password-confirmation"  class="form-control text-white" id="password-confirm" v-model="passwordRepeat" placeholder="تکرار رمز عبور">
           </div>
         </div>
 
         <div class="row mx-auto text-center mt-5 px-0">
           <div class="col-md-6">
-            <a @click="login" class="text-center">ورود</a>
+            <a @click="login" class="text-center">ورود کنید</a>
           </div>
           <div class="col-md-6 mx-auto">
             <a class="text-center">فراموشی رمز عبور</a>
@@ -49,7 +55,6 @@
           <button type="button" class="btn btn-grad btn-block py-3" @click="register">ثبت نام</button>
         </div>
       </div>
-    </form>
   </div>
 </template>
 
@@ -61,7 +66,8 @@ export default {
       name: "",
       email: "",
       password: "",
-      passwordRepeat: ""
+      passwordRepeat: "",
+      phone: ""
     };
   },
   methods: {
@@ -124,7 +130,6 @@ input::placeholder {
 
 .register-container{
   position: absolute;
-  bottom: -13%;
   right: 10%;
   width: 80%;
   text-align: center;

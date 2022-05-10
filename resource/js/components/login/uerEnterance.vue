@@ -1,11 +1,9 @@
 <template>
   <div>
-
     <transition name="bounce">
       <login @lets_fade="fadeMe" v-if="is_login"></login>
-      <register @lets_fade="fadeMe" v-else−if="!is_login"></register>
+      <register @lets_fade="fadeMe" v-else></register>
     </transition>
-
   </div>
 </template>
 
