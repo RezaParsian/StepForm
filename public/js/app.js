@@ -685,6 +685,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Iran",
   data: function data() {
@@ -805,7 +806,9 @@ __webpack_require__.r(__webpack_exports__);
       this.selected = selected;
       this.province = [];
       this.selected.forEach(function (item) {
-        _this.province.push($("#".concat(item)).data("province"));
+        _this.province.push(_this.cities.find(function (city) {
+          return city.id === $("#".concat(item)).data("province") + '';
+        }));
       });
     },
     selectCity: function selectCity(element) {
@@ -830,6 +833,18 @@ __webpack_require__.r(__webpack_exports__);
             "font-weight": "bold"
           });
         });
+      });
+    }
+  },
+  computed: {
+    province_name: function province_name() {
+      return this.province.map(function (province) {
+        return province.name;
+      });
+    },
+    province_id: function province_id() {
+      return this.province.map(function (province) {
+        return province.id;
       });
     }
   },
@@ -965,6 +980,7 @@ __webpack_require__.r(__webpack_exports__);
       camping: "",
       budget: "",
       content: "",
+      categories: "",
       current_step: -1,
       steps: [{
         id: 0,
@@ -1054,12 +1070,21 @@ __webpack_require__.r(__webpack_exports__);
         this.social = value[0];
         this.content = value[1];
       }
+    },
+    startModel: {
+      get: function get() {
+        return [this.camping, this.categories];
+      },
+      set: function set(value) {
+        this.camping = value[0];
+        this.categories = value[1];
+      }
     }
   },
   mounted: function mounted() {
     var _this3 = this;
 
-    this.current_step = 0;
+    this.current_step = 5;
     this.$refs.iran.$watch("selected", function () {
       if (_this3.$refs.iran.selected.length < 31) _this3.selectedPlaceButton = "city";
     });
@@ -1290,7 +1315,7 @@ __webpack_require__.r(__webpack_exports__);
       this.selected_category = this.work_category.filter(function (x) {
         return $work_category.val().indexOf(x.id + '') > -1;
       });
-      this.$emit("input", $("#vue_start").find("#campaign_goal").find(":selected").text());
+      this.$emit("input", [$("#vue_start").find("#campaign_goal").find(":selected").text(), $("#vue_start").find("#work_category").val()]);
       this.$emit("go_next", $("#campaign_goal").val() != 0 && $work_category.val() != 0);
     }
   },
@@ -51130,18 +51155,39 @@ var render = function () {
         {
           name: "model",
           rawName: "v-model",
-          value: _vm.province,
-          expression: "province",
+          value: _vm.province_name,
+          expression: "province_name",
         },
       ],
-      attrs: { type: "hidden", name: "province" },
-      domProps: { value: _vm.province },
+      attrs: { type: "hidden", name: "province_name" },
+      domProps: { value: _vm.province_name },
       on: {
         input: function ($event) {
           if ($event.target.composing) {
             return
           }
-          _vm.province = $event.target.value
+          _vm.province_name = $event.target.value
+        },
+      },
+    }),
+    _vm._v(" "),
+    _c("input", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.province_id,
+          expression: "province_id",
+        },
+      ],
+      attrs: { type: "hidden", name: "province_id" },
+      domProps: { value: _vm.province_id },
+      on: {
+        input: function ($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.province_id = $event.target.value
         },
       },
     }),
@@ -51831,11 +51877,11 @@ var render = function () {
             ref: "start",
             on: { go_next: _vm.nextStep },
             model: {
-              value: _vm.camping,
+              value: _vm.startModel,
               callback: function ($$v) {
-                _vm.camping = $$v
+                _vm.startModel = $$v
               },
-              expression: "camping",
+              expression: "startModel",
             },
           }),
         ],

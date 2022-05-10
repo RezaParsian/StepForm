@@ -1,6 +1,7 @@
 <template>
   <div id="vue_iran" class="row mx-auto">
-    <input type="hidden" name="province" v-model="province">
+    <input type="hidden" name="province_name" v-model="province_name">
+    <input type="hidden" name="province_id" v-model="province_id">
     <div class="col-md align-self-center text-left" style="column-count: 3;column-gap: 2rem;">
       <p v-for="item in cities" @click="selectCity" :data-id="+item.id">{{ item.name }}</p>
     </div>
@@ -197,7 +198,7 @@ export default {
       this.province = [];
 
       this.selected.forEach((item) => {
-        this.province.push($(`#${item}`).data("province"));
+        this.province.push(this.cities.find(city => city.id === $(`#${item}`).data("province")+''));
       })
     }
     ,
@@ -225,6 +226,14 @@ export default {
           });
         });
       });
+    }
+  },
+  computed:{
+    province_name(){
+      return this.province.map(province => province.name);
+    },
+    province_id(){
+      return this.province.map(province => province.id);
     }
   },
   mounted() {

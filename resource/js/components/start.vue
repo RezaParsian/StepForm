@@ -53,7 +53,10 @@ export default {
     checkData() {
       const $work_category = $("#work_category");
       this.selected_category = this.work_category.filter((x) => $work_category.val().indexOf(x.id + '') > -1);
-      this.$emit("input", $("#vue_start").find("#campaign_goal").find(":selected").text())
+      this.$emit("input", [
+        $("#vue_start").find("#campaign_goal").find(":selected").text(),
+        $("#vue_start").find("#work_category").val()
+      ])
       this.$emit("go_next", $("#campaign_goal").val() != 0 && $work_category.val() != 0);
     }
   },
