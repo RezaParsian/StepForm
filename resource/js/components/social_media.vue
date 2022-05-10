@@ -1,6 +1,8 @@
 <template>
   <div id="vue_social_media" class="position-relative mx-auto" :key="fresh">
-    <button v-if="selected_media!==null" type="button" class="btn reset btn-danger rounded-circle position-absolute" title="بارگذاری مجدد" @click="reset">
+    <input type="hidden" name="platform">
+    <input type="hidden" name="post_type">
+    <button v-if="selected_media!==null" style="z-index: 99999" type="button" class="btn reset btn-danger rounded-circle position-absolute" title="بارگذاری مجدد" @click="reset">
       <i class="fa fa-refresh"></i>
     </button>
 
@@ -13,7 +15,7 @@
           :title="item.tooltip"
           data-toggle="tooltip">
         <div class="row">
-          <img class="col-md-3 mx-auto img-fluid" :src="item.image" :alt="item.name">
+          <img class="col-md-3 col-6 mx-auto img-fluid" :src="item.image" :alt="item.name">
         </div>
         <h5 class="text-center my-3">{{ item.name }} <span v-if="selected_post_type!==null"> - {{ post_types[selected_post_type].name }}</span></h5>
       </div>
@@ -60,12 +62,7 @@ export default {
             {
               id: 0,
               name: "پست",
-              details: [
-                "رضا",
-                "شایان",
-                "آرش",
-                "آرمین",
-              ],
+              details: [],
               icon: "fa fa-camera-retro",
               component: "instagram_post",
             },
@@ -120,11 +117,20 @@ export default {
   },
   methods: {
     checkData() {
+      const $selector = $("#vue_social_media");
       this.$nextTick(() => {
+        if (this.selected_media ===null) {
+          this.$emit("go_next", false);
+          return;
+        }
+
         this.$emit('input', [
           this.social_medias[this.selected_media].name,
           this.social_medias[this.selected_media].services[this.selected_post_type].name
         ]);
+
+        $selector.find("[name='platform'").val(this.social_medias[this.selected_media].name);
+        $selector.find("[name='post_type']").val(this.social_medias[this.selected_media].services[this.selected_post_type].name);
 
         if (this.selected_post_type !== null)
           this.$emit("go_next", this.$refs[this.post_types[this.selected_post_type].component].checkData());

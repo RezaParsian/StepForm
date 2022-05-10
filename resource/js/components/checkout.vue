@@ -40,20 +40,19 @@
             <h6 class="text-muted">جزئیات کمپین</h6>
           </div>
           <div class="row p-3">
-
-            <div class="col">
+            <div class="col-md text-center">
               <p class="font-weight-light">شبکه اجتماعی: <strong class="font-weight-bold">{{ social }}</strong></p>
             </div>
-            <div class="col">
+            <div class="col-md text-center">
               <p class="font-weight-light">نوع کمپین: <strong class="font-weight-bold">{{ camping }}</strong></p>
             </div>
           </div>
 
           <div class="row p-3">
-            <div class="col">
+            <div class="col-md text-center">
               <p class="font-weight-light">بودجه: <strong class="font-weight-bold">{{ budget }}</strong></p>
             </div>
-            <div class="col">
+            <div class="col-md text-center">
               <p class="font-weight-light">نوع محتوا: <strong class="font-weight-bold">{{ content }}</strong></p>
             </div>
           </div>

@@ -4,27 +4,23 @@
       ساخت کمپین جدید
     </div>
     <div class="card-body">
-      <div class="row text-center mt-2">
+      <div class="row d-none d-md-flex text-center mt-2">
         <div class="col steps inactive" v-for="item in steps" :id="item.id" :key="item.name">
           {{ item.name }}
         </div>
       </div>
 
-      <hr>
+      <hr class="d-none d-md-block">
 
       <!-- Step 0 - Start -->
       <div v-show="current_step===0">
-        <p class="text-justify">
-          لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای
-          کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می
-          توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
-        </p>
+        <p class="text-justify"><slot></slot></p>
         <start @go_next="nextStep" v-model="startModel" ref="start"></start>
       </div>
 
       <!--  Step 1 - Map    -->
       <div v-show="current_step===1">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mb-3">
           <button class="btn mx-3 px-5" :class="selectedPlaceButton==='county' ? 'btn-success' : 'btn-outline-success'" @click="selectAllCity" type="button">کشوری</button>
           <button
               class="btn mx-3 px-5"
@@ -49,7 +45,7 @@
 
       <!--  Step 3 - Budget -->
       <div v-show="current_step===3">
-        <budget v-model="budget" @go_next="nextStep" ref="budget"></budget>
+        <budget v-model="budget" :budget_description="budget_description" @go_next="nextStep" ref="budget"></budget>
       </div>
 
       <!--  Step 3 - SocialMedia -->
@@ -85,6 +81,12 @@
 <script>
 export default {
   name: "Main",
+  props:{
+    budget_description:{
+      required: false,
+      type: Array,
+    }
+  },
   data() {
     return {
       next_step: false,
@@ -173,7 +175,7 @@ export default {
       }
 
       if (current === 6) {
-        $("#show_here").html($("#preview_section").html());
+        $("#show_here").html($("#preview_section").html()).find("[class^='carousel-control']").remove();
       }
     }
   },

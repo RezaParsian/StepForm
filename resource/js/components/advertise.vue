@@ -36,20 +36,6 @@ export default {
           tooltip: "",
           is_new: false
         },
-        {
-          id: 2,
-          name: "اینفلوئنسری و تعرفه‌ای",
-          description: "اگر می‌خواهید تبلیغات اینفلوئنسری داشته باشید یا مشخصا فقط در پیج‌های غیراینفلوئنسری مورد نظرتان تبلیغ انجام دهید این نوع کمپین مناسب شماست!",
-          tooltip: "",
-          is_new: false
-        },
-        {
-          id: 3,
-          name: "اینفلوئنسری و تعرفه‌ای",
-          description: "اگر می‌خواهید تبلیغات اینفلوئنسری داشته باشید یا مشخصا فقط در پیج‌های غیراینفلوئنسری مورد نظرتان تبلیغ انجام دهید این نوع کمپین مناسب شماست!",
-          tooltip: "",
-          is_new: true
-        }
       ],
     }
   },
@@ -58,13 +44,13 @@ export default {
       const $selector = $("#vue_advertise");
       $selector.find(`[data-id]`).removeClass("border-success selected");
       $selector.find(`[data-id='${new_advertise}']`).addClass("border-success selected");
-      $(`input[name='advertise_type']`).val(new_advertise);
+      $(`input[name='advertise_type']`).val(this.advertise_items[new_advertise].name);
       this.checkData();
     }
   },
   methods: {
     checkData() {
-        this.$emit("go_next", $(`input[name='advertise_type']`).val() != "");
+      this.$emit("go_next", $(`input[name='advertise_type']`).val() != "");
     },
     selectAdvertise(advertise_id) {
       this.selected_advertise = advertise_id;

@@ -10,18 +10,23 @@
     </div>
     <small>مبالغ پیشنهادی : </small>
 
-    <button type="button" @click="budgetAmount=price.tooltip" class="btn btn-info m-2" v-for="price in prices" :title="price.tooltip" data-toggle="tooltip">{{ price.price }}</button>
-
     <div class="row mx-auto">
-      <strong>بازدید تخمینی:</strong>
-      <span class="mx-2">{{ estimatedVisits }}</span>
+      <button type="button" @click="budgetAmount=price.tooltip" class="btn btn-info m-2 d-none d-md-block" v-for="price in prices" :title="price.tooltip" data-toggle="tooltip">{{ price.price }}</button>
     </div>
+    <div class="row mx-auto">
+      <button type="button" @click="budgetAmount=price.tooltip" class="btn btn-info m-2 d-md-none" v-for="price in prices" :title="price.tooltip" data-toggle="tooltip">{{ price.tooltip }}</button>
+    </div>
+
+    <!--    <div class="row mx-auto">-->
+    <!--      <strong>بازدید تخمینی:</strong>-->
+    <!--      <span class="mx-2">{{ estimatedVisits }}</span>-->
+    <!--    </div>-->
 
     <hr class="mt-0">
 
     <div class="row mx-auto">
-      <ol>
-        <li v-for="item in budget">{{ item }}</li>
+      <ol class="p-0">
+        <li v-for="item in budget_description">{{ item }}</li>
       </ol>
     </div>
 
@@ -31,18 +36,11 @@
 <script>
 export default {
   name: "budget",
-  props:["value"],
+  props: ["value", "budget_description"],
   data() {
     return {
       current_budget: "",
       estimatedVisits: "۱۶,۰۰۰",
-      budget: [
-        " تبلیغ شما برای ۶۱ کانال ارسال می‌شود. ",
-        "تبلیغ شما با توجه به داده‌های جریان ابتدا برای کانال‌هایی ارسال می‌شود که بیشترین بازخورد را داشته باشند، اما نهایتا ممکن است هر کدام از ۶۱ کانال، تبلیغ شما را منتشر کنند. ",
-        " با توجه به اینکه بازدید تخمینی شما 350 هزار است، نهایتا تبلیغ شما در حدود ۱۸ کانال نمایش داده ‌خواهدشد. ",
-        " اگر بازدید نهایی شما از بازدید تخمینی کمتر باشد بودجه‌ی خرج‌نشده به پنل شما بازمی‌گردد و اگر بیشتر باشد هزینه‌ی بیشتری از شما دریافت نمی‌گردد. ",
-        "شما میتوانید تا سقف ۱۸ کانال را از لیست خارج کنید. "
-      ],
       prices: [
         {tooltip: "1,500,000", price: "یک میلیون  و پانصد هزار  تومان"},
         {tooltip: "2,000,000", price: "دو میلیون تومان"},

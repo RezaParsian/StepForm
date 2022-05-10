@@ -8,10 +8,10 @@
     </div>
 
 
-    <div v-if="selected_category!==null" class="alert alert-info">
+    <div v-if="selected_category.length>0" class="alert alert-info">
       <div class="row">
         <div class="col-md-1 d-flex">
-          <strong class="my-auto"><i class="fa fa-info-circle fa-2x"></i></strong>
+          <strong class="my-auto mx-auto"><i class="fa fa-info-circle fa-2x"></i></strong>
         </div>
         <div class="col-md d-flex">
           <ol>
@@ -36,7 +36,7 @@ export default {
   props: ["value"],
   data() {
     return {
-      selected_category: null,
+      selected_category: [],
       work_category: [],
       campaign_goal: [
         {id: "", name: "یک هدف انتخاب فرمایید"},

@@ -1,7 +1,7 @@
 <template>
   <div id="vue_iran" class="row mx-auto">
-    <input type="hidden" name="province_name" v-model="province_name">
-    <input type="hidden" name="province_id" v-model="province_id">
+    <input type="hidden" name="province[]" v-for="item in province_name" :key="item" :value="item">
+    <input type="hidden" name="province_id[]" v-for="item in province_id" :key="item" :value="item">
     <div class="col-md align-self-center text-left" style="column-count: 3;column-gap: 2rem;">
       <p v-for="item in cities" @click="selectCity" :data-id="+item.id">{{ item.name }}</p>
     </div>

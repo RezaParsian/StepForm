@@ -1,6 +1,6 @@
 <template>
   <div id="vue_channels" style="max-height: 31rem;overflow: auto;">
-    <input type="hidden" name="channels" v-model="selected">
+    <input type="hidden" name="channels" v-for="item in selected" :value="item" :key="item">
     <div class="row mx-auto justify-content-center" id="gap">
       <div class="card col-md-3 p-0" v-for="channel in channels.filter((x)=>x.followers>0)" :key="channel.username">
         <div class="banner">
@@ -12,9 +12,10 @@
         <div class="title">@{{ channel.username }}</div>
         <div class="actions">
           <div class="follow-info">
-            <h2 style="font-size: 13pt"><span>{{ channel.followers }}</span><small>Followers</small></h2>
-            <h2 style="font-size: 13pt"><span>{{ channel.following }}</span><small>Following</small></h2>
+            <h2 style="font-size: 13pt"><a href="#"><span>{{ channel.followers }}</span><small>Followers</small></a></h2>
+            <h2 style="font-size: 13pt"><a href="#"><span>{{ channel.following }}</span><small>Following</small></a></h2>
           </div>
+          <div class="small text-muted mb-2 text-center">آخرین بروزرسانی : {{channel.last_update}}</div>
           <div class="follow-btn">
             <button :data-id="channel.id" @click="select" type="button">انتخاب</button>
           </div>
@@ -57,7 +58,7 @@ export default {
       this.grow = "spinner-grow";
       $.post("http://51.38.241.252:81/api/publisher", {
         province: this.province.map((x) => x.name),
-        // category: this.categories,
+        category: this.categories,
         page: this.page,
         type: this.types.toUpperCase()
       }, (data) => {
