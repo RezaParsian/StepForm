@@ -6,7 +6,6 @@ import VuePersianDatetimePicker from 'vue-persian-datetime-picker';
 
 require("./custom");
 
-
 Vue.component("main_form", require("./components/main").default);
 Vue.component("iran", require("./components/iran").default);
 Vue.component("start", require("./components/start").default);
