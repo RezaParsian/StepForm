@@ -19,7 +19,7 @@
           کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می
           توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
         </p>
-        <start @go_next="nextStep" v-model="camping" ref="start"></start>
+        <start @go_next="nextStep" v-model="startModel" ref="start"></start>
       </div>
 
       <!--  Step 1 - Map    -->
@@ -38,7 +38,7 @@
         </div>
 
         <div class="row text-center justify-content-center">
-          <iran ref="iran" @go_next="nextStep"></iran>
+          <iran ref="iran" v-model="province" @go_next="nextStep"></iran>
         </div>
       </div>
 
@@ -55,6 +55,11 @@
       <!--  Step 3 - SocialMedia -->
       <div v-show="current_step===4">
         <social-media v-model="socialModel" @go_next="nextStep" ref="social-media"></social-media>
+      </div>
+
+      <!--  Step 5 - channels -->
+      <div v-show="current_step===5">
+        <channels @go_next="nextStep" :types="social" :province="province" :categories="categories" ref="channels"></channels>
       </div>
 
       <!--  Step 6 - Checkout -->
@@ -88,6 +93,8 @@ export default {
       camping: "",
       budget: "",
       content: "",
+      categories: [],
+      province: [],
       current_step: -1,
       steps: [
         {
@@ -117,7 +124,8 @@ export default {
         },
         {
           id: 5,
-          name: "کانال ها"
+          name: "کانال ها",
+          component: "channels"
         },
         {
           id: 6,
@@ -129,10 +137,12 @@ export default {
   },
   methods: {
     goBack() {
+      scrollTo(0, 0);
       this.current_step--;
       this.$refs[this.steps[this.current_step].component].checkData();
     },
     next() {
+      scrollTo(0, 0);
       this.current_step++;
       this.nextStep(false);
       this.$refs[this.steps[this.current_step].component].checkData();
@@ -167,17 +177,29 @@ export default {
       }
     }
   },
-  computed:{
-    socialModel:{
-      get(){
+  computed: {
+    socialModel: {
+      get() {
         return [
           this.social,
           this.content
         ];
       },
-      set(value){
+      set(value) {
         this.social = value[0];
         this.content = value[1];
+      }
+    },
+    startModel: {
+      get() {
+        return [
+          this.camping,
+          this.categories
+        ];
+      },
+      set(value) {
+        this.camping = value[0];
+        this.categories = value[1];
       }
     }
   },
