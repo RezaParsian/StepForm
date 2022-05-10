@@ -17,6 +17,7 @@ Vue.component("telegram", require("./components/telegram").default);
 Vue.component("instagram_post", require("./components/instagram_post").default);
 Vue.component("instagram_story", require("./components/instagram_story").default);
 Vue.component("checkout", require("./components/checkout").default);
+Vue.component("channels", require("./components/channels").default);
 
 Vue.use(VuePersianDatetimePicker, {
     name: "datePicker",

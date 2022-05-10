@@ -38,7 +38,7 @@
         </div>
 
         <div class="row text-center justify-content-center">
-          <iran ref="iran" @go_next="nextStep"></iran>
+          <iran ref="iran" v-model="province" @go_next="nextStep"></iran>
         </div>
       </div>
 
@@ -55,6 +55,11 @@
       <!--  Step 3 - SocialMedia -->
       <div v-show="current_step===4">
         <social-media v-model="socialModel" @go_next="nextStep" ref="social-media"></social-media>
+      </div>
+
+      <!--  Step 5 - channels -->
+      <div v-show="current_step===5">
+        <channels @go_next="nextStep" :types="social" :province="province" :categories="categories" ref="channels"></channels>
       </div>
 
       <!--  Step 6 - Checkout -->
@@ -88,7 +93,8 @@ export default {
       camping: "",
       budget: "",
       content: "",
-      categories:"",
+      categories: [],
+      province: [],
       current_step: -1,
       steps: [
         {
@@ -118,7 +124,8 @@ export default {
         },
         {
           id: 5,
-          name: "کانال ها"
+          name: "کانال ها",
+          component: "channels"
         },
         {
           id: 6,
@@ -130,10 +137,12 @@ export default {
   },
   methods: {
     goBack() {
+      scrollTo(0, 0);
       this.current_step--;
       this.$refs[this.steps[this.current_step].component].checkData();
     },
     next() {
+      scrollTo(0, 0);
       this.current_step++;
       this.nextStep(false);
       this.$refs[this.steps[this.current_step].component].checkData();
@@ -168,34 +177,34 @@ export default {
       }
     }
   },
-  computed:{
-    socialModel:{
-      get(){
+  computed: {
+    socialModel: {
+      get() {
         return [
           this.social,
           this.content
         ];
       },
-      set(value){
+      set(value) {
         this.social = value[0];
         this.content = value[1];
       }
     },
-    startModel:{
-      get(){
+    startModel: {
+      get() {
         return [
           this.camping,
           this.categories
         ];
       },
-      set(value){
+      set(value) {
         this.camping = value[0];
         this.categories = value[1];
       }
     }
   },
   mounted() {
-    this.current_step = 5;
+    this.current_step = 0;
     this.$refs.iran.$watch("selected", () => {
       if (this.$refs.iran.selected.length < 31)
         this.selectedPlaceButton = "city";

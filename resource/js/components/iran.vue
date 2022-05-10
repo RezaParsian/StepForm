@@ -139,6 +139,7 @@
 <script>
 export default {
   name: "Iran",
+  props: ["value"],
   data() {
     return {
       province: [],
@@ -181,7 +182,8 @@ export default {
   },
   methods: {
     checkData() {
-        this.$emit("go_next", this.province.length > 0);
+      this.$emit("input", this.province);
+      this.$emit("go_next", this.province.length > 0);
     },
     select(element) {
       const $selector = $("#vue_iran");
@@ -198,7 +200,7 @@ export default {
       this.province = [];
 
       this.selected.forEach((item) => {
-        this.province.push(this.cities.find(city => city.id === $(`#${item}`).data("province")+''));
+        this.province.push(this.cities.find(city => city.id === $(`#${item}`).data("province") + ''));
       })
     }
     ,
@@ -228,11 +230,11 @@ export default {
       });
     }
   },
-  computed:{
-    province_name(){
+  computed: {
+    province_name() {
       return this.province.map(province => province.name);
     },
-    province_id(){
+    province_id() {
       return this.province.map(province => province.id);
     }
   },

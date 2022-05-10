@@ -46,7 +46,7 @@
 
 export default {
   name: "social_media",
-  props:["value"],
+  props: ["value"],
   data() {
     return {
       fresh: 0,
