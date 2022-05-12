@@ -78,7 +78,7 @@ export default {
   },
   computed: {
     check() {
-      const condition = this.file != "" && this.post_text != "";
+      const condition = this.file !== "" && this.post_text !== "";
 
         this.$emit("check_me")
 

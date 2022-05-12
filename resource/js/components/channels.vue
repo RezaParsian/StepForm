@@ -1,8 +1,11 @@
 <template>
   <div id="vue_channels" style="max-height: 31rem;overflow: auto;">
     <input type="hidden" name="channels" v-for="item in selected" :value="item" :key="item">
+
+    <i v-if="selected.length>0" type="button" data-toggle="modal" data-target="#exampleModalCenter" class="fa fa-shopping-cart btn btn-primary"></i>
+
     <div class="row mx-auto justify-content-center" id="gap">
-      <div class="card col-md-3 p-0" v-for="channel in channels.filter((x)=>x.followers>0)" :key="channel.username">
+      <div class="card col-md-3 p-0" v-for="channel in channels.filter((x)=>x.followers>0)" :key="channel.username" :id="channel.id">
         <div class="banner">
           <img :src="channel.pic" class="svg" alt="">
         </div>
@@ -15,13 +18,54 @@
             <h2 style="font-size: 13pt"><a href="#"><span>{{ channel.followers }}</span><small>Followers</small></a></h2>
             <h2 style="font-size: 13pt"><a href="#"><span>{{ channel.following }}</span><small>Following</small></a></h2>
           </div>
-          <div class="small text-muted mb-2 text-center">آخرین بروزرسانی : {{channel.last_update}}</div>
+          <div class="small text-muted mb-2 text-center">آخرین بروزرسانی : {{ channel.last_update }}</div>
           <div class="follow-btn">
-            <button :data-id="channel.id" @click="select" type="button">انتخاب</button>
+            <button :data-id="channel.id" @click="select" type="button" :data-post="channel.post_price" :data-story="channel.story_price">انتخاب</button>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">کانال های منتخب شما</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row justify-content-center" id="basket">
+              <div class="card col-md-3 p-0 mx-1 my-2" v-for="items  in channels.filter((x)=> selected.indexOf(x.id + '') > -1)" :key="items.username" :id="items.id">
+                <div class="banner">
+                  <img :src="items.pic" class="svg" alt="">
+                </div>
+                <div class="menu">
+                </div>
+                <h2 class="name" style="font-size: 15pt">{{ items.name }}</h2>
+                <div class="title">@{{ items.username }}</div>
+                <div class="actions">
+                  <div class="follow-info">
+                    <h2 style="font-size: 13pt"><a href="#"><span>{{ items.followers }}</span><small>Followers</small></a></h2>
+                    <h2 style="font-size: 13pt"><a href="#"><span>{{ items.following }}</span><small>Following</small></a></h2>
+                  </div>
+                  <div class="small text-muted mb-2 text-center">آخرین بروزرسانی : {{ items.last_update }}</div>
+                  <div class="follow-btn">
+                    <button :data-id="items.id" @click="select" type="button" :data-post="items.post_price" :data-story="items.post_price">انتخاب شد</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="row" v-model="request">
       <div id="reza" class="mx-auto" :class="grow"></div>
     </div>
@@ -29,6 +73,7 @@
 </template>
 
 <script>
+
 export default {
   name: "channels",
   props: {
@@ -43,7 +88,13 @@ export default {
     types: {
       require: true,
       type: String,
-    }
+    },
+    budget: {
+      default: ''
+    },
+    content: {
+      default: ''
+    },
   },
   data() {
     return {
@@ -51,6 +102,7 @@ export default {
       page: 1,
       grow: "",
       selected: [],
+
     }
   },
   methods: {
@@ -69,16 +121,48 @@ export default {
       });
     },
     select(element) {
+      const post_price = $(element.target).data("post");
+      const story_price = $(element.target).data("story");
+
       if (this.selected.indexOf(element.target.dataset.id) > -1) {
         this.selected.splice(this.selected.indexOf(element.target.dataset.id), 1);
         element.target.innerText = "انتخاب";
+        $('#gap').find(":contains('انتخاب شد')").parent(".card").show()
+
+
       } else {
         this.selected.push(element.target.dataset.id);
         element.target.innerText = "انتخاب شد";
+        $('#gap').find(":contains('انتخاب شد')").parent(".card").hide()
+
+
+        if (this.content === "پست") {
+          if (post_price > this.budget) {
+            this.selected.splice(this.selected.indexOf(element.target.dataset.id), 1);
+            element.target.innerText = "انتخاب";
+            // swal.fire({
+            //   title: 'خطا',
+            //   text: 'مبلغ پست بیشتر از موجودی شما است',
+            //   icon: 'error',
+            //   confirmButtonText: 'تایید'
+            // });
+          }
+        } else {
+          if (story_price > this.budget) {
+            this.selected.splice(this.selected.indexOf(element.target.dataset.id), 1);
+            element.target.innerText = "انتخاب";
+            // swal.fire({
+            //   title: 'خطا',
+            //   text: 'مبلغ استوری بیشتر از موجودی شما است',
+            //   icon: 'error',
+            //   confirmButtonText: 'تایید'
+            // });
+          }
+        }
       }
     },
     checkData() {
-      this.$emit("go_next", this.selected.length > 0);
+      this.$emit("go_next", this.selected.length === 0 ? false : this.selected);
     },
   },
   watch: {
@@ -89,18 +173,19 @@ export default {
   computed: {
     request() {
       if (this.province !== [] && this.categories !== [] && this.types !== "") {
-        if (this.channels.length <= 0)
+        if (this.channels.length === 0) {
           this.getChannels();
 
-        this.checkData();
-      }
+          this.checkData();
+        }
 
-      return [
-        this.province,
-        this.categories,
-        this.types,
-      ];
-    }
+        return [
+          this.province,
+          this.categories,
+          this.types,
+        ];
+      }
+    },
   },
   mounted() {
     window.observer = new IntersectionObserver((entries) => {
@@ -112,7 +197,7 @@ export default {
 
       })
     });
-  }
+  },
 }
 </script>
 
