@@ -14,7 +14,9 @@
 
       <!-- Step 0 - Start -->
       <div v-show="current_step===0">
-        <p class="text-justify"><slot></slot></p>
+        <p class="text-justify">
+          <slot></slot>
+        </p>
         <start @go_next="nextStep" v-model="startModel" ref="start"></start>
       </div>
 
@@ -55,7 +57,7 @@
 
       <!--  Step 5 - channels -->
       <div v-show="current_step===5">
-        <channels @go_next="nextStep" :types="social" :province="province" :categories="categories" ref="channels"></channels>
+        <channels @go_next="nextStep" :budget="budget" :types="social" :province="province" :content="content" :categories="categories" ref="channels"></channels>
       </div>
 
       <!--  Step 6 - Checkout -->
@@ -81,11 +83,11 @@
 <script>
 export default {
   name: "Main",
-  props:{
-    budget_description:{
+  props: {
+    budget_description: {
       required: false,
       type: Array,
-    }
+    },
   },
   data() {
     return {
@@ -97,7 +99,7 @@ export default {
       content: "",
       categories: [],
       province: [],
-      current_step: -1,
+      current_step: 0,
       steps: [
         {
           id: 0,
@@ -135,6 +137,8 @@ export default {
           component: "checkout"
         }
       ],
+      post_price: 0,
+      story_price: 0,
     };
   },
   methods: {
@@ -177,7 +181,10 @@ export default {
       if (current === 6) {
         $("#show_here").html($("#preview_section").html()).find("[class^='carousel-control']").remove();
       }
-    }
+    },
+   budget(budget) {
+
+   }
   },
   computed: {
     socialModel: {
@@ -211,7 +218,11 @@ export default {
       if (this.$refs.iran.selected.length < 31)
         this.selectedPlaceButton = "city";
     });
-  }
+    $(function () {
+      $()
+    });
+  },
+
 }
 </script>
 
