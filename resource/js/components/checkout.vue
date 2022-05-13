@@ -65,7 +65,7 @@
       </div>
     </div>
     <div class="col d-flex">
-      <button type="submit" class="btn btn-success ml-auto mt-2">تایید و ثبت</button>
+      <button type="submit" class="btn btn-success mr-auto mt-2">تایید و ثبت</button>
     </div>
   </div>
 </template>
@@ -97,6 +97,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+.vpd-icon-btn{
+    height: 2.3rem !important;
+}
 </style>

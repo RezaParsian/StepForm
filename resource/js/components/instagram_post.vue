@@ -19,11 +19,10 @@
           <textarea class="form-control" v-model="post_text" required rows="3" id="post_text" name="post_text"></textarea>
         </div>
 
-        <div class="form-group">
-          <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" v-model="post_comment" id="switch1" name="post_comment">
-            <label class="custom-control-label" for="switch1">وضعیت کامنت : <span class="text-primary">{{ post_comment ? "باز" : "بسته" }}</span></label>
-          </div>
+        <div class="form-check-inline">
+            <label class="form-check-label">
+                <input type="checkbox" class="form-check-input" v-model="post_comment" id="switch1" name="post_comment">وضعیت کامنت : <span class="text-primary">{{ post_comment ? "باز" : "بسته" }}</span>
+            </label>
         </div>
 
         <div class="form-group">

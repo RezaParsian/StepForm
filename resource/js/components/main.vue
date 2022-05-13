@@ -57,7 +57,7 @@
 
       <!--  Step 5 - channels -->
       <div v-show="current_step===5">
-        <channels @go_next="nextStep" :budget="budget" :types="social" :province="province" :content="content" :categories="categories" ref="channels"></channels>
+        <channels @go_next="nextStep" :step="current_step" :budget="budget" :types="social" :province="province" :content="content" :categories="categories" ref="channels"></channels>
       </div>
 
       <!--  Step 6 - Checkout -->
@@ -181,10 +181,7 @@ export default {
       if (current === 6) {
         $("#show_here").html($("#preview_section").html()).find("[class^='carousel-control']").remove();
       }
-    },
-   budget(budget) {
-
-   }
+    }
   },
   computed: {
     socialModel: {
@@ -218,11 +215,7 @@ export default {
       if (this.$refs.iran.selected.length < 31)
         this.selectedPlaceButton = "city";
     });
-    $(function () {
-      $()
-    });
-  },
-
+  }
 }
 </script>
 

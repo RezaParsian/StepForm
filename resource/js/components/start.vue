@@ -2,7 +2,7 @@
   <div id="vue_start">
     <div class="form-group">
       <label> دسته‌بندی کسب و‌ کار شما</label>
-      <select name="work_category[]" required id="work_category" multiple="">
+      <select name="work_category[]" class="form-control" required id="work_category" multiple="">
         <option v-for="item in work_category.filter((x)=> x.category_isActive===1)" :value="item.id">{{ item.category_name }}</option>
       </select>
     </div>
@@ -23,7 +23,7 @@
 
     <div class="form-group">
       <label> هدف کمپین</label>
-      <select name="campaign_goal" required id="campaign_goal">
+      <select name="campaign_goal" class="form-control" required id="campaign_goal">
         <option v-for="item in campaign_goal" :value="item.id">{{ item.name }}</option>
       </select>
     </div>
