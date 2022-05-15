@@ -52,6 +52,7 @@ export default {
     checkData() {
       this.$emit("input", this.budgetAmount);
       this.$emit("go_next", this.budgetAmount !== "0");
+      this.$emit("go_next", true);
     }
   },
   computed: {

@@ -154,11 +154,12 @@ export default {
       this.$refs[this.steps[this.current_step].component].checkData();
     },
     nextStep(condition) {
-      this.next_step = condition;
+        this.next_step = true;
+        // this.next_step = condition;
     },
     selectAllCity() {
       this.selectedPlaceButton = "county"
-      $("[id^='svg'][fill='#333']").each((index, item) => {
+      $("[id^='svg'][fill='#df93a1']").each((index, item) => {
         this.$refs.iran.select({target: item});
       });
     },

@@ -143,7 +143,7 @@ export default {
   data() {
     return {
       province: [],
-      color: "#333",
+      color: "#df93a1",
       selected: [],
       cities: [
         {id: "1", name: "آذربایجان شرقی"},
@@ -261,7 +261,7 @@ export default {
       const province = $("#vue_iran").find(`[data-province='${hovered}']`).attr("id");
 
       if (this.selected.find((x) => x === province) === undefined)
-        $("#vue_iran").find(`[data-province='${$(element.target).data("id")}']`).attr("fill", "#333");
+        $("#vue_iran").find(`[data-province='${$(element.target).data("id")}']`).attr("fill", "#df93a1");
     });
 
   }

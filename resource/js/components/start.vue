@@ -74,7 +74,7 @@ export default {
       this.checkData();
     }.bind(this));
 
-    $.get("http://51.38.241.252:81/api/cats", (data) => {
+    $.get("https://advn.ad-venture.app/api/cats", (data) => {
       this.work_category = data;
     });
   }

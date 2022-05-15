@@ -50,7 +50,8 @@ export default {
   },
   methods: {
     checkData() {
-      this.$emit("go_next", $(`input[name='advertise_type']`).val() != "");
+      // this.$emit("go_next", $(`input[name='advertise_type']`).val() != "");
+      this.$emit("go_next", true);
     },
     selectAdvertise(advertise_id) {
       this.selected_advertise = advertise_id;

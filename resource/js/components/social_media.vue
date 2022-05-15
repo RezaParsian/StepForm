@@ -17,7 +17,7 @@
         <div class="row">
           <img class="col-md-3 col-6 mx-auto img-fluid" :src="item.image" :alt="item.name">
         </div>
-        <h5 class="text-center my-3">{{ item.name }} <span v-if="selected_post_type!==null"> - {{ post_types[selected_post_type].name }}</span></h5>
+        <h5 class="text-center my-3">{{ item.persian_name }} <span v-if="selected_post_type!==null"> - {{ post_types[selected_post_type].name }}</span></h5>
       </div>
     </div>
 
@@ -57,6 +57,7 @@ export default {
         {
           id: 0,
           name: "Instagram",
+          persian_name: "اینستاگرام",
           image: "https://www.instagram.com/static/images/ico/favicon-192.png/68d99ba29cc8.png",
           services: [
             {
@@ -78,6 +79,7 @@ export default {
         {
           id: 1,
           name: "Telegram",
+          persian_name: "تلگرام",
           image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Telegram_2019_Logo.svg/121px-Telegram_2019_Logo.svg.png",
           services: [
             {
@@ -92,6 +94,7 @@ export default {
         {
           id: 2,
           name: "Influencer",
+          persian_name: "اینفلوئنسر",
           image: "https://cdn1.iconfinder.com/data/icons/influencer-2/64/1M-social-media-marketing-512.png",
           services: [
             {
