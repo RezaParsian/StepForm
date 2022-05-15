@@ -183,7 +183,8 @@ export default {
   methods: {
     checkData() {
       this.$emit("input", this.province);
-      this.$emit("go_next", this.province.length > 0);
+      // this.$emit("go_next", this.province.length > 0);
+      this.$emit("go_next", true);
     },
     select(element) {
       const $selector = $("#vue_iran");

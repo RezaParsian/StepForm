@@ -122,8 +122,8 @@ export default {
     checkData() {
       const $selector = $("#vue_social_media");
       this.$nextTick(() => {
-        if (this.selected_media ===null) {
-          this.$emit("go_next", false);
+        if (this.selected_media === null) {
+          this.$emit("go_next", true);
           return;
         }
 
@@ -138,7 +138,7 @@ export default {
         if (this.selected_post_type !== null)
           this.$emit("go_next", this.$refs[this.post_types[this.selected_post_type].component].checkData());
         else
-          this.$emit("go_next", false);
+          this.$emit("go_next", true);
       });
     },
     selectMedia(advertise_id) {
