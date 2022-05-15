@@ -177,10 +177,8 @@ export default {
     },
     methods: {
         getChannels() {
-            this.grow = "spinner-grow";
-            $.post("https://advn.ad-venture.app/api/publisher", {
-                province: this.province.map((x) => x.name),
-                category: this.categories,
+            let data = {
+                category: this.categories.length > 0 ? this.categories : [1, 2, 21, 26, 28, 44],
                 page: this.page,
                 post_l: this.postPrice_l,
                 post_g: this.postPrice_g,
@@ -189,7 +187,14 @@ export default {
                 follower_g: this.maxFollower,
                 follower_l: this.minFollower,
                 type: this.types.toUpperCase() === "" ? "INSTAGRAM" : this.types.toUpperCase(),
-            }, (data) => {
+            };
+
+            if (this.province.length < 31)
+                data.province = this.province.map((x) => x.name);
+
+            this.grow = "spinner-grow";
+
+            $.post("https://advn.ad-venture.app/api/publisher", data, (data) => {
                 this.channels = this.channels.concat(data);
                 this.grow = "";
                 if (data.length > 0)

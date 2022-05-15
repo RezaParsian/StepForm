@@ -211,7 +211,7 @@ export default {
     }
   },
   mounted() {
-    this.current_step = 5;
+    this.current_step = 0;
     this.$refs.iran.$watch("selected", () => {
       if (this.$refs.iran.selected.length < 31)
         this.selectedPlaceButton = "city";
