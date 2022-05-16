@@ -60,10 +60,10 @@
 
         </div>
 
-        <input type="hidden" name="channels" v-for="item in selected.map((x)=>x.id)" :value="item" :key="item">
+        <input type="hidden" name="channels[]" v-for="item in selected.map((x)=>x.id)" :value="item" :key="item">
 
-        <div class="position-fixed">
-            <i v-if="selected.length>0" type="button" data-toggle="modal" data-target="#exampleModalCenter" class="fa fa-shopping-cart btn btn-primary sticky-top" style="left: 3rem"></i>
+        <div class="position-fixed" style="z-index: 1">
+            <i v-if="selected.length>0" type="button" data-toggle="modal" data-target="#exampleModalCenter" class="fa-shopping-cart btn btn-primary sticky-top rounded-circle" style="left: 3rem;font-family: FontAwesome;"></i>
         </div>
 
         <div class="row mx-auto justify-content-center" id="gap">
@@ -205,9 +205,33 @@ export default {
             const price = this.content === "پست" ? channel.post_price : channel.story_price;
             return `هزینه تبلیغات : ${price ?? 'موجود نیست'}`;
         },
+        lowBudget(post_price, story_price) {
+            if (this.budget <= 0) {
+                swal.fire({
+                    title: 'خطا',
+                    text: 'لطفا بودجه خود را افزایش دهید.',
+                    icon: 'error',
+                    confirmButtonText: 'تایید'
+                });
+                return true;
+            }
+
+            if (this.budget < post_price || this.budget < story_price) {
+                swal.fire({
+                    title: 'خطا',
+                    text: 'بودجه شما از حد موردنظر کمتر است.',
+                    icon: 'error',
+                    confirmButtonText: 'تایید'
+                });
+                return true
+            }
+        },
         select(element) {
             const post_price = $(element.target).data("post");
             const story_price = $(element.target).data("story");
+
+            if (this.lowBudget(post_price, story_price))
+                return;
 
             if (this.selected.find((x) => x.id === +element.target.dataset.id)) {
                 this.selected.splice(this.channels.find((x) => x.id === +element.target.dataset.id), 1);
@@ -218,30 +242,6 @@ export default {
 
                 element.target.innerText = "انتخاب شد";
                 $('#gap').find(":contains('انتخاب شد')").parent(".card").hide();
-
-                if (this.content === "پست") {
-                    if (post_price > this.budget) {
-                        this.selected.splice(this.selected.indexOf(element.target.dataset.id), 1);
-                        element.target.innerText = "انتخاب";
-                        Swal.fire({
-                            title: 'خطا',
-                            text: 'مبلغ پست بیشتر از موجودی شما است',
-                            icon: 'error',
-                            confirmButtonText: 'تایید'
-                        });
-                    }
-                } else {
-                    if (story_price > this.budget) {
-                        this.selected.splice(this.selected.indexOf(element.target.dataset.id), 1);
-                        element.target.innerText = "انتخاب";
-                        Swal.fire({
-                            title: 'خطا',
-                            text: 'مبلغ استوری بیشتر از موجودی شما است',
-                            icon: 'error',
-                            confirmButtonText: 'تایید'
-                        });
-                    }
-                }
             }
         },
         checkData() {
@@ -256,7 +256,7 @@ export default {
     computed: {
         request() {
             if ((this.province !== [] && this.categories !== [] && this.types !== "") && this.selected.length <= 0) {
-                this.page = 0;
+                this.page = 1;
                 this.selected = [];
                 this.channels = [];
 
@@ -277,7 +277,7 @@ export default {
                 return;
 
             this.$nextTick(() => {
-                this.page = 1;
+                this.page = 0;
                 this.channels = [];
                 observer.observe($("#reza")[0])
             });
@@ -291,6 +291,10 @@ export default {
                 this.storyPrice_l,
             ];
         },
+        gettingChannel() {
+            if (this.page > 0)
+                this.getChannels();
+        }
     },
     mounted() {
         window.observer = new IntersectionObserver((entries) => {
@@ -299,7 +303,6 @@ export default {
                     this.page++;
                     observer.unobserve($("#reza")[0])
                 }
-
             })
         });
 
