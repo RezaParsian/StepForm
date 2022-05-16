@@ -173,6 +173,7 @@ export default {
             postPrice_l: 99999999,
             storyPrice_l: 99999999,
             storyPrice_g: 0,
+            new_budget: 0,
         }
     },
     methods: {
@@ -205,9 +206,9 @@ export default {
             const price = this.content === "پست" ? channel.post_price : channel.story_price;
             return `هزینه تبلیغات : ${price ?? 'موجود نیست'}`;
         },
-        lowBudget(post_price, story_price) {
-            if (this.budget <= 0) {
-                swal.fire({
+        lowBudget(post_price, story_price, selected) {
+            if (this.new_budget <= 0) {
+                Swal.fire({
                     title: 'خطا',
                     text: 'لطفا بودجه خود را افزایش دهید.',
                     icon: 'error',
@@ -216,8 +217,8 @@ export default {
                 return true;
             }
 
-            if (this.budget < post_price || this.budget < story_price) {
-                swal.fire({
+            if (this.new_budget < post_price || this.new_budget < story_price) {
+                Swal.fire({
                     title: 'خطا',
                     text: 'بودجه شما از حد موردنظر کمتر است.',
                     icon: 'error',
@@ -225,15 +226,23 @@ export default {
                 });
                 return true
             }
+
+            if (selected)
+                this.new_budget = this.new_budget + (this.content === "پست" ? post_price : story_price);
+            else
+                this.new_budget = this.new_budget - (this.content === "پست" ? post_price : story_price);
+
+            return false;
         },
         select(element) {
             const post_price = $(element.target).data("post");
             const story_price = $(element.target).data("story");
+            const selected = this.selected.find((x) => x.id === +element.target.dataset.id);
 
-            if (this.lowBudget(post_price, story_price))
+            if (this.lowBudget(post_price, story_price, selected))
                 return;
 
-            if (this.selected.find((x) => x.id === +element.target.dataset.id)) {
+            if (selected) {
                 this.selected.splice(this.channels.find((x) => x.id === +element.target.dataset.id), 1);
                 element.target.innerText = "انتخاب";
                 $('#gap').find(":contains('انتخاب')").parent(".card").show();
@@ -241,7 +250,6 @@ export default {
                 this.selected.push(this.channels.find((x) => x.id === +element.target.dataset.id));
 
                 element.target.innerText = "انتخاب شد";
-                $('#gap').find(":contains('انتخاب شد')").parent(".card").hide();
             }
         },
         checkData() {
@@ -250,8 +258,12 @@ export default {
     },
     watch: {
         page() {
-            this.getChannels();
-        }
+            if (this.page > 0)
+                this.getChannels();
+        },
+        budget() {
+            this.new_budget = +(this.budget.replaceAll(",", ""));
+        },
     },
     computed: {
         request() {
@@ -291,10 +303,6 @@ export default {
                 this.storyPrice_l,
             ];
         },
-        gettingChannel() {
-            if (this.page > 0)
-                this.getChannels();
-        }
     },
     mounted() {
         window.observer = new IntersectionObserver((entries) => {

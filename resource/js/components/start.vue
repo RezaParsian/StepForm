@@ -30,14 +30,14 @@
         <div class="form-group" v-if="attract_active">
             <label> نوع جذب</label>
             <select name="attraction_way" class="form-control" id="attraction_way">
-                <option value="">یک روش انتخاب کنید:</option>
+                <option value="">یک روش انتخاب کنید</option>
                 <option v-for="item in attractionWay" :value="item.attraction">{{ item.attraction }}</option>
             </select>
         </div>
         <div class="form-group" v-if="order_active">
             <label>نحوه سفارش</label>
             <select name="order_way" class="form-control" id="order_way">
-                <option value="">یک روش انتخاب کنید:</option>
+                <option value="">یک روش انتخاب کنید</option>
                 <option v-for="item in orderWay" :value="item.way">{{ item.way }}</option>
             </select>
         </div>
