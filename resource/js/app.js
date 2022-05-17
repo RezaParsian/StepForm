@@ -20,6 +20,7 @@ Vue.component("channels", require("./components/channels").default);
 Vue.component("login", require("./components/login/loginForm").default);
 Vue.component("register", require("./components/login/registerForm").default);
 Vue.component("entrance", require("./components/login/uerEnterance").default);
+Vue.component("media", require("./components/mediaAdventure").default);
 
 Vue.use(VuePersianDatetimePicker, {
     name: "datePicker",
