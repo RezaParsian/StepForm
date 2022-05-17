@@ -4,7 +4,7 @@
       <div class="col-md-7">
         <div class="form-group">
           <label>عکس یا ویدیو</label>
-          <input type="file" name="file" required class="form-control-file border rounded mb-1" @change="readFile">
+          <input type="file" name="file" class="form-control-file border rounded mb-1" @change="readFile">
           <small>تصاویر باید در فرمت‌های .jpeg, .jpg, .png یا .gif و ویدیوها در فرمت .mp4 باشند. حداکثر حجم مجاز تصاویر ۵ و ویدیوها ۱۹ مگابایت است.</small>
         </div>
 

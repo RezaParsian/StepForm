@@ -10,13 +10,13 @@
           <button class="btn btn-outline-danger btn-sm" title="حذف کردن فایل" data-toggle="tooltip" @click="post_count!== 1 ? post_count-- : ''" type="button">
             <i class="fa fa-times"></i>
           </button>
-          <input v-for="item in post_count" type="file" name="file[]" required class="form-control-file border rounded mt-2 mb-1" :data-id="item" @change="readFile">
+          <input v-for="item in post_count" type="file" name="file[]" class="form-control-file border rounded mt-2 mb-1" :data-id="item" @change="readFile">
           <small>تصاویر باید در فرمت‌های .jpeg, .jpg, .png یا .gif و ویدیوها در فرمت .mp4 باشند. حداکثر حجم مجاز تصاویر ۵ و ویدیوها ۱۹ مگابایت است.</small>
         </div>
 
         <div class="form-group">
           <label>کپشن</label>
-          <textarea class="form-control" v-model="post_text" required rows="3" id="post_text" name="post_text"></textarea>
+          <textarea class="form-control" v-model="post_text" rows="3" id="post_text" name="post_text"></textarea>
         </div>
 
         <div class="form-check-inline">

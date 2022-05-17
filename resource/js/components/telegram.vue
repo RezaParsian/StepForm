@@ -4,13 +4,13 @@
       <div class="col-md-7">
         <div class="form-group">
           <label>عکس یا ویدیو</label>
-          <input type="file" name="file" required class="form-control-file border rounded" id="fileUploader" @change="readFile">
+          <input type="file" name="file" class="form-control-file border rounded" id="fileUploader" @change="readFile">
           <small>تصاویر باید در فرمت‌های .jpeg, .jpg, .png یا .gif و ویدیوها در فرمت .mp4 باشند. حداکثر حجم مجاز تصاویر ۵ و ویدیوها ۱۹ مگابایت است.</small>
         </div>
 
         <div class="form-group">
           <label> متن کامل تبلیغ (همراه با آدرس کانال)</label>
-          <textarea class="form-control" required v-model="post_text" rows="3" name="post_text" id="post_text"></textarea>
+          <textarea class="form-control" v-model="post_text" rows="3" name="post_text" id="post_text"></textarea>
         </div>
 
         <div class="form-group">

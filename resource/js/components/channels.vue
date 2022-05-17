@@ -1,13 +1,13 @@
 <template>
-    <div id="vue_channels" class="position-relative" style="max-height: 98rem;overflow: auto;">
-        <a tupe="button" href="#filters" data-toggle="collapse" class="btn btn-link text-muted text-decoration-none rounded m-3"><i class="fa fa-filter"></i>
+    <div id="vue_channels" class="position-relative" style="max-height: 98rem;overflow: scroll !important;">
+        <a id="filter_btn" href="#filters" data-toggle="collapse" class="btn btn-link text-muted text-decoration-none rounded m-3"><i class="fa fa-filter"></i>
             ‌فیلتر بر اساس
         </a>
         <div id="filters" class="my-4 collapse mx-auto">
 
             <div id="post" class="row mx-auto" v-show="this.content==='پست'">
                 <div class="col-md">
-                    <p for="postPriceG">حداکثرقیمت پست:</p>
+                    <p>حداکثرقیمت پست:</p>
                     <div class="row">
                         <input id="postPriceG" data-variable="postPrice_g" type="range" class="mr-3" min="0" max="999999">
                         <label class="my-auto mx-2 text-info">{{ postPrice_g }}</label>
@@ -62,12 +62,8 @@
 
         <input type="hidden" name="channels[]" v-for="item in selected.map((x)=>x.id)" :value="item" :key="item">
 
-        <div class="position-fixed" style="z-index: 1">
-            <i v-if="selected.length>0" type="button" data-toggle="modal" data-target="#exampleModalCenter" class="fa-shopping-cart btn btn-primary sticky-top rounded-circle" style="left: 3rem;font-family: FontAwesome;"></i>
-        </div>
-
         <div class="row mx-auto justify-content-center" id="gap">
-            <div class="card col-md-3 p-0" v-for="channel in channels.filter((x)=> !selected.find((b)=> b.id==x.id))" :key="channel.username" :id="channel.id">
+            <div class="card col-md-3 p-0" v-for="channel in channels" :key="channel.username" :id="channel.id">
                 <div class="banner">
                     <img :src="channel.pic" class="svg" alt="">
                 </div>
@@ -116,7 +112,7 @@
                                     <div class="small text-muted mb-2 text-center">آخرین بروزرسانی : {{ items.last_update }}</div>
                                     <div class="small text-muted mb-2 text-center" v-html="getPrice(items)"></div>
                                     <div class="follow-btn">
-                                        <button :data-id="items.id" @click="select" type="button" :data-post="items.post_price" :data-story="items.post_price">انتخاب شد</button>
+                                        <button :data-id="items.id" @click="select" type="button" :data-post="items.post_price" :data-story="items.post_price">لغو انتخاب</button>
                                     </div>
                                 </div>
                             </div>
@@ -179,7 +175,7 @@ export default {
     methods: {
         getChannels() {
             let data = {
-                category: this.categories.length > 0 ? this.categories : [1, 2, 21, 26, 28, 44],
+                category: this.categories,
                 page: this.page,
                 post_l: this.postPrice_l,
                 post_g: this.postPrice_g,
@@ -245,11 +241,11 @@ export default {
             if (selected) {
                 this.selected.splice(this.channels.find((x) => x.id === +element.target.dataset.id), 1);
                 element.target.innerText = "انتخاب";
+                $("[data-id='" + element.target.dataset.id + "']").text("انتخاب");
                 $('#gap').find(":contains('انتخاب')").parent(".card").show();
             } else {
                 this.selected.push(this.channels.find((x) => x.id === +element.target.dataset.id));
-
-                element.target.innerText = "انتخاب شد";
+                element.target.innerText = "لغو انتخاب";
             }
         },
         checkData() {
@@ -263,6 +259,23 @@ export default {
         },
         budget() {
             this.new_budget = +(this.budget.replaceAll(",", ""));
+        },
+        step(val) {
+            if (val === 5) {
+                $("head").append("<style id='rp_stack'>*{overflow: unset !important}</style>");
+                filter_observer.observe($("#filter_btn")[0]);
+            } else {
+                $("head").find("#rp_stack").remove();
+                $("#shop_button").hide(500);
+                $("#up_button").hide(500);
+                filter_observer.unobserve($("#filter_btn")[0]);
+            }
+        },
+        selected(val) {
+            if (val.length > 0)
+                $("#shop_button").show(500);
+            else
+                $("#shop_button").hide(500);
         },
     },
     computed: {
@@ -311,6 +324,16 @@ export default {
                     this.page++;
                     observer.unobserve($("#reza")[0])
                 }
+            })
+        });
+
+        window.filter_observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting)
+                    $("#up_button").hide(500);
+                else
+                    $("#up_button").show(500);
+
             })
         });
 

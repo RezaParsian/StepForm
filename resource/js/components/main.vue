@@ -1,7 +1,15 @@
 <template>
     <div id="vue_main" class="card">
-        <div class="card-header">
+        <div class="card-header sticky-top bg-white d-flex">
             ساخت کمپین جدید
+            <div class="mr-auto">
+                <button class="btn rounded-circle bg-primary" type="button" data-toggle="modal" data-target="#exampleModalCenter" style="display: none" id="shop_button">
+                    <span class="fa fa-shopping-cart"></span>
+                </button>
+                <button class="btn rounded-circle bg-primary" type="button" onclick='$("#gap")[0].scrollIntoView()' style="display: none" id="up_button">
+                    <span class="fa fa-chevron-up"></span>
+                </button>
+            </div>
         </div>
         <div class="card-body">
             <div class="row d-none d-md-flex text-center mt-2">
@@ -25,12 +33,12 @@
                 <div class="row justify-content-center mb-3">
                     <button class="btn mx-3 px-5" :class="selectedPlaceButton==='county' ? 'btn-success' : 'btn-outline-success'" @click="selectAllCity" type="button">کشوری</button>
                     <button
-                            class="btn mx-3 px-5"
-                            :class="selectedPlaceButton==='city' ? 'btn-success' : 'btn-outline-success'"
-                            @click="selectNoneCity"
-                            title="بر روی استان های مدنظر خود کلیک کنید."
-                            data-toggle="tooltip"
-                            type="button">
+                        class="btn mx-3 px-5"
+                        :class="selectedPlaceButton==='city' ? 'btn-success' : 'btn-outline-success'"
+                        @click="selectNoneCity"
+                        title="بر روی استان های مدنظر خود کلیک کنید."
+                        data-toggle="tooltip"
+                        type="button">
                         استانی
                     </button>
                 </div>
@@ -90,11 +98,11 @@ export default {
         },
         attract_active: {
             required: true,
-            type:Boolean
+            type: Boolean
         },
         order_active: {
             required: true,
-            type:Boolean
+            type: Boolean
         },
     },
     data() {
@@ -162,7 +170,7 @@ export default {
             this.$refs[this.steps[this.current_step].component].checkData();
         },
         nextStep(condition) {
-            this.next_step = true;
+            this.next_step = this.current_step != 6;
             // this.next_step = condition;
         },
         selectAllCity() {
@@ -229,6 +237,7 @@ export default {
 </script>
 
 <style scoped>
+
 .steps::before {
     content: "";
     width: 1rem;

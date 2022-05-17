@@ -8,7 +8,7 @@
           </div>
           <div class="form-group">
             <label>نام کمپین</label>
-            <input type="text" name="camping_name" class="form-control" required>
+            <input type="text" name="camping_name" class="form-control">
           </div>
 
           <div class="alert alert-info">
