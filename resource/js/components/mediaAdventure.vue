@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="vue_start">
         <div class="container-fluid p-0">
             <!--start-hero-section-->
             <div class="row mx-auto position-relative pb-5 hero-section" style="overflow: hidden;">
@@ -22,19 +22,20 @@
                 <form action="">
                     <div class="row justify-content-center mx-0 px-3">
                         <div class="col-md-5 px-4 text-right">
-                            <select id="type" class="sabt-input form-control">
-                                <option class="form-control">شبکه اجتماعی مورد نظرتون انتخاب کنید</option>
+                            <select name="socialMedia" id="type" class="sabt-input form-control">
+                                <option value="">شبکه اجتماعی موردنظرتان را انتخاب کنید.</option>
+                                <option v-for="media in socialMedia" :value="media.value">{{media.name}}</option>
                             </select>
                         </div>
                         <div class="col-md-5 px-4 text-right">
-                            <select id="type" class="sabt-input form-control">
-                                <option class="form-control">دسته موردنظرتون انتخاب کنید</option>
+                            <select name="work_category[]" required id="work_category" multiple="" class="sabt-input form-control mdb-select md-form">
+                                <option v-for="item in work_category.filter((x)=> x.category_isActive===1)" :value="item.id">{{ item.category_name }}</option>
                             </select>
                         </div>
 
                         <div class="col-md-2">
-                            <button class="btn btn-block d-flex text-white btn-sabt d-block icons rpZizi justify-content-center py-2">
-                                <label class="p-0 m-0">ثبت سفارش</label>
+                            <button type="button" class="btn btn-block d-flex text-white btn-sabt d-block icons rpZizi justify-content-center py-2">
+                                <label class="p-0 m-0">اعمال</label>
                                 <p id="space"></p>
                                 <i class="fa fa-arrow-left mr-3 my-auto"></i>
                             </button>
@@ -67,329 +68,136 @@
         <!--    cards-container-->
         <div class="container-fluid justify-content-center px-0 pb-0 mt-5 pt-3">
             <div class="row mx-auto px-2 mt-5">
-                <div class="col-md-3 mb-3">
+                <div class="col-md-3 mb-3" v-for="channel in channels.filter((x)=> !selected.find((b)=> b.id==x.id))" :key="channel.username" :id="channel.id">
                     <div class="first hero">
-                        <img class="hero-profile-img" src="https://static.vecteezy.com/system/resources/previews/002/037/235/non_2x/marketing-strategy-campaign-concept-vector.jpg" alt="">
+
+                        <img v-if="channel.pic!=null" class="hero-profile-img" :src="channel.pic" alt="">
+                        <img v-else-if="channel.pic===null" class="hero-profile-img"
+                             src="https://img.favpng.com/13/14/23/computer-icons-user-vector-graphics-portable-network-graphics-psd-png-favpng-sXybdut2iBZYirt6eHqEhE2LN.jpg" alt="">
                         <div class="hero-description-bk"></div>
                         <div class="hero-logo text-center">
                             <img src="img/logo-01.png" alt="" class="img-fluid">
                         </div>
                         <div class="hero-description px-3">
-                            <p class="text-center">نگین بانو</p>
-                            <p class="">negDraaaaaaaaaaa</p>
-
-                            <p class="">فالوور:۲۰۰۰۰۰</p>
-
-                            <p class="">فالویینگ:۲۰۰۰۰۰</p>
-                            <p>هزینه تبلیغات:۲۰۰۰۰۰</p>
-                            <p>آخرین آپدیت:۲ماه پیش</p>
-
+                            <p>{{ channel.name }}</p>
+                            <p>@{{ channel.username }}</p>
+                            <p><span>{{ channel.followers }}</span><small> :Followers</small></p>
+                            <p><span>{{ channel.following }}</span><small> :Following</small></p>
                         </div>
-                        <div class="hero-date">
-                            <p>آخرین آپدیت : ۲۹ روز پیش</p>
-                        </div>
-                        <div class="hero-btn">
-                            <a href="#">انتخاب</a>
+
+                        <div class="middle align-content-center">
+                            <p v-html="getPrice(channel)"></p>
+                            <p>آخرین بروزرسانی : {{ channel.last_update }}</p>
+                            <div class="hero-btn">
+                                <a class="btn" :data-id="channel.id" @click="select" type="button">انتخاب</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <div class="first hero">
-                        <img class="hero-profile-img" src="https://static.vecteezy.com/system/resources/previews/002/037/235/non_2x/marketing-strategy-campaign-concept-vector.jpg" alt="">
-                        <div class="hero-description-bk"></div>
-                        <div class="hero-logo text-center">
-                            <img src="img/logo-01.png" alt="" class="img-fluid">
-                        </div>
-                        <div class="hero-description px-3">
-                            <p class="text-center">نگین بانو</p>
-                            <p class="">negDraaaaaaaaaaa</p>
-
-                            <p class="">فالوور:۲۰۰۰۰۰</p>
-
-                            <p class="">فالویینگ:۲۰۰۰۰۰</p>
-                            <p>هزینه تبلیغات:۲۰۰۰۰۰</p>
-                            <p>آخرین آپدیت:۲ماه پیش</p>
-
-                        </div>
-                        <div class="hero-date">
-                            <p>آخرین آپدیت : ۲۹ روز پیش</p>
-                        </div>
-                        <div class="hero-btn">
-                            <a href="#">انتخاب</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="first hero">
-                        <img class="hero-profile-img" src="https://static.vecteezy.com/system/resources/previews/002/037/235/non_2x/marketing-strategy-campaign-concept-vector.jpg" alt="">
-                        <div class="hero-description-bk"></div>
-                        <div class="hero-logo text-center">
-                            <img src="img/logo-01.png" alt="" class="img-fluid">
-                        </div>
-                        <div class="hero-description px-3">
-                            <p class="text-center">نگین بانو</p>
-                            <p class="">negDraaaaaaaaaaa</p>
-
-                            <p class="">فالوور:۲۰۰۰۰۰</p>
-
-                            <p class="">فالویینگ:۲۰۰۰۰۰</p>
-                            <p>هزینه تبلیغات:۲۰۰۰۰۰</p>
-                            <p>آخرین آپدیت:۲ماه پیش</p>
-
-                        </div>
-                        <div class="hero-date">
-                            <p>آخرین آپدیت : ۲۹ روز پیش</p>
-                        </div>
-                        <div class="hero-btn">
-                            <a href="#">انتخاب</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="first hero">
-                        <img class="hero-profile-img" src="https://static.vecteezy.com/system/resources/previews/002/037/235/non_2x/marketing-strategy-campaign-concept-vector.jpg" alt="">
-                        <div class="hero-description-bk"></div>
-                        <div class="hero-logo text-center">
-                            <img src="img/logo-01.png" alt="" class="img-fluid">
-                        </div>
-                        <div class="hero-description px-3">
-                            <p class="text-center">نگین بانو</p>
-                            <p class="">negDraaaaaaaaaaa</p>
-
-                            <p class="">فالوور:۲۰۰۰۰۰</p>
-
-                            <p class="">فالویینگ:۲۰۰۰۰۰</p>
-                            <p>هزینه تبلیغات:۲۰۰۰۰۰</p>
-                            <p>آخرین آپدیت:۲ماه پیش</p>
-
-                        </div>
-                        <div class="hero-date">
-                            <p>آخرین آپدیت : ۲۹ روز پیش</p>
-                        </div>
-                        <div class="hero-btn">
-                            <a href="#">انتخاب</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="first hero">
-                        <img class="hero-profile-img" src="https://static.vecteezy.com/system/resources/previews/002/037/235/non_2x/marketing-strategy-campaign-concept-vector.jpg" alt="">
-                        <div class="hero-description-bk"></div>
-                        <div class="hero-logo text-center">
-                            <img src="img/logo-01.png" alt="" class="img-fluid">
-                        </div>
-                        <div class="hero-description px-3">
-                            <p class="text-center">نگین بانو</p>
-                            <p class="">negDraaaaaaaaaaa</p>
-
-                            <p class="">فالوور:۲۰۰۰۰۰</p>
-
-                            <p class="">فالویینگ:۲۰۰۰۰۰</p>
-                            <p>هزینه تبلیغات:۲۰۰۰۰۰</p>
-                            <p>آخرین آپدیت:۲ماه پیش</p>
-
-                        </div>
-                        <div class="hero-date">
-                            <p>آخرین آپدیت : ۲۹ روز پیش</p>
-                        </div>
-                        <div class="hero-btn">
-                            <a href="#">انتخاب</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="first hero">
-                        <img class="hero-profile-img" src="https://static.vecteezy.com/system/resources/previews/002/037/235/non_2x/marketing-strategy-campaign-concept-vector.jpg" alt="">
-                        <div class="hero-description-bk"></div>
-                        <div class="hero-logo text-center">
-                            <img src="img/logo-01.png" alt="" class="img-fluid">
-                        </div>
-                        <div class="hero-description px-3">
-                            <p class="text-center">نگین بانو</p>
-                            <p class="">negDraaaaaaaaaaa</p>
-
-                            <p class="">فالوور:۲۰۰۰۰۰</p>
-
-                            <p class="">فالویینگ:۲۰۰۰۰۰</p>
-                            <p>هزینه تبلیغات:۲۰۰۰۰۰</p>
-                            <p>آخرین آپدیت:۲ماه پیش</p>
-
-                        </div>
-                        <div class="hero-date">
-                            <p>آخرین آپدیت : ۲۹ روز پیش</p>
-                        </div>
-                        <div class="hero-btn">
-                            <a href="#">انتخاب</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="first hero">
-                        <img class="hero-profile-img" src="https://static.vecteezy.com/system/resources/previews/002/037/235/non_2x/marketing-strategy-campaign-concept-vector.jpg" alt="">
-                        <div class="hero-description-bk"></div>
-                        <div class="hero-logo text-center">
-                            <img src="img/logo-01.png" alt="" class="img-fluid">
-                        </div>
-                        <div class="hero-description px-3">
-                            <p class="text-center">نگین بانو</p>
-                            <p class="">negDraaaaaaaaaaa</p>
-
-                            <p class="">فالوور:۲۰۰۰۰۰</p>
-
-                            <p class="">فالویینگ:۲۰۰۰۰۰</p>
-                            <p>هزینه تبلیغات:۲۰۰۰۰۰</p>
-                            <p>آخرین آپدیت:۲ماه پیش</p>
-
-                        </div>
-                        <div class="hero-date">
-                            <p>آخرین آپدیت : ۲۹ روز پیش</p>
-                        </div>
-                        <div class="hero-btn">
-                            <a href="#">انتخاب</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="first hero">
-                        <img class="hero-profile-img" src="https://static.vecteezy.com/system/resources/previews/002/037/235/non_2x/marketing-strategy-campaign-concept-vector.jpg" alt="">
-                        <div class="hero-description-bk"></div>
-                        <div class="hero-logo text-center">
-                            <img src="img/logo-01.png" alt="" class="img-fluid">
-                        </div>
-                        <div class="hero-description px-3">
-                            <p class="text-center">نگین بانو</p>
-                            <p class="">negDraaaaaaaaaaa</p>
-
-                            <p class="">فالوور:۲۰۰۰۰۰</p>
-
-                            <p class="">فالویینگ:۲۰۰۰۰۰</p>
-                            <p>هزینه تبلیغات:۲۰۰۰۰۰</p>
-                            <p>آخرین آپدیت:۲ماه پیش</p>
-
-                        </div>
-                        <div class="hero-date">
-                            <p>آخرین آپدیت : ۲۹ روز پیش</p>
-                        </div>
-                        <div class="hero-btn">
-                            <a href="#">انتخاب</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="first hero">
-                        <img class="hero-profile-img" src="https://static.vecteezy.com/system/resources/previews/002/037/235/non_2x/marketing-strategy-campaign-concept-vector.jpg" alt="">
-                        <div class="hero-description-bk"></div>
-                        <div class="hero-logo text-center">
-                            <img src="img/logo-01.png" alt="" class="img-fluid">
-                        </div>
-                        <div class="hero-description px-3">
-                            <p class="text-center">نگین بانو</p>
-                            <p class="">negDraaaaaaaaaaa</p>
-
-                            <p class="">فالوور:۲۰۰۰۰۰</p>
-
-                            <p class="">فالویینگ:۲۰۰۰۰۰</p>
-                            <p>هزینه تبلیغات:۲۰۰۰۰۰</p>
-                            <p>آخرین آپدیت:۲ماه پیش</p>
-
-                        </div>
-                        <div class="hero-date">
-                            <p>آخرین آپدیت : ۲۹ روز پیش</p>
-                        </div>
-                        <div class="hero-btn">
-                            <a href="#">انتخاب</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="first hero">
-                        <img class="hero-profile-img" src="https://static.vecteezy.com/system/resources/previews/002/037/235/non_2x/marketing-strategy-campaign-concept-vector.jpg" alt="">
-                        <div class="hero-description-bk"></div>
-                        <div class="hero-logo text-center">
-                            <img src="img/logo-01.png" alt="" class="img-fluid">
-                        </div>
-                        <div class="hero-description px-3">
-                            <p class="text-center">نگین بانو</p>
-                            <p class="">negDraaaaaaaaaaa</p>
-
-                            <p class="">فالوور:۲۰۰۰۰۰</p>
-
-                            <p class="">فالویینگ:۲۰۰۰۰۰</p>
-                            <p>هزینه تبلیغات:۲۰۰۰۰۰</p>
-                            <p>آخرین آپدیت:۲ماه پیش</p>
-
-                        </div>
-                        <div class="hero-date">
-                            <p>آخرین آپدیت : ۲۹ روز پیش</p>
-                        </div>
-                        <div class="hero-btn">
-                            <a href="#">انتخاب</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="first hero">
-                        <img class="hero-profile-img" src="https://static.vecteezy.com/system/resources/previews/002/037/235/non_2x/marketing-strategy-campaign-concept-vector.jpg" alt="">
-                        <div class="hero-description-bk"></div>
-                        <div class="hero-logo text-center">
-                            <img src="img/logo-01.png" alt="" class="img-fluid">
-                        </div>
-                        <div class="hero-description px-3">
-                            <p class="text-center">نگین بانو</p>
-                            <p class="">negDraaaaaaaaaaa</p>
-
-                            <p class="">فالوور:۲۰۰۰۰۰</p>
-
-                            <p class="">فالویینگ:۲۰۰۰۰۰</p>
-                            <p>هزینه تبلیغات:۲۰۰۰۰۰</p>
-                            <p>آخرین آپدیت:۲ماه پیش</p>
-
-                        </div>
-                        <div class="hero-date">
-                            <p>آخرین آپدیت : ۲۹ روز پیش</p>
-                        </div>
-                        <div class="hero-btn">
-                            <a href="#">انتخاب</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div class="first hero">
-                        <img class="hero-profile-img" src="https://static.vecteezy.com/system/resources/previews/002/037/235/non_2x/marketing-strategy-campaign-concept-vector.jpg" alt="">
-                        <div class="hero-description-bk"></div>
-                        <div class="hero-logo text-center">
-                            <img src="img/logo-01.png" alt="" class="img-fluid">
-                        </div>
-                        <div class="hero-description px-3">
-                            <p class="text-center">نگین بانو</p>
-                            <p class="">negDraaaaaaaaaaa</p>
-
-                            <p class="">فالوور:۲۰۰۰۰۰</p>
-
-                            <p class="">فالویینگ:۲۰۰۰۰۰</p>
-                            <p>هزینه تبلیغات:۲۰۰۰۰۰</p>
-                            <p>آخرین آپدیت:۲ماه پیش</p>
-
-                        </div>
-                        <div class="hero-date">
-                            <p>آخرین آپدیت : ۲۹ روز پیش</p>
-                        </div>
-                        <div class="hero-btn">
-                            <a href="#">انتخاب</a>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
         <!--    cards-container-->
-
+        <div class="row p-5 mx-auto">
+            <div id="reza" class="mx-auto p-5" :class="grow"></div>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: "mediaAdventure"
+    name: "mediaAdventure",
+    data() {
+        return {
+            channels: [],
+            page: 0,
+            grow: "",
+            selected: [],
+            province: [],
+            types: '',
+            work_category: [],
+            selected_category:[],
+            socialMedia:[
+                {name:'اینستاگرام', value:'INSTAGRAM'},
+                {name:'تلگرام', value:'TELEGRAM'},
+                {name:'اینفلوئنسر', value:'INFLUENCER'},
+            ]
+        }
+    },
+    methods: {
+        getChannels() {
+            let data = {
+                category: this.categories.length > 0 ? this.categories : [1, 2, 21, 26, 28, 44],
+                page: this.page,
+                type: this.types.toUpperCase() === "" ? "INSTAGRAM" : this.types.toUpperCase(),
+            };
+
+            if (this.province.length < 31)
+                data.province = this.province.map((x) => x.name);
+
+            this.grow = "spinner-grow";
+
+            $.post("https://advn.ad-venture.app/api/publisher", data, (data) => {
+                this.channels = this.channels.concat(data);
+                this.grow = "";
+                if (data.length > 0)
+                    observer.observe($("#reza")[0])
+            });
+        },
+        getPrice(channel) {
+            const price = this.content === "پست" ? channel.post_price : channel.story_price;
+            return `هزینه تبلیغات : ${price ?? 'موجود نیست'}`;
+        },
+        select(element) {
+            const selected = this.selected.find((x) => x.id === +element.target.dataset.id);
+
+            if (selected) {
+                this.selected.splice(this.channels.find((x) => x.id === +element.target.dataset.id), 1);
+                element.target.innerText = "انتخاب";
+                // $('#gap').find(":contains('انتخاب')").parent(".card").show();
+            } else {
+                this.selected.push(this.channels.find((x) => x.id === +element.target.dataset.id));
+
+                element.target.innerText = "انتخاب شد";
+            }
+        },
+    },
+    watch: {
+        page() {
+            if (this.page > 0)
+                this.getChannels();
+        },
+    },
+    computed:{
+        channelsShow(){
+           this.types = $('#type option:selected').val()
+            const $work_category = $("#work_category");
+            this.selected_category = this.work_category.filter((x) => $work_category.val().indexOf(x.id + '') > -1);
+            if (this.selected_category.length>0 && this.types!=='')
+                this.getChannels()
+        }
+    },
+    mounted() {
+        window.observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    this.page++;
+                    observer.unobserve($("#reza")[0])
+                }
+            })
+        });
+        this.$nextTick(() => {
+            $("#work_category").select2({
+                placeholder: "انتخاب کنید",
+                dir: "rtl",
+                closeOnSelect: false,
+                width: "100%",
+            });
+        });
+        $.get("https://advn.ad-venture.app/api/cats", (data) => {
+            this.work_category = data;
+        });
+
+    },
 }
 </script>
 
