@@ -18,8 +18,7 @@
 
         <div class="container p-0 position-relative">
             <!--    start-form-section-->
-            <div class="col-md-12 bg-white mx-5 pb-4 position-absolute pt-4 sabt-section px-0 d-none d-md-block">
-                <form action="">
+            <div class="col-md-12 bg-white mx-5 pb-4 position-absolute pt-4 sabt-section px-0" v-if="this.responsive!=='sm'">
                     <div class="row justify-content-center mx-0 px-3">
                         <div class="col-md-5 px-4 text-right">
                             <select name="socialMedia" id="type" class="sabt-input form-control">
@@ -28,7 +27,7 @@
                             </select>
                         </div>
                         <div class="col-md-5 px-4 text-right">
-                            <select name="work_category[]" required id="work_category" multiple="" class="sabt-input form-control mdb-select md-form">
+                            <select name="work_category[]" required id="work_category" multiple="" class="form-control mdb-select md-form">
                                 <option v-for="item in work_category.filter((x)=> x.category_isActive===1)" :value="item.id">{{ item.category_name }}</option>
                             </select>
                         </div>
@@ -41,10 +40,9 @@
                             </button>
                         </div>
                     </div>
-                </form>
             </div>
 
-            <div class="col-10 mx-auto pb-4 mb-5 position-absolute pt-3 sabt-section-phone px-0 d-block d-md-none">
+            <div class="col-10 mx-auto pb-4 mb-5 position-absolute pt-3 sabt-section-phone px-0" v-if="this.responsive==='sm'">
                 <form action="">
                     <div class="col-12 mb-3 text-right">
                         <select id="type2" class="sabt-input form-control">
@@ -74,13 +72,13 @@
                         <img v-if="channel.pic!=null" class="hero-profile-img" :src="channel.pic" alt="">
                         <img v-else-if="channel.pic===null" class="hero-profile-img"
                              src="https://img.favpng.com/13/14/23/computer-icons-user-vector-graphics-portable-network-graphics-psd-png-favpng-sXybdut2iBZYirt6eHqEhE2LN.jpg" alt="">
-                        <div class="hero-description-bk"></div>
+                        <div :class="types"></div>
                         <div class="hero-logo text-center">
                             <img src="img/logo-01.png" alt="" class="img-fluid">
                         </div>
                         <div class="hero-description px-3">
                             <p>{{ channel.name }}</p>
-                            <p>@{{ channel.username }}</p>
+                            <p>{{ channel.username }}@</p>
                             <p><span>{{ channel.followers }}</span><small> :Followers</small></p>
                             <p><span>{{ channel.following }}</span><small> :Following</small></p>
                         </div>
@@ -91,6 +89,11 @@
                             <div class="hero-btn">
                                 <a class="btn" :data-id="channel.id" @click="select" type="button">انتخاب</a>
                             </div>
+                            <button style="position: absolute;bottom: 5rem;right: .3rem;"  type="button" class="btn likeBtn">
+                                <i class="fa fa-heart-o float-right text-danger" :data-id="channel.id" @click="liked" style="font-size: 15pt"></i>
+                            </button>
+
+                         <button class="btn text-white"  type="button" style="position: absolute;bottom: 3rem;right: .3rem;"><i :data-id="channel.id" @click="block" class="fa fa-ban float-right" style="font-size: 15pt;"></i></button>
                         </div>
                     </div>
                 </div>
@@ -109,17 +112,21 @@ export default {
     data() {
         return {
             channels: [],
+            responsive:'',
             page: 0,
             grow: "",
-            selected: [],
+            wishList: [],
+            selected:[],
             province: [],
-            types: '',
+            blackList:[],
+            types: "",
             work_category: [],
-            selected_category:[],
-            socialMedia:[
-                {name:'اینستاگرام', value:'INSTAGRAM'},
-                {name:'تلگرام', value:'TELEGRAM'},
-                {name:'اینفلوئنسر', value:'INFLUENCER'},
+            categories: [],
+            selected_category: [],
+            socialMedia: [
+                {name: 'اینستاگرام', value: 'INSTAGRAM'},
+                {name: 'تلگرام', value: 'TELEGRAM'},
+                {name: 'اینفلوئنسر', value: 'INFLUENCER'},
             ]
         }
     },
@@ -160,23 +167,61 @@ export default {
                 element.target.innerText = "انتخاب شد";
             }
         },
+        block(element) {
+            const block = this.blackList.find((x) => x.id === +element.target.dataset.id);
+
+            if (block) {
+                this.blackList.splice(this.channels.find((x) => x.id === +element.target.dataset.id), 1);
+
+            } else {
+                this.blackList.push(this.channels.find((x) => x.id === +element.target.dataset.id));
+            }
+        },
+        liked(element) {
+            const like = this.wishList.find((a) => a.id === +element.target.dataset.id);
+            if (like) {
+                this.wishList.splice(this.channels.find((a) => a.id === +element.target.dataset.id), 1);
+                $(element.target).removeClass('fa-heart').addClass('fa-heart-o')
+            } else {
+                this.wishList.push(this.channels.find((a) => a.id === +element.target.dataset.id));
+               $(element.target).removeClass('fa-heart-o').addClass('fa-heart')
+            }
+        },
     },
     watch: {
         page() {
             if (this.page > 0)
                 this.getChannels();
-        },
-    },
-    computed:{
-        channelsShow(){
-           this.types = $('#type option:selected').val()
-            const $work_category = $("#work_category");
-            this.selected_category = this.work_category.filter((x) => $work_category.val().indexOf(x.id + '') > -1);
-            if (this.selected_category.length>0 && this.types!=='')
-                this.getChannels()
         }
     },
+    computed: {
+        channelsShow() {
+            this.types = $('#type option:selected').val()
+            const $work_category = $("#work_category");
+            this.selected_category = this.work_category.filter((x) => $work_category.val().indexOf(x.id + '') > -1);
+            if (this.selected_category.length > 0 && this.types !== '')
+                this.getChannels()
+        },
+
+        responsives(){
+            if ($(window).width() < 768) {
+                this.responsive ='sm'
+            }
+            else if ($(window).width() >= 768 &&  $(window).width() <= 992) {
+                this.responsive = 'md'
+            }
+            else if ($(window).width() > 992 &&  $(window).width() <= 1200) {
+                this.responsive = 'lg'
+            }
+            else  {
+                this.responsive = 'xlg'
+            }
+        }
+
+
+    },
     mounted() {
+        this.page=1;
         window.observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
@@ -187,16 +232,19 @@ export default {
         });
         this.$nextTick(() => {
             $("#work_category").select2({
-                placeholder: "انتخاب کنید",
+                placeholder: "دسته بندی خودرا انتخاب کنید.",
                 dir: "rtl",
                 closeOnSelect: false,
                 width: "100%",
+            }).val("INSTAGRAM").trigger("change");
+
+            $(document).on("change","#type",(element)=>{
+               this.types=element.target.value;
             });
         });
         $.get("https://advn.ad-venture.app/api/cats", (data) => {
             this.work_category = data;
         });
-
     },
 }
 </script>
