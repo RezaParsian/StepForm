@@ -15,62 +15,61 @@
             <!--end-hero-section-->
             <div class="background-shape d-none d-md-block d-lg-block"></div>
         </div>
+        <!--    start-form-section-->
+        <div class="container p-0 position-relative">
             <!--    start-form-section-->
-            <div class="container p-0 position-relative">
-                <!--    start-form-section-->
-                <div class="col-md-12 bg-white mx-5 pb-4 position-absolute pt-4 sabt-section px-0 d-none d-md-block">
-                    <div class="row justify-content-center mx-0 px-3">
-                        <div class="col-md-5 px-4 text-right">
-                            <select name="socialMedia" id="type" class="sabt-input form-control">
-                                <option value="">شبکه اجتماعی موردنظرتان را انتخاب کنید.</option>
-                                <option v-for="media in socialMedia" :value="media.value">{{media.name}}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-5 px-4 text-right">
-                            <select name="work_category[]" required id="work_Category" multiple="" class="form-control mdb-select md-form">
-                                <option v-for="item in work_category.filter((x)=> x.category_isActive===1)" :value="item.id">{{ item.category_name }}</option>
-                            </select>
-                        </div>
+            <div class="col-md-12 bg-white mx-5 pb-4 position-absolute pt-4 sabt-section px-0 d-none d-md-block">
+                <div class="row justify-content-center mx-0 px-3">
+                    <div class="col-md-5 px-4 text-right">
+                        <select name="socialMedia" id="type" class="sabt-input form-control">
+                            <option value="">شبکه اجتماعی موردنظرتان را انتخاب کنید.</option>
+                            <option v-for="media in socialMedia" :value="media.value">{{ media.name }}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-5 px-4 text-right">
+                        <select name="work_category[]" required id="work_Category" multiple="" class="form-control mdb-select md-form">
+                            <option v-for="item in work_category.filter((x)=> x.category_isActive===1)" :value="item.id">{{ item.category_name }}</option>
+                        </select>
+                    </div>
 
-                        <div class="col-md-2">
-                            <button @click="getChannels()" type="button" class="btn btn-block d-flex text-white btn-sabt d-block icons rpZizi justify-content-center py-2">
-                                <label class="p-0 m-0">اعمال</label>
-                                <p id="space"></p>
-                                <i class="fa fa-arrow-left mr-3 my-auto"></i>
-                            </button>
-                        </div>
+                    <div class="col-md-2">
+                        <button @click="getChannels()" type="button" class="btn btn-block d-flex text-white btn-sabt d-block icons rpZizi justify-content-center py-2">
+                            <label class="p-0 m-0">اعمال</label>
+                            <p id="space"></p>
+                            <i class="fa fa-arrow-left mr-3 my-auto"></i>
+                        </button>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-10 mx-auto pb-4 mb-5 position-absolute pt-3 sabt-section-phone px-0 d-block d-md-none">
-                    <form action="">
-                        <div class="col-12 mb-3 text-right">
-                            <select id="type2" class="sabt-input form-control">
-                                <option class="form-control" value="">انتخاب شبکه اجتماعی</option>
-                                <option v-for="media in socialMedia" :value="media.value">{{media.name}}</option>
-                            </select>
-                        </div>
-                        <div class="col-12 mb-3 text-right">
-                            <select class="sabt-input form-control" name="work_category[]" required id="work_category" multiple="">
-                                <option class="form-control" value="">انتخاب دسته بندی</option>
-                                <option v-for="item in work_category.filter((x)=> x.category_isActive===1)" :value="item.id">{{ item.category_name }}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-block text-white btn-sabt py-2" @click="getChannels()"> اعمال<i class="fa fa-arrow-left mr-3 "></i></button>
-                        </div>
-                    </form>
-                </div>
-                <!--    end-form-section-->
-
+            <div class="col-10 mx-auto pb-4 mb-5 position-absolute pt-3 sabt-section-phone px-0 d-block d-md-none">
+                <form action="">
+                    <div class="col-12 mb-3 text-right">
+                        <select id="type2" class="sabt-input form-control">
+                            <option class="form-control" value="">انتخاب شبکه اجتماعی</option>
+                            <option v-for="media in socialMedia" :value="media.value">{{ media.name }}</option>
+                        </select>
+                    </div>
+                    <div class="col-12 mb-3 text-right">
+                        <select class="sabt-input form-control" name="work_category[]" required id="work_category" multiple="">
+                            <option class="form-control" value="">انتخاب دسته بندی</option>
+                            <option v-for="item in work_category.filter((x)=> x.category_isActive===1)" :value="item.id">{{ item.category_name }}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-block text-white btn-sabt py-2" @click="getChannels()"> اعمال<i class="fa fa-arrow-left mr-3 "></i></button>
+                    </div>
+                </form>
             </div>
             <!--    end-form-section-->
+
+        </div>
+        <!--    end-form-section-->
         <!--    cards-container-->
         <div class="container-fluid justify-content-center p-0 mt-5 pt-3">
             <div class="row mx-auto px-2 mt-5">
                 <div class="col-md-3 mb-3" v-for="channel in channels.filter((x)=> !selected.find((b)=> b.id==x.id))" :key="channel.username" :id="channel.id">
                     <div class="first hero">
-
                         <img v-if="channel.pic!=null" class="hero-profile-img" :src="channel.pic" alt="">
                         <img v-else-if="channel.pic===null" class="hero-profile-img"
                              src="https://img.favpng.com/13/14/23/computer-icons-user-vector-graphics-portable-network-graphics-psd-png-favpng-sXybdut2iBZYirt6eHqEhE2LN.jpg" alt="">
@@ -84,18 +83,18 @@
                             <p><span>{{ channel.followers }}</span><small> :Followers</small></p>
                             <p><span>{{ channel.following }}</span><small> :Following</small></p>
                         </div>
-
                         <div :class="bgCOlors">
                             <p v-html="getPrice(channel)"></p>
                             <p>آخرین بروزرسانی : {{ channel.last_update }}</p>
                             <div class="hero-btn">
                                 <a class="btn" :data-id="channel.id" @click="select" type="button">انتخاب</a>
                             </div>
-                            <button style="position: absolute;bottom: 5rem;right: .3rem;"  type="button" class="btn likeBtn">
+                            <button style="position: absolute;bottom: 5rem;right: .3rem;" type="button" class="btn likeBtn">
                                 <i class="fa fa-heart-o float-right text-danger" :data-id="channel.id" @click="liked" style="font-size: 15pt"></i>
                             </button>
 
-                         <button class="btn text-white"  type="button" style="position: absolute;bottom: 3rem;right: .3rem;"><i :data-id="channel.id" @click="block" class="fa fa-ban float-right" style="font-size: 15pt;"></i></button>
+                            <button class="btn text-white" type="button" style="position: absolute;bottom: 3rem;right: .3rem;"><i :data-id="channel.id" @click="block" class="fa fa-ban float-right"
+                                                                                                                                  style="font-size: 15pt;"></i></button>
                         </div>
                     </div>
                 </div>
@@ -115,17 +114,17 @@ export default {
     data() {
         return {
             channels: [],
-            bgCOlors:[
-              'INsta',
-              'middle'
+            bgCOlors: [
+                'INsta',
+                'middle'
             ],
-            responsive:'',
+            responsive: '',
             page: 0,
             grow: "",
             wishList: [],
-            selected:[],
+            selected: [],
             province: [],
-            blackList:[],
+            blackList: [],
             types: "اینستاگرام",
             work_category: [],
             categories: [],
@@ -191,7 +190,7 @@ export default {
                 $(element.target).removeClass('fa-heart').addClass('fa-heart-o')
             } else {
                 this.wishList.push(this.channels.find((a) => a.id === +element.target.dataset.id));
-               $(element.target).removeClass('fa-heart-o').addClass('fa-heart')
+                $(element.target).removeClass('fa-heart-o').addClass('fa-heart')
             }
         },
     },
@@ -200,8 +199,8 @@ export default {
             if (this.page > 0)
                 this.getChannels();
         },
-        types(){
-            if(this.types==="INSTAGRAM" || this.types==="INFLUENCER")
+        types() {
+            if (this.types === "INSTAGRAM" || this.types === "INFLUENCER")
                 this.bgCOlors = "middle"
             else
                 this.bgCOlors = "INsta"
@@ -239,11 +238,11 @@ export default {
                 width: "100%",
             }).val("INSTAGRAM").trigger("change");
 
-            $(document).on("change","#type",(element)=>{
-               this.types=element.target.value;
+            $(document).on("change", "#type", (element) => {
+                this.types = element.target.value;
             });
-            $(document).on("change","#type2",(element)=>{
-               this.types=element.target.value;
+            $(document).on("change", "#type2", (element) => {
+                this.types = element.target.value;
             });
         });
         $.get("https://advn.ad-venture.app/api/cats", (data) => {
@@ -254,6 +253,7 @@ export default {
 </script>
 
 <style scoped>
+
 .hero-section {
     background-size: cover;
     height: 33rem;
@@ -278,7 +278,7 @@ export default {
 }
 
 .btn-sabt {
-    background-image: linear-gradient(to right, #C04848 0%, #480048  51%, #C04848  100%);
+    background-image: linear-gradient(to right, #C04848 0%, #480048 51%, #C04848 100%);
     transition: 0.5s;
     background-size: 200% auto;
     border-radius: 8px;
@@ -372,17 +372,17 @@ export default {
     position: relative;
     height: 400px;
     border-radius: 30px;
-    overflow:hidden;
+    overflow: hidden;
     box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.3);
 }
 
-.hero:hover .middle{
+.hero:hover .middle {
     opacity: 1;
     height: 100%;
     width: 100%;
 }
 
-.middle{
+.middle {
     transition: .5s ease;
     opacity: 0;
     position: absolute;
@@ -395,22 +395,22 @@ export default {
     color: white;
     text-align: center;
     font-weight: 900;
-    background-image: linear-gradient(to right, #AA076B 0%, #61045F  51%, #AA076B  100%);
+    background-image: linear-gradient(0deg , #3f5efb, #fc466b);
     padding-top: 5rem;
 }
 
-.middle:hover{
+.middle:hover {
     transition: .7s;
     background-position: right center;
 }
 
-.hero:hover .INsta{
+.hero:hover .INsta {
     opacity: 1;
     height: 100%;
     width: 100%;
 }
 
-.INsta{
+.INsta {
     transition: .5s ease;
     opacity: 0;
     position: absolute;
@@ -424,11 +424,11 @@ export default {
     text-align: center;
     font-weight: 900;
     /*background-image: linear-gradient(to right, #1FA2FF 0%, #12D8FA  51%, #1FA2FF  100%);*/
-    background-image: linear-gradient(to right, #1FA2FF 0%, #12D8FA  51%, #1FA2FF  100%);
+    background-image: linear-gradient(to right, #1FA2FF 0%, #12D8FA 51%, #1FA2FF 100%);
     padding-top: 5rem;
 }
 
-.INsta:hover{
+.INsta:hover {
     transition: .7s;
     background-position: right center;
 }
@@ -438,7 +438,7 @@ export default {
 }
 
 .TELEGRAM {
-    background-image: linear-gradient(to right, #1FA2FF 0%, #12D8FA  51%, #1FA2FF  100%);
+    background-image: linear-gradient(to right, #1FA2FF 0%, #12D8FA 51%, #1FA2FF 100%);
     border-radius: 30px;
     position: absolute;
     top: 51%;
@@ -452,13 +452,13 @@ export default {
 
 .TELEGRAM:hover {
     background-position: right center; /* change the direction of the change here */
-    color:black;
+    color: black;
     text-decoration: none;
     transition: 0.5s;
 }
 
 .INSTAGRAM, .INFLUENCER {
-    background-image: linear-gradient(to right, #AA076B 0%, #61045F  51%, #AA076B  100%);
+    background-image: linear-gradient(0deg , #3f5efb, #fc466b);
     border-radius: 30px;
     position: absolute;
     top: 51%;
@@ -478,7 +478,7 @@ export default {
 }
 
 .zizigolo {
-    background-image: linear-gradient(to right, #360033 0%, #0b8793  51%, #360033  100%);
+    background-image: linear-gradient(to right, #360033 0%, #0b8793 51%, #360033 100%);
     border-radius: 30px;
     position: absolute;
     top: 51%;
@@ -506,7 +506,7 @@ export default {
     position: absolute;
     bottom: 38%;
     left: 30px;
-    overflow:hidden;
+    overflow: hidden;
     box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.7);
 }
 
