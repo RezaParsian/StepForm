@@ -7,9 +7,8 @@
                     <h2>با ادونچر سریعتر بازخورد بگیرید!</h2>
                     <p>افزایش ترخ بازدید و رشد 100% کسب و کارتان را به ادونچر بسپارید!</p>
                 </div>
-                <div class="col-md-5">
-                    <img class="img-fluid"
-                         src="https://static.vecteezy.com/system/resources/previews/002/037/235/non_2x/marketing-strategy-campaign-concept-vector.jpg" alt="">
+                <div class="col-md">
+                    <img class="img-fluid" src="https://transfer.sh/lt6twJ/zz.png" alt="hero">
                 </div>
             </div>
             <!--end-hero-section-->
@@ -33,7 +32,7 @@
                     </div>
 
                     <div class="col-md-2">
-                        <button @click="getChannels()" type="button" class="btn btn-block d-flex text-white btn-sabt d-block icons rpZizi justify-content-center py-2">
+                        <button @click="channels=[];getChannels()" type="button" class="btn btn-block d-flex text-white btn-sabt d-block icons rpZizi justify-content-center py-2">
                             <label class="p-0 m-0">اعمال</label>
                             <p id="space"></p>
                             <i class="fa fa-arrow-left mr-3 my-auto"></i>
@@ -72,10 +71,10 @@
                     <div class="first hero">
                         <img v-if="channel.pic!=null" class="hero-profile-img" :src="channel.pic" alt="">
                         <img v-else-if="channel.pic===null" class="hero-profile-img"
-                             src="https://img.favpng.com/13/14/23/computer-icons-user-vector-graphics-portable-network-graphics-psd-png-favpng-sXybdut2iBZYirt6eHqEhE2LN.jpg" alt="">
-                        <div :class="types"></div>
+                             src="https://images.unsplash.com/photo-1653234477525-eb57ab2faae6?crop=entropy&cs=tinysrgb&fm=jpg&ixlib=rb-1.2.1&q=60&raw_url=true&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=500" alt="">
+                        <div :class="types===''  ? 'INSTAGRAM' : types"></div>
                         <div class="hero-logo text-center">
-                            <img src="img/logo-01.png" alt="" class="img-fluid">
+                            <img src="logo2.png" alt="" class="img-fluid">
                         </div>
                         <div class="hero-description px-3">
                             <p>{{ channel.name }}</p>
@@ -83,7 +82,7 @@
                             <p><span>{{ channel.followers }}</span><small> :Followers</small></p>
                             <p><span>{{ channel.following }}</span><small> :Following</small></p>
                         </div>
-                        <div :class="bgCOlors">
+                        <div :class="bgColors">
                             <p v-html="getPrice(channel)"></p>
                             <p>آخرین بروزرسانی : {{ channel.last_update }}</p>
                             <div class="hero-btn">
@@ -114,16 +113,12 @@ export default {
     data() {
         return {
             channels: [],
-            bgCOlors: [
-                'INsta',
-                'middle'
-            ],
+            bgColors: 'middle',
             responsive: '',
             page: 0,
             grow: "",
             wishList: [],
             selected: [],
-            province: [],
             blackList: [],
             types: "اینستاگرام",
             work_category: [],
@@ -139,13 +134,10 @@ export default {
     methods: {
         getChannels() {
             let data = {
-                category: this.categories.length > 0 ? this.categories : [1, 2, 21, 26, 28, 44],
+                category: this.categories,
                 page: this.page,
                 type: this.types.toUpperCase() === "" ? "INSTAGRAM" : this.types.toUpperCase(),
             };
-
-            if (this.province.length < 31)
-                data.province = this.province.map((x) => x.name);
 
             this.grow = "spinner-grow";
 
@@ -201,9 +193,9 @@ export default {
         },
         types() {
             if (this.types === "INSTAGRAM" || this.types === "INFLUENCER")
-                this.bgCOlors = "middle"
-            else
-                this.bgCOlors = "INsta"
+                this.bgColors = "middle"
+            else if(this.types==="TELEGRAM")
+                this.bgColors = "INsta"
         }
     },
     computed: {
@@ -248,6 +240,10 @@ export default {
         $.get("https://advn.ad-venture.app/api/cats", (data) => {
             this.work_category = data;
         });
+
+        $(() => {
+            $("#type").select2("destroy");
+        })
     },
 }
 </script>
@@ -395,7 +391,7 @@ export default {
     color: white;
     text-align: center;
     font-weight: 900;
-    background-image: linear-gradient(0deg , #3f5efb, #fc466b);
+    background-image: linear-gradient(0deg, #3f5efb, #fc466b);
     padding-top: 5rem;
 }
 
@@ -458,7 +454,7 @@ export default {
 }
 
 .INSTAGRAM, .INFLUENCER {
-    background-image: linear-gradient(0deg , #3f5efb, #fc466b);
+    background-image: linear-gradient(0deg, #3f5efb, #fc466b);
     border-radius: 30px;
     position: absolute;
     top: 51%;
