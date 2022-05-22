@@ -15,10 +15,10 @@
             <!--end-hero-section-->
             <div class="background-shape d-none d-md-block d-lg-block"></div>
         </div>
-
-        <div class="container p-0 position-relative">
             <!--    start-form-section-->
-            <div class="col-md-12 bg-white mx-5 pb-4 position-absolute pt-4 sabt-section px-0" v-if="this.responsive!=='sm'">
+            <div class="container p-0 position-relative">
+                <!--    start-form-section-->
+                <div class="col-md-12 bg-white mx-5 pb-4 position-absolute pt-4 sabt-section px-0 d-none d-md-block">
                     <div class="row justify-content-center mx-0 px-3">
                         <div class="col-md-5 px-4 text-right">
                             <select name="socialMedia" id="type" class="sabt-input form-control">
@@ -27,44 +27,46 @@
                             </select>
                         </div>
                         <div class="col-md-5 px-4 text-right">
-                            <select name="work_category[]" required id="work_category" multiple="" class="form-control mdb-select md-form">
+                            <select name="work_category[]" required id="work_Category" multiple="" class="form-control mdb-select md-form">
                                 <option v-for="item in work_category.filter((x)=> x.category_isActive===1)" :value="item.id">{{ item.category_name }}</option>
                             </select>
                         </div>
 
                         <div class="col-md-2">
-                            <button type="button" class="btn btn-block d-flex text-white btn-sabt d-block icons rpZizi justify-content-center py-2">
+                            <button @click="getChannels()" type="button" class="btn btn-block d-flex text-white btn-sabt d-block icons rpZizi justify-content-center py-2">
                                 <label class="p-0 m-0">اعمال</label>
                                 <p id="space"></p>
                                 <i class="fa fa-arrow-left mr-3 my-auto"></i>
                             </button>
                         </div>
                     </div>
-            </div>
+                </div>
 
-            <div class="col-10 mx-auto pb-4 mb-5 position-absolute pt-3 sabt-section-phone px-0" v-if="this.responsive==='sm'">
-                <form action="">
-                    <div class="col-12 mb-3 text-right">
-                        <select id="type2" class="sabt-input form-control">
-                            <option class="form-control" value="">انتخاب شبکه اجتماعی</option>
-                        </select>
-                    </div>
-                    <div class="col-12 mb-3 text-right">
-                        <select id="type2" class="sabt-input form-control">
-                            <option class="form-control" value="">انتخاب دسته بندی</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-block text-white btn-sabt py-2"> ثبت سفارش<i class="fa fa-arrow-left mr-3 "></i></button>
-                    </div>
-                </form>
+                <div class="col-10 mx-auto pb-4 mb-5 position-absolute pt-3 sabt-section-phone px-0 d-block d-md-none">
+                    <form action="">
+                        <div class="col-12 mb-3 text-right">
+                            <select id="type2" class="sabt-input form-control">
+                                <option class="form-control" value="">انتخاب شبکه اجتماعی</option>
+                                <option v-for="media in socialMedia" :value="media.value">{{media.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-12 mb-3 text-right">
+                            <select class="sabt-input form-control" name="work_category[]" required id="work_category" multiple="">
+                                <option class="form-control" value="">انتخاب دسته بندی</option>
+                                <option v-for="item in work_category.filter((x)=> x.category_isActive===1)" :value="item.id">{{ item.category_name }}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-block text-white btn-sabt py-2" @click="getChannels()"> اعمال<i class="fa fa-arrow-left mr-3 "></i></button>
+                        </div>
+                    </form>
+                </div>
+                <!--    end-form-section-->
+
             </div>
             <!--    end-form-section-->
-
-        </div>
-
         <!--    cards-container-->
-        <div class="container-fluid justify-content-center px-0 pb-0 mt-5 pt-3">
+        <div class="container-fluid justify-content-center p-0 mt-5 pt-3">
             <div class="row mx-auto px-2 mt-5">
                 <div class="col-md-3 mb-3" v-for="channel in channels.filter((x)=> !selected.find((b)=> b.id==x.id))" :key="channel.username" :id="channel.id">
                     <div class="first hero">
@@ -203,25 +205,8 @@ export default {
                 this.getChannels()
         },
 
-        responsives(){
-            if ($(window).width() < 768) {
-                this.responsive ='sm'
-            }
-            else if ($(window).width() >= 768 &&  $(window).width() <= 992) {
-                this.responsive = 'md'
-            }
-            else if ($(window).width() > 992 &&  $(window).width() <= 1200) {
-                this.responsive = 'lg'
-            }
-            else  {
-                this.responsive = 'xlg'
-            }
-        }
-
-
     },
     mounted() {
-        this.page=1;
         window.observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
@@ -237,8 +222,17 @@ export default {
                 closeOnSelect: false,
                 width: "100%",
             }).val("INSTAGRAM").trigger("change");
+            $("#work_Category").select2({
+                placeholder: "دسته بندی ",
+                dir: "rtl",
+                closeOnSelect: false,
+                width: "100%",
+            }).val("INSTAGRAM").trigger("change");
 
             $(document).on("change","#type",(element)=>{
+               this.types=element.target.value;
+            });
+            $(document).on("change","#type2",(element)=>{
                this.types=element.target.value;
             });
         });
