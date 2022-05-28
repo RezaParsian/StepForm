@@ -14,6 +14,7 @@
           @click="selectMedia(item.id)"
           :title="item.tooltip"
           data-toggle="tooltip">
+          <p v-if="item.name === 'Influencer'" class="position-absolute bg-danger new">Influencer</p>
         <div class="row">
           <img class="col-md-3 col-6 mx-auto img-fluid" :src="item.image" :alt="item.name">
         </div>
@@ -178,5 +179,22 @@ ul li:before {
 
 .reset {
   right: 0;
+}
+
+
+.new {
+    width: 73px;
+    height: 30px;
+    line-height: 30px;
+    top: 24px;
+    right: 5px;
+    z-index: 2;
+    overflow: hidden;
+    transform: rotate(45deg);
+    border: 1px dashed;
+    box-shadow: 0 0 0 3px #e51f78, 0 21px 5px -18px rgba(0, 0, 0, .6);
+    background-color: rgb(229, 31, 120);
+    text-align: center;
+    color: #fff;
 }
 </style>

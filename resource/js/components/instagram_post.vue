@@ -3,7 +3,7 @@
     <div class="row mx-auto">
       <div class="col-md-7">
         <div class="form-group">
-          <label>عکس یا ویدیو</label>
+          <label>غکس ، ویدیو یا سناریو</label>
           <button class="btn btn-outline-success btn-sm" title="اضافه کردن فایل" data-toggle="tooltip" @click="post_count++" type="button">
             <i class="fa fa-plus"></i>
           </button>
@@ -11,7 +11,7 @@
             <i class="fa fa-times"></i>
           </button>
           <input v-for="item in post_count" type="file" name="file[]" required class="form-control-file border rounded mt-2 mb-1" :data-id="item" @change="readFile">
-          <small>تصاویر باید در فرمت‌های .jpeg, .jpg, .png یا .gif و ویدیوها در فرمت .mp4 باشند. حداکثر حجم مجاز تصاویر ۵ و ویدیوها ۱۹ مگابایت است.</small>
+          <small>تصاویر باید در فرمت‌های .jpeg, .jpg, .png یا .gif و ویدیوها در فرمت .mp4 و سناریو به فرمت pdf باشند. حداکثر حجم مجاز تصاویر ۵ و ویدیوها ۱۹ مگابایت است.</small>
         </div>
 
         <div class="form-group">

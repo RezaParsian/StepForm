@@ -3,9 +3,9 @@
     <div class="row mx-auto">
       <div class="col-md-7">
         <div class="form-group">
-          <label>عکس یا ویدیو</label>
+          <label>عکس ،ویدیو یا سناریو</label>
           <input type="file" name="file" required class="form-control-file border rounded" id="fileUploader" @change="readFile">
-          <small>تصاویر باید در فرمت‌های .jpeg, .jpg, .png یا .gif و ویدیوها در فرمت .mp4 باشند. حداکثر حجم مجاز تصاویر ۵ و ویدیوها ۱۹ مگابایت است.</small>
+          <small>تصاویر باید در فرمت‌های .jpeg, .jpg, .png یا .gif و ویدیوها در فرمت .mp4 و سناریو به فرمت pdf باشند. حداکثر حجم مجاز تصاویر ۵ و ویدیوها ۱۹ مگابایت است.</small>
         </div>
 
         <div class="form-group">
