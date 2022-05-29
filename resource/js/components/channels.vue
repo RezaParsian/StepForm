@@ -95,27 +95,45 @@
                         <h5 class="modal-title" id="exampleModalLongTitle">کانال های منتخب شما</h5>
                     </div>
                     <div class="modal-body">
-                        <div class="row justify-content-center" id="basket">
-                            <div class="card col-md-3 p-0 mx-1 my-2" v-for="items  in selected" :key="items.username" :id="items.id">
-                                <div class="banner">
-                                    <img :src="items.pic" class="svg" alt="">
-                                </div>
-                                <div class="menu">
-                                </div>
-                                <h2 class="name" style="font-size: 15pt">{{ items.name }}</h2>
-                                <div class="title">@{{ items.username }}</div>
-                                <div class="actions">
-                                    <div class="follow-info">
-                                        <h2 style="font-size: 13pt"><a href="#"><span>{{ items.followers }}</span><small>Followers</small></a></h2>
-                                        <h2 style="font-size: 13pt"><a href="#"><span>{{ items.following }}</span><small>Following</small></a></h2>
-                                    </div>
-                                    <div class="small text-muted mb-2 text-center">آخرین بروزرسانی : {{ items.last_update }}</div>
-                                    <div class="small text-muted mb-2 text-center" v-html="getPrice(items)"></div>
-                                    <div class="follow-btn">
-                                        <button :data-id="items.id" @click="select" type="button" :data-post="items.post_price" :data-story="items.post_price">لغو انتخاب</button>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-md-12 p-4 justify-content-center table-responsive-sm" id="basket">
+                            <table class="table table-bordered text-center table-hover table-striped">
+                                <thead>
+                                <tr class="text-center">
+                                    <th scope="col">شناسه</th>
+                                    <th scope="col">تصویر پروفایل</th>
+                                    <th scope="col">نام فارسی</th>
+                                    <th scope="col">نام کاربری</th>
+                                    <th scope="col">وضعیت</th>
+                                    <th scope="col">فالویینگ</th>
+                                    <th scope="col">فالوور</th>
+                                    <th scope="col">تعداد پست</th>
+                                    <th scope="col">نرخ تعامل</th>
+                                    <th scope="col">نوع</th>
+                                    <th scope="col">تاریخ آخرین تغییر</th>
+                                    <th scope="col">عملیات</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="items  in selected" :key="items.username" :id="items.id">
+                                    <td scope="row">{{ items.id }}</td>
+                                    <td>
+                                        <img :src="items.pic" class="img-fluid" style="width: 60%;height:50%"/>
+                                    </td>
+                                    <td>{{ items.name ? items.name : 'موجود نیست' }}</td>
+                                    <td>{{ items.username ? items.username : 'موجود نیست' }}</td>
+                                    <td>تایید شده</td>
+                                    <td>{{ items.following ? items.following : 'موجود نیست' }}</td>
+                                    <td>{{ items.followers ? items.followers : 'موجود نیست' }}</td>
+                                    <td>موجود نیست</td>
+                                    <td>{{ items.eng ? items.eng : 'موجود نیست' }}</td>
+                                    <td>{{ items.type ? items.type : 'موجود نیست' }}</td>
+                                    <td>{{ items.last_update ? items.last_update : 'موجود نیست' }}</td>
+                                    <td>
+                                        <button class="btn btn-danger" :data-id="items.id" @click="deletes"><i class="fa fa-trash-o"></i></button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -225,29 +243,37 @@ export default {
                     observer.observe($("#reza")[0])
             });
         },
+
         getPrice(channel) {
             const price = this.content === "پست" ? channel.post_price : channel.story_price;
             return `هزینه تبلیغات : ${price ?? 'موجود نیست'}`;
         },
+
         lowBudget(post_price, story_price, selected) {
             if (this.new_budget <= 0) {
                 Swal.fire({
-                    title: 'خطا',
-                    text: 'لطفا بودجه خود را افزایش دهید.',
-                    icon: 'error',
-                    confirmButtonText: 'تایید'
-                });
-                return true;
+                        title: 'خطا',
+                        text: 'لطفا بودجه خود را افزایش دهید.',
+                        icon: 'error',
+                        allowOutsideClick: true,
+                        confirmButtonText: 'تایید'
+                    },
+                    function () {
+                        $('#exampleModalCenter').modal('show')
+                    });
             }
 
             if (this.new_budget < post_price || this.new_budget < story_price) {
                 Swal.fire({
-                    title: 'خطا',
-                    text: 'بودجه شما از حد موردنظر کمتر است.',
-                    icon: 'error',
-                    confirmButtonText: 'تایید'
-                });
-                return true
+                        title: 'خطا',
+                        text: 'بودجه شما از حد موردنظر کمتر است.',
+                        icon: 'error',
+                        confirmButtonText: 'تایید',
+                        allowOutsideClick: true
+                    },
+                    function () {
+                        $('#exampleModalCenter').modal('show')
+                    });
             }
 
             if (selected)
@@ -256,6 +282,13 @@ export default {
                 this.new_budget = this.new_budget - (this.content === "پست" ? post_price : story_price);
 
             return false;
+        },
+
+        deletes(element) {
+            const selected = this.selected.find((x) => x.id === +element.target.dataset.id);
+            if (selected) {
+                this.selected.splice(this.channels.find((x) => x.id === +element.target.dataset.id), 1);
+            } else return;
         },
         select(element) {
             const post_price = $(element.target).data("post");
