@@ -129,6 +129,33 @@
             </div>
         </div>
 
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#increaseBudget">
+            افزایش موجودی
+        </button>
+
+        <!-- Modal for increase budget -->
+        <div class="modal fade" id="increaseBudget" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">افزایش موجودی</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <budget></budget>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">لغو کردن</button>
+                        <button type="button" class="btn btn-primary">ثبت</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <div class="row p-5 mx-auto" v-model="request">
             <div id="reza" class="mx-auto p-5" :class="grow"></div>
         </div>
