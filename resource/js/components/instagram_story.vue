@@ -7,7 +7,6 @@
           <input type="file" name="file" required class="form-control-file border rounded mb-1" @change="readFile">
           <small>تصاویر باید در فرمت‌های .jpeg, .jpg, .png یا .gif و ویدیوها در فرمت .mp4 و سناریو به فرمت pdf باشند. حداکثر حجم مجاز تصاویر ۵ و ویدیوها ۱۹ مگابایت است.</small>
         </div>
-
         <div class="form-group">
           <label>متن </label>
           <textarea class="form-control" rows="3" maxlength="80" id="post_text" name="post_text"></textarea>

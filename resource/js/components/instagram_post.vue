@@ -18,7 +18,6 @@
                     <label>کپشن</label>
                     <textarea class="form-control" v-model="post_text" required rows="3" id="post_text" name="post_text"></textarea>
                 </div>
-
                 <div class="form-check-inline">
                     <label class="form-check-label">
                         <input type="checkbox" class="form-check-input" v-model="post_comment" id="switch1" name="post_comment">وضعیت کامنت : <span class="text-primary">{{ post_comment ? "باز" : "بسته" }}</span>

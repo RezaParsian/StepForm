@@ -2,7 +2,7 @@
     <div id="vue_start">
         <div class="form-group">
             <label> دسته‌بندی کسب و‌ کار شما</label>
-            <select name="work_category[]" class="form-control" required id="work_category" multiple="">
+            <select name="work_category[]" class="form-control" id="work_category" multiple="">
                 <option v-for="item in work_category.filter((x)=> x.category_isActive===1)" :value="item.id">{{ item.category_name }}</option>
             </select>
         </div>
@@ -23,7 +23,7 @@
 
         <div class="form-group">
             <label> هدف کمپین</label>
-            <select name="campaign_goal" class="form-control" required id="campaign_goal">
+            <select name="campaign_goal" class="form-control" id="campaign_goal">
                 <option v-for="item in campaign_goal" :value="item.id">{{ item.name }}</option>
             </select>
         </div>
@@ -91,14 +91,13 @@ export default {
     },
     methods: {
         checkData() {
-            this.$emit("go_next", true);
             const $work_category = $("#work_category");
             this.selected_category = this.work_category.filter((x) => $work_category.val().indexOf(x.id + '') > -1);
             this.$emit("input", [
                 $("#vue_start").find("#campaign_goal").find(":selected").text(),
                 $("#vue_start").find("#work_category").val()
             ])
-            // this.$emit("go_next", $("#campaign_goal").val() != 0 && $work_category.val() != 0);
+            this.$emit("go_next", $("#campaign_goal").val() != 0 && $work_category.val() != 0);
         }
     },
     mounted() {

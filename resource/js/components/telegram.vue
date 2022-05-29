@@ -10,7 +10,7 @@
 
         <div class="form-group">
           <label> متن کامل تبلیغ (همراه با آدرس کانال)</label>
-          <textarea class="form-control" required v-model="post_text" rows="3" name="post_text" id="post_text"></textarea>
+          <textarea class="form-control" v-model="post_text" rows="3" name="post_text" id="post_text"></textarea>
         </div>
 
         <div class="form-group">
