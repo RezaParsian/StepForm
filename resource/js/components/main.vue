@@ -75,12 +75,12 @@
 
             <hr>
 
-            <button type="button" v-if="next_step" @click="next" class="btn btn-primary float-left">
+            <button type="button" v-if="next_step" @click="next" class="btn btn-grad float-left">
                 مرحله بعد
                 <i class="fa fa-caret-left"></i>
             </button>
 
-            <button type="button" v-if="current_step>0" @click="goBack" class="btn btn-primary float-right">
+            <button type="button" v-if="current_step>0" @click="goBack" class="btn btn-grad float-right">
                 <i class="fa fa-caret-right"></i>
                 مرحله قبل
             </button>
@@ -260,5 +260,30 @@ export default {
     position: absolute;
     left: calc(50% - 0.5rem);
     top: -1rem;
+}
+
+.card{
+    box-shadow: 20px 20px 50px 10px #8080805c;
+    border: none;
+}
+
+
+.btn-grad {
+    background-image: linear-gradient(to right, #314755 0%, #26a0da  51%, #314755  100%);
+    margin: 10px;
+    padding: auto 15px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    display: block;
+}
+
+.btn-grad:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
 }
 </style>

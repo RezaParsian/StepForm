@@ -5,10 +5,8 @@
         class="position-relative overflow-hidden col-md-4 rounded border m-1 p-2"
         v-for="item in advertise_items"
         :data-id="item.id"
-        @click="selectAdvertise(item.id)"
-        :title="item.tooltip"
-        data-toggle="tooltip">
-      <p v-if="item.is_new" class="position-absolute bg-danger new">جدید</p>
+        @click="selectAdvertise(item.id)">
+<!--      <p v-if="item.is_new" class="position-absolute bg-danger new">جدید</p>-->
       <h5 class="text-center my-3">{{ item.name }}</h5>
       <p class="font-weight-light mt-3">{{ item.description }}</p>
     </div>
@@ -65,19 +63,19 @@ export default {
   border-width: 3px !important;
 }
 
-.new {
-  width: 150px;
-  height: 30px;
-  line-height: 30px;
-  top: 3px;
-  right: -56px;
-  z-index: 2;
-  overflow: hidden;
-  transform: rotate(45deg);
-  border: 1px dashed;
-  box-shadow: 0 0 0 3px #e51f78, 0 21px 5px -18px rgba(0, 0, 0, .6);
-  background-color: rgb(229, 31, 120);
-  text-align: center;
-  color: #fff;
-}
+/*.new {*/
+/*  width: 150px;*/
+/*  height: 30px;*/
+/*  line-height: 30px;*/
+/*  top: 3px;*/
+/*  right: -56px;*/
+/*  z-index: 2;*/
+/*  overflow: hidden;*/
+/*  transform: rotate(45deg);*/
+/*  border: 1px dashed;*/
+/*  box-shadow: 0 0 0 3px #e51f78, 0 21px 5px -18px rgba(0, 0, 0, .6);*/
+/*  background-color: rgb(229, 31, 120);*/
+/*  text-align: center;*/
+/*  color: #fff;*/
+/*}*/
 </style>

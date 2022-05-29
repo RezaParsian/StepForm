@@ -14,6 +14,9 @@
           @click="selectMedia(item.id)"
           :title="item.tooltip"
           data-toggle="tooltip">
+          <div v-if="item.name === 'Influencer'" class="ribbon-1 position-relative">
+              <label class="position-absolute txt">Influencer</label>
+          </div>
         <div class="row">
           <img class="col-md-3 col-6 mx-auto img-fluid" :src="item.image" :alt="item.name">
         </div>
@@ -95,7 +98,7 @@ export default {
           id: 2,
           name: "Influencer",
           persian_name: "اینفلوئنسر",
-          image: "https://cdn1.iconfinder.com/data/icons/influencer-2/64/1M-social-media-marketing-512.png",
+          image: "https://www.instagram.com/static/images/ico/favicon-192.png/68d99ba29cc8.png",
           services: [
             {
               id: 0,
@@ -178,5 +181,36 @@ ul li:before {
 
 .reset {
   right: 0;
+}
+
+.ribbon-1 {
+    width: 40px;
+    background: #ee583a;
+    top: -6px;
+    left: 25px;
+}
+
+.ribbon-1:after {
+    height: 6.3rem;
+    width: 0;
+    border-left: 20px solid #ee583a;
+    border-right: 20px solid #ee583a;
+    border-bottom: 30px solid transparent;
+    top: -0.1rem;
+    right: 2rem;
+}
+
+[class^=ribbon-]:after {
+    content: "";
+    position: absolute;
+}
+.txt{
+    transform: rotate(90deg);
+    font-size: 8pt;
+    z-index: 1;
+    color: white;
+    top: 1.7777rem;
+    font-weight: 900;
+    right: 1.3333rem;
 }
 </style>
