@@ -1,63 +1,72 @@
 <template>
     <div id="vue_channels" class="position-relative" style="max-height: 98rem;overflow: scroll !important;">
-        <a id="filter_btn" href="#filters" data-toggle="collapse" class="btn btn-link text-muted text-decoration-none rounded m-3"><i class="fa fa-filter"></i>
-            ‌فیلتر بر اساس
-        </a>
-        <div id="filters" class="my-4 collapse mx-auto">
+        <div class="row mx-auto">
+            <div class="col-md">
+                <a id="filter_btn" href="#filters" data-toggle="collapse" class="btn btn-link text-muted text-decoration-none rounded m-3"><i class="fa fa-filter"></i>
+                    ‌فیلتر بر اساس
+                </a>
+                <div id="filters" class="my-4 collapse mx-auto">
 
-            <div id="post" class="row mx-auto" v-show="this.content==='پست'">
-                <div class="col-md">
-                    <p>حداکثرقیمت پست:</p>
-                    <div class="row">
-                        <input id="postPriceG" data-variable="postPrice_g" type="range" class="mr-3" min="0" max="999999">
-                        <label class="my-auto mx-2 text-info">{{ postPrice_g }}</label>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <p for="postPriceL">حداقل قیمت پست:</p>
-                    <div class="row">
-                        <input id="postPriceL" data-variable="postPrice_l" type="range" class="mr-3" min="0" max="999999">
-                        <label class="my-auto mx-2 text-info">{{ postPrice_l }}</label>
-                    </div>
-                </div>
-            </div>
-
-            <div v-show="this.content!=='پست'">
-                <div id="story" class="row mx-auto" v-if="this.content!=='پست'">
-                    <div class="col-md">
-                        <p for="storyPriceG">حداکثرقیمت استوری:</p>
-                        <div class="row">
-                            <input id="storyPriceG" data-variable="storyPrice_g" class="mr-3" type="range" min="0" max="9999999">
-                            <label class="my-auto mx-2 text-info">{{ storyPrice_g }}</label>
+                    <div id="post" class="row mx-auto" v-show="this.content==='پست'">
+                        <div class="col-md">
+                            <p>حداکثرقیمت پست:</p>
+                            <div class="row">
+                                <input id="postPriceG" data-variable="postPrice_g" type="range" class="mr-3" min="0" max="999999">
+                                <label class="my-auto mx-2 text-info">{{ postPrice_g }}</label>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <p for="postPriceL">حداقل قیمت پست:</p>
+                            <div class="row">
+                                <input id="postPriceL" data-variable="postPrice_l" type="range" class="mr-3" min="0" max="999999">
+                                <label class="my-auto mx-2 text-info">{{ postPrice_l }}</label>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md">
-                        <p for="postPriceL">حداقل قیمت استوری:</p>
-                        <div class="row">
-                            <input id="storyPriceL" class="mr-3" data-variable="storyPrice_l" type="range" min="0" max="9999999">
-                            <label class="my-auto mx-2 text-info">{{ storyPrice_l }}</label>
+
+                    <div v-show="this.content!=='پست'">
+                        <div id="story" class="row mx-auto" v-if="this.content!=='پست'">
+                            <div class="col-md">
+                                <p for="storyPriceG">حداکثرقیمت استوری:</p>
+                                <div class="row">
+                                    <input id="storyPriceG" data-variable="storyPrice_g" class="mr-3" type="range" min="0" max="9999999">
+                                    <label class="my-auto mx-2 text-info">{{ storyPrice_g }}</label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <p for="postPriceL">حداقل قیمت استوری:</p>
+                                <div class="row">
+                                    <input id="storyPriceL" class="mr-3" data-variable="storyPrice_l" type="range" min="0" max="9999999">
+                                    <label class="my-auto mx-2 text-info">{{ storyPrice_l }}</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div id="follower" class="row mx-auto pb-3 mb-5">
-                <div class="col-md">
-                    <p for="minFollow">حداکثرتعداد فالوور:</p>
-                    <div class="row">
-                        <input id="minFollow" class="mr-3" data-variable="minFollower" type="range" min="0" max="9999999">
-                        <label class="my-auto mx-2 text-info">{{ minFollower }}</label>
+                    <div id="follower" class="row mx-auto pb-3 mb-5">
+                        <div class="col-md">
+                            <p for="minFollow">حداکثرتعداد فالوور:</p>
+                            <div class="row">
+                                <input id="minFollow" class="mr-3" data-variable="minFollower" type="range" min="0" max="9999999">
+                                <label class="my-auto mx-2 text-info">{{ minFollower }}</label>
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <p for="maxFollow">حداقل تعداد فالوور:</p>
+                            <div class="row">
+                                <input id="maxFollow" class="mr-3" type="range" data-variable="maxFollower" min="0" max="9999999">
+                                <label class="my-auto mx-2 text-info">{{ maxFollower }}</label>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md">
-                    <p for="maxFollow">حداقل تعداد فالوور:</p>
-                    <div class="row">
-                        <input id="maxFollow" class="mr-3" type="range" data-variable="maxFollower" min="0" max="9999999">
-                        <label class="my-auto mx-2 text-info">{{ maxFollower }}</label>
-                    </div>
-                </div>
-            </div>
 
+                </div>
+
+            </div>
+            <div class="col-md-3 my-3">
+                <p>موجودی فعلی شما: {{ this.new_budget }}</p>
+                <p>جمع مبالغ انتخاب شده: {{ this.sumPrice }}</p>
+            </div>
         </div>
 
         <input type="hidden" name="channels[]" v-for="item in selected.map((x)=>x.id)" :value="item" :key="item">
@@ -144,9 +153,6 @@
         </div>
 
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#increaseBudget">
-            افزایش موجودی
-        </button>
 
         <!-- Modal for increase budget -->
         <div class="modal fade" id="increaseBudget" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -162,8 +168,7 @@
                         <budget></budget>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">لغو کردن</button>
-                        <button type="button" class="btn btn-primary">ثبت</button>
+                        <button  aria-label="Close" type="button" class="btn btn-secondary close" data-dismiss="modal">لغو کردن</button>
                     </div>
                 </div>
             </div>
@@ -215,6 +220,7 @@ export default {
             storyPrice_l: 99999999,
             storyPrice_g: 0,
             new_budget: 0,
+            sumPrice: 0
         }
     },
     methods: {
@@ -276,10 +282,14 @@ export default {
                     });
             }
 
-            if (selected)
+            if (selected) {
                 this.new_budget = this.new_budget + (this.content === "پست" ? post_price : story_price);
-            else
+                this.sumPrice = this.sumPrice - (this.content === "پست" ? post_price : story_price);
+            }
+            else {
                 this.new_budget = this.new_budget - (this.content === "پست" ? post_price : story_price);
+                this.sumPrice = this.sumPrice + (this.content === "پست" ? post_price : story_price);
+            }
 
             return false;
         },
@@ -322,7 +332,7 @@ export default {
         },
         step(val) {
             if (val === 5) {
-                $("head").append("<style id='rp_stack'>*{overflow: unset !important}</style>");
+                $("head").append("<style id='rp_stack'>*</style>");
                 filter_observer.observe($("#filter_btn")[0]);
             } else {
                 $("head").find("#rp_stack").remove();
@@ -376,6 +386,8 @@ export default {
                 this.storyPrice_l,
             ];
         },
+
+
     },
     mounted() {
         window.observer = new IntersectionObserver((entries) => {
@@ -415,12 +427,13 @@ export default {
 
 .card {
     background-color: #fff;
-    max-width: 360px;
+    max-width: 259px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     border-radius: 2rem;
     box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.5);
+    max-height: 32rem;
 }
 
 .card .banner {
