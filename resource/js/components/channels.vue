@@ -2,7 +2,7 @@
     <div id="vue_channels" class="position-relative" style="max-height: 98rem;overflow: scroll !important;">
         <div class="row mx-auto">
             <div class="col-md">
-                <button id="filter_btn" data-target="#filters" data-toggle="modal" class="btn position-fixed btn-primary text-muted text-decoration-none rounded-circle m-3" style="z-index: 2"><i
+                <button id="filter_btn" data-target="#filters" data-toggle="modal" class="btn position-fixed btn-primary text-muted text-decoration-none rounded-circle m-3" style="z-index: 15"><i
                         class="fa fa-filter text-white"></i>
 
                 </button>
