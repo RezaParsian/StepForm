@@ -1,160 +1,195 @@
 <template>
     <div id="vue_channels" class="position-relative" style="max-height: 98rem;overflow: scroll !important;">
-        <a id="filter_btn" href="#filters" data-toggle="collapse" class="btn btn-link text-muted text-decoration-none rounded m-3"><i class="fa fa-filter"></i>
-            ‌فیلتر بر اساس
-        </a>
-        <div id="filters" class="my-4 collapse mx-auto">
+        <div class="row mx-auto">
+            <div class="col-md">
+                <button id="filter_btn" data-target="#filters" data-toggle="modal" class="btn position-fixed btn-primary text-muted text-decoration-none rounded-circle m-3" style="z-index: 15"><i
+                        class="fa fa-filter text-white"></i>
 
-            <div id="post" class="row mx-auto" v-show="this.content==='پست'">
-                <div class="col-md">
-                    <p>حداکثرقیمت پست:</p>
-                    <div class="row">
-                        <input id="postPriceG" data-variable="postPrice_g" type="range" class="mr-3" min="0" max="999999">
-                        <label class="my-auto mx-2 text-info">{{ postPrice_g }}</label>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <p for="postPriceL">حداقل قیمت پست:</p>
-                    <div class="row">
-                        <input id="postPriceL" data-variable="postPrice_l" type="range" class="mr-3" min="0" max="999999">
-                        <label class="my-auto mx-2 text-info">{{ postPrice_l }}</label>
-                    </div>
-                </div>
-            </div>
+                </button>
+                <div id="filters" class="my-4 mx-auto modal fade" tabindex="-1" role="dialog" labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
 
-            <div v-show="this.content!=='پست'">
-                <div id="story" class="row mx-auto" v-if="this.content!=='پست'">
-                    <div class="col-md">
-                        <p for="storyPriceG">حداکثرقیمت استوری:</p>
-                        <div class="row">
-                            <input id="storyPriceG" data-variable="storyPrice_g" class="mr-3" type="range" min="0" max="9999999">
-                            <label class="my-auto mx-2 text-info">{{ storyPrice_g }}</label>
-                        </div>
-                    </div>
-                    <div class="col-md">
-                        <p for="postPriceL">حداقل قیمت استوری:</p>
-                        <div class="row">
-                            <input id="storyPriceL" class="mr-3" data-variable="storyPrice_l" type="range" min="0" max="9999999">
-                            <label class="my-auto mx-2 text-info">{{ storyPrice_l }}</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="follower" class="row mx-auto pb-3 mb-5">
-                <div class="col-md">
-                    <p for="minFollow">حداکثرتعداد فالوور:</p>
-                    <div class="row">
-                        <input id="minFollow" class="mr-3" data-variable="minFollower" type="range" min="0" max="9999999">
-                        <label class="my-auto mx-2 text-info">{{ minFollower }}</label>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <p for="maxFollow">حداقل تعداد فالوور:</p>
-                    <div class="row">
-                        <input id="maxFollow" class="mr-3" type="range" data-variable="maxFollower" min="0" max="9999999">
-                        <label class="my-auto mx-2 text-info">{{ maxFollower }}</label>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <input type="hidden" name="channels[]" v-for="item in selected.map((x)=>x.id)" :value="item" :key="item">
-
-        <div class="row mx-auto justify-content-center" id="gap">
-            <div class="card col-md-3 p-0" v-for="channel in channels" :key="channel.username" :id="channel.id">
-                <div class="banner">
-                    <img :src="channel.pic" class="svg" alt="">
-                </div>
-                <div class="menu">
-                </div>
-                <h2 class="name" style="font-size: 15pt">{{ channel.name }}</h2>
-                <div class="title">@{{ channel.username }}</div>
-                <div class="actions">
-                    <div class="follow-info">
-                        <h2 style="font-size: 13pt"><a href="#"><span>{{ channel.followers }}</span><small>Followers</small></a></h2>
-                        <h2 style="font-size: 13pt"><a href="#"><span>{{ channel.following }}</span><small>Following</small></a></h2>
-                    </div>
-                    <div class="small text-muted mb-2 text-center">آخرین بروزرسانی : {{ channel.last_update }}</div>
-                    <div class="small text-muted mb-2 text-center" v-html="getPrice(channel)"></div>
-                    <div class="follow-btn">
-                        <button :data-id="channel.id" @click="select" type="button" :data-post="channel.post_price" :data-story="channel.story_price">انتخاب</button>
-                    </div>
-                </div>
-            </div>
-
-            <h1 class="text-center text-muted" v-if="channels.length<=0">هیچ رسانه‌ای یافت نشد!</h1>
-        </div>
-
-        <!-- Modal -->
-        <div v-model="filterFollowers" class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">کانال های منتخب شما</h5>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row justify-content-center" id="basket">
-                            <div class="card col-md-3 p-0 mx-1 my-2" v-for="items  in selected" :key="items.username" :id="items.id">
-                                <div class="banner">
-                                    <img :src="items.pic" class="svg" alt="">
-                                </div>
-                                <div class="menu">
-                                </div>
-                                <h2 class="name" style="font-size: 15pt">{{ items.name }}</h2>
-                                <div class="title">@{{ items.username }}</div>
-                                <div class="actions">
-                                    <div class="follow-info">
-                                        <h2 style="font-size: 13pt"><a href="#"><span>{{ items.followers }}</span><small>Followers</small></a></h2>
-                                        <h2 style="font-size: 13pt"><a href="#"><span>{{ items.following }}</span><small>Following</small></a></h2>
+                                <div id="post" class="row mx-auto" v-show="this.content==='پست'">
+                                    <div class="col-md">
+                                        <p>حداکثرقیمت پست:</p>
+                                        <div class="row">
+                                            <input id="postPriceG" data-variable="postPrice_g" type="range" class="mr-3" min="0" max="999999">
+                                            <label class="my-auto mx-2 text-info">{{ postPrice_g }}</label>
+                                        </div>
                                     </div>
-                                    <div class="small text-muted mb-2 text-center">آخرین بروزرسانی : {{ items.last_update }}</div>
-                                    <div class="small text-muted mb-2 text-center" v-html="getPrice(items)"></div>
-                                    <div class="follow-btn">
-                                        <button :data-id="items.id" @click="select" type="button" :data-post="items.post_price" :data-story="items.post_price">لغو انتخاب</button>
+                                    <div class="col-md">
+                                        <p for="postPriceL">حداقل قیمت پست:</p>
+                                        <div class="row">
+                                            <input id="postPriceL" data-variable="postPrice_l" type="range" class="mr-3" min="0" max="999999">
+                                            <label class="my-auto mx-2 text-info">{{ postPrice_l }}</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div v-show="this.content!=='پست'">
+                                    <div id="story" class="row mx-auto" v-if="this.content!=='پست'">
+                                        <div class="col-md">
+                                            <p for="storyPriceG">حداکثرقیمت استوری:</p>
+                                            <div class="row">
+                                                <input id="storyPriceG" data-variable="storyPrice_g" class="mr-3" type="range" min="0" max="9999999">
+                                                <label class="my-auto mx-2 text-info">{{ storyPrice_g }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <p for="postPriceL">حداقل قیمت استوری:</p>
+                                            <div class="row">
+                                                <input id="storyPriceL" class="mr-3" data-variable="storyPrice_l" type="range" min="0" max="9999999">
+                                                <label class="my-auto mx-2 text-info">{{ storyPrice_l }}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="follower" class="row mx-auto pb-3 mb-5">
+                                    <div class="col-md">
+                                        <p for="minFollow">حداکثرتعداد فالوور:</p>
+                                        <div class="row">
+                                            <input id="minFollow" class="mr-3" data-variable="minFollower" type="range" min="0" max="9999999">
+                                            <label class="my-auto mx-2 text-info">{{ minFollower }}</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <p for="maxFollow">حداقل تعداد فالوور:</p>
+                                        <div class="row">
+                                            <input id="maxFollow" class="mr-3" type="range" data-variable="maxFollower" min="0" max="9999999">
+                                            <label class="my-auto mx-2 text-info">{{ maxFollower }}</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
-                    </div>
+                </div>
+
+        </div>
+        <div class="col-md-3 my-3">
+            <p>موجودی فعلی شما: {{ this.new_budget }}</p>
+            <p>جمع مبالغ انتخاب شده: {{ this.sumPrice }}</p>
+        </div>
+    </div>
+
+    <input type="hidden" name="channels[]" v-for="item in selected.map((x)=>x.id)" :value="item" :key="item">
+
+    <div class="row mx-auto justify-content-center" id="gap">
+        <div class="card col-md-3 p-0" v-for="channel in channels" :key="channel.username" :id="channel.id">
+            <div class="banner">
+                <img :src="channel.pic" class="svg" alt="">
+            </div>
+            <div class="menu">
+            </div>
+            <h2 class="name" style="font-size: 15pt">{{ channel.name }}</h2>
+            <div class="title">@{{ channel.username }}</div>
+            <div class="actions">
+                <div class="follow-info">
+                    <h2 style="font-size: 13pt"><a href="#"><span>{{ channel.followers }}</span><small>Followers</small></a></h2>
+                    <h2 style="font-size: 13pt"><a href="#"><span>{{ channel.following }}</span><small>Following</small></a></h2>
+                </div>
+                <div class="small text-muted mb-2 text-center">آخرین بروزرسانی : {{ channel.last_update }}</div>
+                <div class="small text-muted mb-2 text-center" v-html="getPrice(channel)"></div>
+                <div class="follow-btn">
+                    <button :data-id="channel.id" @click="select" type="button" :data-post="channel.post_price" :data-story="channel.story_price">انتخاب</button>
                 </div>
             </div>
         </div>
 
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#increaseBudget">
-            افزایش موجودی
-        </button>
+        <h1 class="text-center text-muted" v-if="channels.length<=0">هیچ رسانه‌ای یافت نشد!</h1>
+    </div>
 
-        <!-- Modal for increase budget -->
-        <div class="modal fade" id="increaseBudget" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">افزایش موجودی</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+    <!-- Modal -->
+    <div v-model="filterFollowers" class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">کانال های منتخب شما</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12 p-4 justify-content-center table-responsive-sm" id="basket">
+                        <table class="table table-bordered text-center table-hover table-striped">
+                            <thead>
+                            <tr class="text-center">
+                                <th scope="col">شناسه</th>
+                                <th scope="col">تصویر پروفایل</th>
+                                <th scope="col">نام فارسی</th>
+                                <th scope="col">نام کاربری</th>
+                                <th scope="col">وضعیت</th>
+                                <th scope="col">فالویینگ</th>
+                                <th scope="col">فالوور</th>
+                                <th scope="col">تعداد پست</th>
+                                <th scope="col">نرخ تعامل</th>
+                                <th scope="col">نوع</th>
+                                <th scope="col">تاریخ آخرین تغییر</th>
+                                <th scope="col">عملیات</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="items  in selected" :key="items.username" :id="items.id">
+                                <td scope="row">{{ items.id }}</td>
+                                <td>
+                                    <img :src="items.pic" class="img-fluid" style="width: 60%;height:50%"/>
+                                </td>
+                                <td>{{ items.name ? items.name : 'موجود نیست' }}</td>
+                                <td>{{ items.username ? items.username : 'موجود نیست' }}</td>
+                                <td>تایید شده</td>
+                                <td>{{ items.following ? items.following : 'موجود نیست' }}</td>
+                                <td>{{ items.followers ? items.followers : 'موجود نیست' }}</td>
+                                <td>موجود نیست</td>
+                                <td>{{ items.eng ? items.eng : 'موجود نیست' }}</td>
+                                <td>{{ items.type ? items.type : 'موجود نیست' }}</td>
+                                <td>{{ items.last_update ? items.last_update : 'موجود نیست' }}</td>
+                                <td>
+                                    <button class="btn btn-danger" :data-id="items.id" @click="deletes"><i class="fa fa-trash-o"></i></button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="modal-body">
-                        <budget></budget>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">لغو کردن</button>
-                        <button type="button" class="btn btn-primary">ثبت</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
                 </div>
             </div>
         </div>
+    </div>
 
+    <!-- Button trigger modal -->
 
-        <div class="row p-5 mx-auto" v-model="request">
-            <div id="reza" class="mx-auto p-5" :class="grow"></div>
+    <!-- Modal for increase budget -->
+    <div class="modal fade" id="increaseBudget" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">افزایش موجودی</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <budget></budget>
+                </div>
+                <div class="modal-footer">
+                    <button aria-label="Close" type="button" class="btn btn-secondary close" data-dismiss="modal">لغو کردن</button>
+                </div>
+            </div>
         </div>
+    </div>
+
+
+    <div class="row p-5 mx-auto" v-model="request">
+        <div id="reza" class="mx-auto p-5" :class="grow"></div>
+    </div>
     </div>
 </template>
 
@@ -197,6 +232,7 @@ export default {
             storyPrice_l: 99999999,
             storyPrice_g: 0,
             new_budget: 0,
+            sumPrice: 0
         }
     },
     methods: {
@@ -225,37 +261,55 @@ export default {
                     observer.observe($("#reza")[0])
             });
         },
+
         getPrice(channel) {
             const price = this.content === "پست" ? channel.post_price : channel.story_price;
             return `هزینه تبلیغات : ${price ?? 'موجود نیست'}`;
         },
+
         lowBudget(post_price, story_price, selected) {
             if (this.new_budget <= 0) {
                 Swal.fire({
-                    title: 'خطا',
-                    text: 'لطفا بودجه خود را افزایش دهید.',
-                    icon: 'error',
-                    confirmButtonText: 'تایید'
-                });
-                return true;
+                        title: 'خطا',
+                        text: 'لطفا بودجه خود را افزایش دهید.',
+                        icon: 'error',
+                        allowOutsideClick: true,
+                        confirmButtonText: 'تایید'
+                    },
+                    function () {
+                        $('#exampleModalCenter').modal('show')
+                    });
             }
 
             if (this.new_budget < post_price || this.new_budget < story_price) {
                 Swal.fire({
-                    title: 'خطا',
-                    text: 'بودجه شما از حد موردنظر کمتر است.',
-                    icon: 'error',
-                    confirmButtonText: 'تایید'
-                });
-                return true
+                        title: 'خطا',
+                        text: 'بودجه شما از حد موردنظر کمتر است.',
+                        icon: 'error',
+                        confirmButtonText: 'تایید',
+                        allowOutsideClick: true
+                    },
+                    function () {
+                        $('#exampleModalCenter').modal('show')
+                    });
             }
 
-            if (selected)
+            if (selected) {
                 this.new_budget = this.new_budget + (this.content === "پست" ? post_price : story_price);
-            else
+                this.sumPrice = this.sumPrice - (this.content === "پست" ? post_price : story_price);
+            } else {
                 this.new_budget = this.new_budget - (this.content === "پست" ? post_price : story_price);
+                this.sumPrice = this.sumPrice + (this.content === "پست" ? post_price : story_price);
+            }
 
             return false;
+        },
+
+        deletes(element) {
+            const selected = this.selected.find((x) => x.id === +element.target.dataset.id);
+            if (selected) {
+                this.selected.splice(this.channels.find((x) => x.id === +element.target.dataset.id), 1);
+            } else return;
         },
         select(element) {
             const post_price = $(element.target).data("post");
@@ -289,7 +343,7 @@ export default {
         },
         step(val) {
             if (val === 5) {
-                $("head").append("<style id='rp_stack'>*{overflow: unset !important}</style>");
+                $("head").append("<style id='rp_stack'>*{overflow: unset}</style>");
                 filter_observer.observe($("#filter_btn")[0]);
             } else {
                 $("head").find("#rp_stack").remove();
@@ -343,6 +397,8 @@ export default {
                 this.storyPrice_l,
             ];
         },
+
+
     },
     mounted() {
         window.observer = new IntersectionObserver((entries) => {
@@ -382,12 +438,13 @@ export default {
 
 .card {
     background-color: #fff;
-    max-width: 360px;
+    max-width: 259px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     border-radius: 2rem;
     box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.5);
+    max-height: 32rem;
 }
 
 .card .banner {
