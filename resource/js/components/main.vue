@@ -55,7 +55,7 @@
 
             <!--  Step 3 - Budget -->
             <div v-show="current_step===3">
-                <budget v-model="budget" :budget_description="budget_description" @go_next="nextStep" ref="budget"></budget>
+                <budget :budget="budget" :budget_description="budget_description" @go_next="nextStep" ref="budget"></budget>
             </div>
 
             <!--  Step 3 - SocialMedia -->
@@ -89,6 +89,7 @@
 </template>
 
 <script>
+import { Bus } from "../app.js";
 export default {
     name: "Main",
     props: {
@@ -111,7 +112,7 @@ export default {
             selectedPlaceButton: null,
             social: "",
             camping: "",
-            budget: "",
+            budget: 0,
             content: "",
             categories: [],
             province: [],
@@ -227,10 +228,14 @@ export default {
         }
     },
     mounted() {
-        this.current_step = 0;
+        this.current_step = 5;
         this.$refs.iran.$watch("selected", () => {
             if (this.$refs.iran.selected.length < 31)
                 this.selectedPlaceButton = "city";
+        });
+
+        Bus.$on("changeBudget", (budget) => {
+            this.budget = budget;
         });
     }
 }
