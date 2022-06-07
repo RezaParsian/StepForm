@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import { Bus } from "../app.js";
+import { Bus } from "../../app.js";
 export default {
     name: "Main",
     props: {

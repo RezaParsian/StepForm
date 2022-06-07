@@ -18,11 +18,6 @@
             <button type="button" @click="budgetAmount=price.tooltip" class="btn btn-info m-2 d-md-none" v-for="price in prices" :title="price.tooltip" data-toggle="tooltip">{{ price.tooltip }}</button>
         </div>
 
-        <!--    <div class="row mx-auto">-->
-        <!--      <strong>بازدید تخمینی:</strong>-->
-        <!--      <span class="mx-2">{{ estimatedVisits }}</span>-->
-        <!--    </div>-->
-
         <hr class="mt-0">
 
         <div class="row mx-auto">
@@ -35,7 +30,7 @@
 </template>
 
 <script>
-import { Bus } from '../app';
+import { Bus } from "../../app";
 
 export default {
     name: "budget",
