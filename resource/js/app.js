@@ -22,6 +22,7 @@ Vue.component("login", require("./components/login/loginForm").default);
 Vue.component("register", require("./components/login/registerForm").default);
 Vue.component("entrance", require("./components/login/uerEnterance").default);
 Vue.component("media", require("./components/publisher/mediaAdventure").default);
+Vue.component("PublisherCart", require("./components/publisher/PublisherCart").default);
 
 Vue.use(VuePersianDatetimePicker, {
     name: "datePicker",
@@ -37,7 +38,7 @@ Vue.use(VuePersianDatetimePicker, {
 });
 
 Vue.filter("currency",(x)=>{
-    return new Intl.NumberFormat('en-US', {style: 'decimal'}).format(x);
+    return  x ? new Intl.NumberFormat('en-US', {style: 'decimal'}).format(x) : "-";
 });
 
 export const Bus=new Vue();
