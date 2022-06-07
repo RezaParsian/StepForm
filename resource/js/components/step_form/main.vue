@@ -3,9 +3,7 @@
         <div class="card-header sticky-top bg-white d-flex">
             ساخت کمپین جدید
             <div class="mr-auto">
-                <button class="btn rounded-circle bg-primary" type="button" data-toggle="modal" data-target="#exampleModalCenter" style="display: none" id="shop_button">
-                    <span class="fa fa-shopping-cart"></span>
-                </button>
+
                 <button class="btn rounded-circle bg-primary" type="button" onclick='$("#gap")[0].scrollIntoView()' style="display: none" id="up_button">
                     <span class="fa fa-chevron-up"></span>
                 </button>
