@@ -35,9 +35,11 @@
 </template>
 
 <script>
+import { Bus } from '../app';
+
 export default {
     name: "budget",
-    props: ["value", "budget_description"],
+    props: ["budget", "budget_description"],
     data() {
         return {
             current_budget: "",
@@ -51,9 +53,14 @@ export default {
     },
     methods: {
         checkData() {
-            this.$emit("input", this.budgetAmount);
+            Bus.$emit("changeBudget", this.budgetAmount);
             this.$emit("go_next", this.budgetAmount !== "0");
             this.$emit("go_next", true);
+        }
+    },
+    watch:{
+        budget(){
+            this.current_budget = this.budget;
         }
     },
     computed: {

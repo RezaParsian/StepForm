@@ -1,4 +1,5 @@
 window.$ = window.jQuery = require("jquery");
+window.Swal=require('sweetalert2');
 const Vue = require("vue").default;
 require("select2");
 require("bootstrap-v4-rtl");
@@ -35,6 +36,13 @@ Vue.use(VuePersianDatetimePicker, {
     }
 });
 
+Vue.filter("currency",(x)=>{
+    return new Intl.NumberFormat('en-US', {style: 'decimal'}).format(x);
+});
+
+export const Bus=new Vue();
+
 const app = new Vue({
     el: "#step_form"
 });
+
