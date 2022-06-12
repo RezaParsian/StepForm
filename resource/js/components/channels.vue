@@ -3,17 +3,12 @@
         <div class="row mx-auto">
             <div class="col-md-3">
                 <button id="filter_btn" data-target="#filters" data-toggle="modal"
-                        class="btn position-fixed btn-primary text-muted text-decoration-none rounded-circle mr-3 my-2"
-                        style="z-index: 15"><i class="fa fa-filter text-white"></i>
+                    class="btn position-fixed btn-primary text-muted text-decoration-none rounded-circle m-3"
+                    style="z-index: 15"><i class="fa fa-filter text-white"></i>
 
                 </button>
-               <div class="col-md-3 mt-5 px-0">
-                   <button class="btn rounded-circle bg-primary position-fixed mt-1" type="button" data-toggle="modal" data-target="#exampleModalCenter" style="display: none;z-index: 15" id="shop_button">
-                       <span class="fa fa-shopping-cart text-white"></span>
-                   </button>
-               </div>
                 <div id="filters" class="my-4 mx-auto modal fade" tabindex="-1" role="dialog"
-                     labelledby="exampleModalLabel" aria-hidden="true">
+                    labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -29,7 +24,7 @@
                                         <p>حداکثرقیمت پست:</p>
                                         <div class="row">
                                             <input id="postPriceG" data-variable="postPrice_g" type="range" class="mr-3"
-                                                   min="0" max="999999">
+                                                min="0" max="999999">
                                             <label class="my-auto mx-2 text-info">{{ postPrice_g }}</label>
                                         </div>
                                     </div>
@@ -37,7 +32,7 @@
                                         <p for="postPriceL">حداقل قیمت پست:</p>
                                         <div class="row">
                                             <input id="postPriceL" data-variable="postPrice_l" type="range" class="mr-3"
-                                                   min="0" max="999999">
+                                                min="0" max="999999">
                                             <label class="my-auto mx-2 text-info">{{ postPrice_l }}</label>
                                         </div>
                                     </div>
@@ -49,7 +44,7 @@
                                             <p for="storyPriceG">حداکثرقیمت استوری:</p>
                                             <div class="row">
                                                 <input id="storyPriceG" data-variable="storyPrice_g" class="mr-3"
-                                                       type="range" min="0" max="9999999">
+                                                    type="range" min="0" max="9999999">
                                                 <label class="my-auto mx-2 text-info">{{ storyPrice_g }}</label>
                                             </div>
                                         </div>
@@ -57,7 +52,7 @@
                                             <p for="postPriceL">حداقل قیمت استوری:</p>
                                             <div class="row">
                                                 <input id="storyPriceL" class="mr-3" data-variable="storyPrice_l"
-                                                       type="range" min="0" max="9999999">
+                                                    type="range" min="0" max="9999999">
                                                 <label class="my-auto mx-2 text-info">{{ storyPrice_l }}</label>
                                             </div>
                                         </div>
@@ -69,7 +64,7 @@
                                         <p for="minFollow">حداکثرتعداد فالوور:</p>
                                         <div class="row">
                                             <input id="minFollow" class="mr-3" data-variable="minFollower" type="range"
-                                                   min="0" max="9999999">
+                                                min="0" max="9999999">
                                             <label class="my-auto mx-2 text-info">{{ minFollower }}</label>
                                         </div>
                                     </div>
@@ -77,7 +72,7 @@
                                         <p for="maxFollow">حداقل تعداد فالوور:</p>
                                         <div class="row">
                                             <input id="maxFollow" class="mr-3" type="range" data-variable="maxFollower"
-                                                   min="0" max="9999999">
+                                                min="0" max="9999999">
                                             <label class="my-auto mx-2 text-info">{{ maxFollower }}</label>
                                         </div>
                                     </div>
@@ -108,17 +103,15 @@
                 <div class="actions">
                     <div class="follow-info">
                         <h2 style="font-size: 13pt"><a href="#"><span>{{ channel.eng }}</span><small>نرخ
-                            تعامل</small></a></h2>
-                        <h2 style="font-size: 13pt"><a href="#"><span>{{
-                                channel.following
-                            }}</span><small>Following</small></a></h2>
+                                    تعامل</small></a></h2>
+                        <h2 style="font-size: 13pt"><a href="#"><span>{{ channel.following
+                        }}</span><small>Following</small></a></h2>
                     </div>
                     <div class="small text-muted mb-2 text-center">آخرین بروزرسانی : {{ channel.last_update }}</div>
                     <div class="small text-muted mb-2 text-center" v-html="getPrice(channel)"></div>
                     <div class="follow-btn">
                         <button :data-id="channel.id" @click="select" type="button" :data-post="channel.post_price"
-                                :data-story="channel.story_price" :key="channel.id">انتخاب
-                        </button>
+                            :data-story="channel.story_price" :key="channel.id">انتخاب</button>
                     </div>
                 </div>
             </div>
@@ -128,7 +121,7 @@
 
         <!-- Modal -->
         <div v-model="filterFollowers" class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -138,45 +131,45 @@
                         <div class="col-md-12 p-4 justify-content-center table-responsive-sm" id="basket">
                             <table class="table table-bordered text-center table-hover table-striped">
                                 <thead>
-                                <tr class="text-center">
-                                    <th scope="col">شناسه</th>
-                                    <th scope="col">تصویر پروفایل</th>
-                                    <th scope="col">نام فارسی</th>
-                                    <th scope="col">نام کاربری</th>
-                                    <th scope="col">وضعیت</th>
-                                    <th scope="col">فالویینگ</th>
-                                    <th scope="col">فالوور</th>
-                                    <th scope="col">تعداد پست</th>
-                                    <th scope="col">نرخ تعامل</th>
-                                    <th scope="col">نوع</th>
-                                    <th scope="col">تعرفه</th>
-                                    <th scope="col">تاریخ آخرین تغییر</th>
-                                    <th scope="col">عملیات</th>
-                                </tr>
+                                    <tr class="text-center">
+                                        <th scope="col">شناسه</th>
+                                        <th scope="col">تصویر پروفایل</th>
+                                        <th scope="col">نام فارسی</th>
+                                        <th scope="col">نام کاربری</th>
+                                        <th scope="col">وضعیت</th>
+                                        <th scope="col">فالویینگ</th>
+                                        <th scope="col">فالوور</th>
+                                        <th scope="col">تعداد پست</th>
+                                        <th scope="col">نرخ تعامل</th>
+                                        <th scope="col">نوع</th>
+                                        <th scope="col">تعرفه</th>
+                                        <th scope="col">تاریخ آخرین تغییر</th>
+                                        <th scope="col">عملیات</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr v-for="items  in selected" :key="items.username" :id="items.id">
-                                    <td scope="row">{{ items.id }}</td>
-                                    <td>
-                                        <img :src="items.pic" class="img-fluid" style="width: 60%;height:50%"/>
-                                    </td>
-                                    <td>{{ items.name ? items.name : 'موجود نیست' }}</td>
-                                    <td>{{ items.username ? items.username : 'موجود نیست' }}</td>
-                                    <td>تایید شده</td>
-                                    <td>{{ items.following ? items.following : 'موجود نیست' }}</td>
-                                    <td>{{ items.followers ? items.followers : 'موجود نیست' }}</td>
-                                    <td>موجود نیست</td>
-                                    <td>{{ items.eng ? items.eng : 'موجود نیست' }}</td>
-                                    <td>{{ items.type ? items.type : 'موجود نیست' }}</td>
-                                    <td v-html="getPriceTable(items)"></td>
-                                    <td>{{ items.last_update ? items.last_update : 'موجود نیست' }}</td>
-                                    <td>
-                                        <button type="button" class="btn fa fa-trash-o btn-danger"
+                                    <tr v-for="items  in selected" :key="items.username" :id="items.id">
+                                        <td scope="row">{{ items.id }}</td>
+                                        <td>
+                                            <img :src="items.pic" class="img-fluid" style="width: 60%;height:50%" />
+                                        </td>
+                                        <td>{{ items.name ? items.name : 'موجود نیست' }}</td>
+                                        <td>{{ items.username ? items.username : 'موجود نیست' }}</td>
+                                        <td>تایید شده</td>
+                                        <td>{{ items.following ? items.following : 'موجود نیست' }}</td>
+                                        <td>{{ items.followers ? items.followers : 'موجود نیست' }}</td>
+                                        <td>موجود نیست</td>
+                                        <td>{{ items.eng ? items.eng : 'موجود نیست' }}</td>
+                                        <td>{{ items.type ? items.type : 'موجود نیست' }}</td>
+                                        <td v-html="getPriceTable(items)"></td>
+                                        <td>{{ items.last_update ? items.last_update : 'موجود نیست' }}</td>
+                                        <td>
+                                            <button type="button" class="btn fa fa-trash-o btn-danger"
                                                 :data-id="items.id" @click="select" :data-post="items.post_price"
                                                 :data-story="items.story_price">
-                                        </button>
-                                    </td>
-                                </tr>
+                                            </button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -192,7 +185,7 @@
 
         <!-- Modal for increase budget -->
         <div class="modal fade" id="increaseBudget" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -378,12 +371,12 @@ export default {
                 filter_observer.unobserve($("#filter_btn")[0]);
             }
         },
-        selected(val) {
-            if (val.length > 0)
-                $("#shop_button").show(500);
-            else
-                $("#shop_button").hide(500);
-        },
+        // selected(val) {
+        //     if (val.length > 0)
+        //         $("#shop_button").show(500);
+        //     else
+        //         $("#shop_button").hide(500);
+        // },
     },
     computed: {
         request() {
