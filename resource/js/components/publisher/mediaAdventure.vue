@@ -2,20 +2,20 @@
     <div id="vue_start">
         <div class="container-fluid p-0">
             <!--start-hero-section-->
-            <div class="row mx-auto position-relative pb-5 hero-section" style="overflow: hidden;">
-                <div class="col-md mx-5 mt-3 align-self-center">
+            <div class="row mx-md-auto position-relative pb-5 hero-section" style="overflow: hidden;">
+                <div class="col-md-6 col mt-md-3 p-0 align-self-center">
                     <h2>با ادونچر سریعتر بازخورد بگیرید!</h2>
                     <p>افزایش ترخ بازدید و رشد 100% کسب و کارتان را به ادونچر بسپارید!</p>
                 </div>
-                <div class="col-md">
-                    <img class="img-fluid" src="https://transfer.sh/lt6twJ/zz.png" alt="hero">
+                <div class="col-md-6 col-12">
+                    <img class="img-fluid" src="/img/hero.svg" alt="hero">
                 </div>
             </div>
             <!--end-hero-section-->
             <div class="background-shape d-none d-md-block d-lg-block"></div>
         </div>
         <!--    start-form-section-->
-        <div class="container p-0 position-relative">
+        <div class="container p-0 position-relative" style="height: 3rem;">
             <!--    start-form-section-->
             <div class="col-md-12 bg-white mx-5 pb-4 position-absolute pt-4 sabt-section px-0 d-none d-md-block">
                 <div class="row justify-content-center mx-0 px-3">
@@ -45,7 +45,6 @@
                 </div>
             </div>
             <div class="col-10 mx-auto pb-4 mb-5 position-absolute pt-3 sabt-section-phone px-0 d-block d-md-none">
-                <form action="">
                     <div class="col-12 mb-3 text-right">
                         <select id="type2" class="sabt-input form-control">
                             <option class="form-control" value="">انتخاب شبکه اجتماعی</option>
@@ -62,22 +61,21 @@
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-block text-white btn-sabt py-2" @click="getChannels()"> اعمال<i
-                                class="fa fa-arrow-left mr-3 "></i></button>
+                        <button class="btn btn-block text-white btn-sabt py-2" @click="getChannels()"> اعمال<i class="fa fa-arrow-left mr-3 "></i></button>
                     </div>
-                </form>
             </div>
-            <!--    end-form-section-->
-
         </div>
-        <!--    end-form-section-->
-        <!--    cards-container-->
         <div class="container-fluid justify-content-center p-0 mt-5 pt-3">
             <div class="row mx-auto px-2 mt-5">
-                <div class="col-md-3 mb-3" v-for="channel in channels.filter((x)=> !selected.find((b)=> b.id==x.id))"
-                     :key="channel.username" :id="channel.id">
-                    <PublisherCart :user="user" :token="token" :like="isLiked(channel.id)" @mouseover="hover" :block="isBlocked(channel.id)"
-                                   :channel="channel"></PublisherCart>
+                <div class="mx-auto mb-3" v-for="channel in channels.filter((x)=> !selected.find((b)=> b.id==x.id))" :key="channel.username" :id="channel.id">
+                    <PublisherCart
+                            :social_media="types"
+                            :user="user" :bgColors="bgColors"
+                            :token="token"
+                            :like="isLiked(channel.id)"
+                            @mouseover="hover"
+                            :block="isBlocked(channel.id)"
+                            :channel="channel"></PublisherCart>
                 </div>
             </div>
         </div>
@@ -86,78 +84,94 @@
             <div id="reza" class="mx-auto p-5" :class="grow"></div>
         </div>
 
-        <span
-                class="filter"
-                @click="showFilterModal"
-                title="فیلتر نتایج">
+        <span class="filter" @click="showFilterModal" title="فیلتر نتایج">
             <i class="fa fa-filter fa-3x text-white"></i>
+        </span>
+
+        <span class="music" @click="player" title="موزیک">
+            <i class="fa fa-music fa-3x text-white"></i>
         </span>
 
         <div class="modal fade" id="filter-modal">
             <div class="modal-dialog modal-md">
                 <div class="modal-content">
                     <div class="modal-body row">
-
-                        <div class="col-md-12">
-                            <hr>
-                        </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12 m-0">
                             <label>حداقل دنبال کننده
 
-                                <small>{{ filters.follower_g ? seprate(filters.follower_g, "عدد") : "" }}</small>
+                                <small>{{ filters.follower_g ? Separate(filters.follower_g, "عدد") : "" }}</small>
 
                             </label>
                             <input type="range" step="10000" max="1000000" v-model="filters.follower_g"
                                    class="form-control">
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12 m-0">
                             <label>حداکثر دنبال کننده
-                                <small>{{ filters.follower_l ? seprate(filters.follower_l, "عدد") : "" }}</small>
+                                <small>{{ filters.follower_l ? Separate(filters.follower_l, "عدد") : "" }}</small>
                             </label>
                             <input type="range" step="10000" max="1000000" min="100000" v-model="filters.follower_l"
                                    class="form-control">
                         </div>
 
                         <div class="col-md-12">
-                            <hr>
+                            <hr class="m-0">
                         </div>
 
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12 m-0">
                             <label>حداقل مبلغ پست
 
-                                <small>{{ filters.post_g ? seprate(filters.post_g, "ریال") : "" }}</small>
+                                <small>{{ filters.post_g ? Separate(filters.post_g, "ریال") : "" }}</small>
 
                             </label>
                             <input type="range" step="100000" min="100000" max="10000000" v-model="filters.post_g"
                                    class="form-control">
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12 m-0">
                             <label>حداکثر مبلغ پست
-                                <small>{{ filters.post_l ? seprate(filters.post_l, "ریال") : "" }}</small>
+                                <small>{{ filters.post_l ? Separate(filters.post_l, "ریال") : "" }}</small>
                             </label>
                             <input type="range" step="100000" max="10000000" min="100000" v-model="filters.post_l"
                                    class="form-control">
                         </div>
 
                         <div class="col-md-12">
-                            <hr>
+                            <hr class="m-0">
                         </div>
 
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-md-12 m-0">
                             <label>حداقل نرخ تعامل
 
-                                <small>{{ filters.eng_g ? seprate(filters.eng_g) : "" }}</small>
+                                <small>{{ filters.eng_g ? Separate(filters.eng_g) : "" }}</small>
 
                             </label>
                             <input type="range" step="0.01" min="0.01" max="5" v-model="filters.eng_g"
                                    class="form-control">
                         </div>
-                        <div class="form-group col-md-12">
+
+                        <div class="form-group col-md-12 m-0">
                             <label>حداکثر نرخ تعامل
-                                <small>{{ filters.eng_l ? seprate(filters.eng_l) : "" }}</small>
+                                <small>{{ filters.eng_l ? Separate(filters.eng_l) : "" }}</small>
                             </label>
                             <input type="range" step="0.01" max="5" min="0.01" v-model="filters.eng_l"
                                    class="form-control">
+                        </div>
+
+                        <div class="col-md-12">
+                            <hr class="m-0">
+                        </div>
+
+                        <div class="form-group col-md-12 m-0">
+                            <label>حداقل مبلغ استوری
+                                <small>{{ filters.story_g | currency }}</small>
+                            </label>
+                            <input type="range" step="100000" min="100000" max="10000000" v-model="filters.story_g" class="form-control">
+                        </div>
+
+                        <div class="form-group col-md-12 m-0">
+                            <label>حداکثر مبلغ استوری
+                                <small>{{ filters.story_l | currency }}</small>
+                            </label>
+                            <input type="range" step="100000" max="10000000" min="100000" v-model="filters.story_l" class="form-control">
                         </div>
                     </div>
 
@@ -234,6 +248,7 @@ export default {
     },
     data() {
         return {
+            music: new Audio("https://advn.ad-venture.app/music.mp3"),
             channels: [],
             bgColors: 'middle',
             responsive: '',
@@ -242,7 +257,7 @@ export default {
             wishList: [],
             filters: {},
             selected: [],
-            url: window.location.origin,
+            url: "https://advn.ad-venture.app",
             blackList: [],
             follower_l: 1000,
             types: "اینستاگرام",
@@ -254,14 +269,15 @@ export default {
                 {name: 'تلگرام', value: 'TELEGRAM'},
                 {name: 'اینفلوئنسر', value: 'INFLUENCER'},
             ],
-            seprate: function (number, suffix = null) {
-                let n = number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                if (suffix)
-                    return n + " " + suffix;
-            }
         }
     },
     methods: {
+        player() {
+            if (this.music.paused)
+                this.music.play();
+            else
+                this.music.pause();
+        },
         getChannels() {
             let data = this.filters;
             data.page = this.page;
@@ -326,13 +342,11 @@ export default {
             }
             return !error;
         },
-
         filter() {
             this.page = 0;
             this.channels = [];
             this.getChannels();
         },
-
         clearFilters() {
             this.filters = {};
             this.page = 0;
@@ -340,7 +354,6 @@ export default {
             this.getChannels();
             $("#filter-modal").modal('hide');
         },
-
         attemptLogin() {
             $("#login-modal .error").remove();
             $("#login-modal .border").removeClass('border border-danger');
@@ -379,15 +392,17 @@ export default {
                 }
             })
         },
-
         isBlocked(publisher) {
             return !!this.black.find((x) => x == publisher);
         },
         isLiked(publisher) {
             return !!this.favorite.find((a) => a == publisher);
         },
-
-
+        Separate(number, suffix = null) {
+            let n = number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            if (suffix)
+                return n + " " + suffix;
+        }
     },
     watch: {
         page() {
@@ -398,7 +413,7 @@ export default {
             if (this.types === "INSTAGRAM" || this.types === "INFLUENCER")
                 this.bgColors = "middle"
             else if (this.types === "TELEGRAM")
-                this.bgColors = "INsta"
+                this.bgColors = "tel_middle"
         }
     },
     computed: {
@@ -411,6 +426,8 @@ export default {
         },
     },
     mounted() {
+        this.music.loop = false;
+
         window.observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
@@ -545,18 +562,6 @@ export default {
     transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
     z-index: 99999;
 }
-
-/*.background-shape {*/
-/*    background-image: url("/img/logo-01.png");*/
-/*    width: 121rem;*/
-/*    height: 167rem;*/
-/*    min-height: auto;*/
-/*    -webkit-transform: skewY(-11deg);*/
-/*    position: absolute;*/
-/*    top: -18rem;*/
-/*    left: -30%;*/
-/*    opacity: 0.1;*/
-/*}*/
 
 .background-shape {
     background: rgba(191, 215, 237, 0.20);
@@ -745,14 +750,29 @@ export default {
     position: fixed;
     z-index: 90000;
     bottom: 2rem;
-    right: 2rem;
+    right: 1rem;
     visibility: hidden;
     background-color: #2b8af0;
     border-radius: 50%;
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     text-align: center;
-    line-height: 96px;
+    line-height: 6.3;
+    font-size: 8pt;
+}
+
+.music{
+    position: fixed;
+    z-index: 90000;
+    bottom: 2rem;
+    left: 1rem;
+    background-color: #2b8af0;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 6.3;
+    font-size: 8pt;
 }
 
 .filter:hover {
@@ -799,5 +819,48 @@ export default {
     transition: 0.5s;
 }
 
+.middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-size: 200% auto;
+    color: white;
+    text-align: center;
+    font-weight: 900;
+    background-image: linear-gradient(0deg, #3f5efb, #fc466b);
+    padding-top: 5rem;
+}
+
+.middle:hover {
+    transition: .7s;
+    background-position: right center;
+}
+
+.tel_middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-size: 200% auto;
+    color: black;
+    text-align: center;
+    font-weight: 900;
+    background-image: linear-gradient(to right, #1FA2FF 0%, #12D8FA 51%, #1FA2FF 100%);
+    padding-top: 5rem;
+}
+
+.tel_middle:hover {
+    transition: .7s;
+    background-position: right center;
+}
 
 </style>
