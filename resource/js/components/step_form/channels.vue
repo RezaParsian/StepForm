@@ -2,7 +2,7 @@
     <div id="vue_channels" class="position-relative" style="max-height: 98rem;overflow: scroll !important;">
         <div class="row mx-auto">
             <div class="col-md-3">
-                <button id="filter_btn" data-target="#filters" data-toggle="modal"
+                <button type="button" id="filter_btn" data-target="#filters" data-toggle="modal"
                         class="btn position-fixed btn-primary text-muted text-decoration-none rounded-circle mr-3 my-2"
                         style="z-index: 15"><i class="fa fa-filter text-white"></i>
 
@@ -17,7 +17,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">فیلترها</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -89,8 +89,8 @@
 
             </div>
             <div class="row my-3 mx-auto">
-                <p class="ml-auto" style="font-size:13pt">موجودی فعلی شما: {{ this.new_budget | currency }}</p>
-                <p class="ml-auto pl-5" style="font-size:13pt">جمع مبالغ انتخاب شده: {{ this.sumPrice | currency }}</p>
+                <p class="ml-auto" style="font-size:13pt">موجودی : {{ this.new_budget | currency }}</p>
+                <p class="ml-auto pl-5" style="font-size:13pt">هزینه: {{ this.sumPrice | currency }}</p>
             </div>
         </div>
 
