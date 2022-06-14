@@ -86,17 +86,14 @@ export default {
             let n = number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             if (suffix)
                 return n + " " + suffix;
-        }
-        ,
+        },
         getPrice() {
             const price = this.content === "پست" ? this.channel.post_price : this.channel.story_price;
             return `هزینه تبلیغات : ${price ?? 'موجود نیست'}`;
-        }
-        ,
+        },
         blockIcon() {
             return this.block ? "fa-unlock" : "fa-ban";
-        }
-        ,
+        },
 
         likeIcon() {
             return this.like ? "fa fa-heart" : "fa fa-heart-o";

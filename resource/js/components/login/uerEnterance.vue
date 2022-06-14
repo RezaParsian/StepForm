@@ -1,13 +1,15 @@
 <template>
     <div>
         <transition name="bounce">
-            <login :errors="error" :icon="icon" @lets_fade="fadeMe" v-if="is_login"></login>
-            <register :errors="error" :icon="icon" @lets_fade="fadeMe" v-else></register>
+            <login :errors="errors" :icon="icon" @lets_fade="fadeMe" v-if="is_login"></login>
+            <register :errors="errors" :icon="icon" @lets_fade="fadeMe" v-else></register>
         </transition>
     </div>
 </template>
 
 <script>
+import {Bus} from "../../app";
+
 export default {
     name: "uerEntrance",
     props: {
@@ -36,15 +38,25 @@ export default {
             return this.errors;
         }
     },
+    watch:{
+      is_login(val){
+          window.location.hash= val ? '#login' : '#register';
+      }
+    },
     methods: {
         fadeMe() {
             this.is_login = !this.is_login;
+
             if (this.is_login)
                 $("#app").attr("action", this.login);
             else
                 $("#app").attr("action", this.register);
         },
-    }
+    },
+    beforeMount() {
+        if (window.location.hash === "#register")
+            this.is_login = false;
+    },
 }
 </script>
 

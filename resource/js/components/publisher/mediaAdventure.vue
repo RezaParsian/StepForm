@@ -5,7 +5,7 @@
             <div class="row mx-md-auto position-relative pb-5 hero-section" style="overflow: hidden;">
                 <div class="col-md-6 col mt-md-3 p-0 align-self-center">
                     <h2>با ادونچر سریعتر بازخورد بگیرید!</h2>
-                    <p>افزایش ترخ بازدید و رشد 100% کسب و کارتان را به ادونچر بسپارید!</p>
+                    <p>افزایش نرخ بازدید و رشد 100% کسب و کارتان را به ادونچر بسپارید!</p>
                 </div>
                 <div class="col-md-6 col-12">
                     <img class="img-fluid" src="/img/hero.svg" alt="hero">
@@ -260,7 +260,7 @@ export default {
             url: "https://advn.ad-venture.app",
             blackList: [],
             follower_l: 1000,
-            types: "اینستاگرام",
+            types: '',
             work_category: [],
             categories: [],
             selected_category: [],
@@ -456,6 +456,7 @@ export default {
             $(document).on("change", "#type2", (element) => {
                 this.types = element.target.value;
             });
+            this.types='INSTAGRAM';
         });
         $.get("https://advn.ad-venture.app/api/cats", (data) => {
             this.work_category = data;

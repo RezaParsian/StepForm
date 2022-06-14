@@ -1,23 +1,23 @@
 <template>
     <div id="vue_channels" class="position-relative" style="max-height: 98rem;overflow: scroll !important;">
         <div class="row mx-auto">
-            <div class="col-md-3">
-                <button id="filter_btn" data-target="#filters" data-toggle="modal"
+            <div>
+                <button type="button" id="filter_btn" data-target="#filters" data-toggle="modal"
                         class="btn position-fixed btn-primary text-muted text-decoration-none rounded-circle mr-3 my-2"
                         style="z-index: 15"><i class="fa fa-filter text-white"></i>
-
                 </button>
-               <div class="col-md-3 mt-5 px-0">
-                   <button class="btn rounded-circle bg-primary position-fixed mt-1" type="button" data-toggle="modal" data-target="#exampleModalCenter" style="display: none;z-index: 15" id="shop_button">
-                       <span class="fa fa-shopping-cart text-white"></span>
-                   </button>
-               </div>
+                <div class="mt-5 px-0">
+                    <button class="btn rounded-circle bg-primary position-fixed mt-1" type="button" data-toggle="modal"
+                            data-target="#exampleModalCenter" style="display: none;z-index: 15" id="shop_button">
+                        <span class="fa fa-shopping-cart text-white"></span>
+                    </button>
+                </div>
                 <div id="filters" class="my-4 mx-auto modal fade" tabindex="-1" role="dialog"
                      labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">فیلترها</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -64,7 +64,7 @@
                                     </div>
                                 </div>
 
-                                <div id="follower" class="row mx-auto pb-3 mb-5">
+                                <div id="follower" class="row mx-auto pb-3">
                                     <div class="col-md">
                                         <p for="minFollow">حداکثرتعداد فالوور:</p>
                                         <div class="row">
@@ -76,21 +76,47 @@
                                     <div class="col-md">
                                         <p for="maxFollow">حداقل تعداد فالوور:</p>
                                         <div class="row">
-                                            <input id="maxFollow" class="mr-3" type="range" data-variable="maxFollower"
+                                            <input id="maxFollow" class="mr-3" type="range" c="maxFollower"
                                                    min="0" max="9999999">
                                             <label class="my-auto mx-2 text-info">{{ maxFollower }}</label>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div id="eng" class="row mx-auto pb-3 mb-5">
+                                    <div class="col-md">
+                                        <p for="min-Eng">حداکثر نرخ تعامل:</p>
+                                        <div class="row">
+                                            <input id="min-Eng" class="mr-3" data-variable="eng_l" type="range" min="0" max="10" step="0.1">
+                                            <label class="my-auto mx-2 text-info">{{ eng_l }}</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <p for="max-Eng">حداقل نرخ تعامل:</p>
+                                        <div class="row">
+                                            <input id="max-Eng" class="mr-3" type="range" data-variable="eng_g" min="0" max="100" step="0.1">
+                                            <label class="my-auto mx-2 text-info">{{ eng_g }}</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                                    <button type="button" class="btn btn-danger" @click="clearFilters">حذف فیلتر</button>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-            <div class="row my-3 mx-auto">
-                <p class="ml-auto" style="font-size:13pt">موجودی فعلی شما: {{ this.new_budget | currency }}</p>
-                <p class="ml-auto pl-5" style="font-size:13pt">جمع مبالغ انتخاب شده: {{ this.sumPrice | currency }}</p>
+            <div class="input-group col-md-3 ml-auto my-3 pl-5">
+                <input class="form-control border-end-0 border rounded-pill" type="text" value="search" id="example-search-input" name="search" v-model="search" placeholder="جستجو کنید">
+                <span class="input-group-append">
+                <button class="btn btn-outline-primary bg-white border-start-0 border rounded-pill ms-n3" type="button" @click="getChannels">
+                    <i class="fa fa-search text-primary"></i>
+                </button>
+            </span>
             </div>
         </div>
 
@@ -204,10 +230,12 @@
                     <div class="modal-body">
                         <budget></budget>
                     </div>
+                    <div class="modal-footer" style="border-top: none!important;">
+                        <button type="button" class="btn btn-success" data-dismiss="modal">ثبت تغییرات</button>
+                    </div>
                 </div>
             </div>
         </div>
-
 
         <div class="row p-5 mx-auto" v-model="request">
             <div id="reza" class="mx-auto p-5" :class="grow"></div>
@@ -216,6 +244,8 @@
 </template>
 
 <script>
+import {Bus} from './../../app.js';
+
 export default {
     name: "channels",
     props: {
@@ -246,12 +276,15 @@ export default {
             channels: [],
             page: 0,
             grow: "",
+            search: "",
             selected: [],
             minFollower: 99999999,
             maxFollower: 0,
             postPrice_g: 0,
             postPrice_l: 99999999,
             storyPrice_l: 99999999,
+            eng_l: 99999999,
+            eng_g: 0,
             storyPrice_g: 0,
             new_budget: 0,
             sumPrice: 0
@@ -268,7 +301,10 @@ export default {
                 story_l: this.storyPrice_l,
                 follower_g: this.maxFollower,
                 follower_l: this.minFollower,
+                eng_l: this.eng_l,
+                eng_g: this.eng_g,
                 type: this.types.toUpperCase() === "" ? "INSTAGRAM" : this.types.toUpperCase(),
+                q: this.search,
             };
 
             if (this.province.length < 31)
@@ -277,6 +313,7 @@ export default {
             this.grow = "spinner-grow";
 
             $.post("https://advn.ad-venture.app/api/publisher", data, (data) => {
+                this.channels = []
                 this.channels = this.channels.concat(data);
                 this.grow = "";
                 if (data.length > 0)
@@ -358,6 +395,19 @@ export default {
         checkData() {
             this.$emit("go_next", this.selected.length > 1);
         },
+        clearFilters() {
+            this.eng_g = 0;
+            this.eng_l = 99999999;
+            this.minFollower = 99999999;
+            this.maxFollower = 0;
+            this.postPrice_g = 0;
+            this.postPrice_l = 99999999;
+            this.storyPrice_l = 99999999;
+            this.storyPrice_g = 0;
+            this.page = 0;
+            this.channels = [];
+            this.getChannels();
+        },
     },
     watch: {
         page() {
@@ -384,6 +434,12 @@ export default {
             else
                 $("#shop_button").hide(500);
         },
+        new_budget(val) {
+            Bus.$emit("new_budget", val);
+        },
+        sumPrice(val) {
+            Bus.$emit("sumPrice", val);
+        }
     },
     computed: {
         request() {
@@ -421,6 +477,8 @@ export default {
                 this.postPrice_l,
                 this.storyPrice_g,
                 this.storyPrice_l,
+                this.eng_l,
+                this.eng_g,
             ];
         },
 
@@ -449,8 +507,9 @@ export default {
         $("#minFollow").val(this.minFollower).trigger("change")
         $("#storyPriceL").val(this.storyPrice_l).trigger("change")
         $("#postPriceL").val(this.postPrice_l).trigger("change")
+        $('#min-Eng').val(this.eng_l).trigger("change")
 
-        $("#storyPriceG, #storyPriceL, #minFollow, #maxFollow, #postPriceG ,#postPriceL").change((element) => {
+        $("#storyPriceG, #storyPriceL, #minFollow, #maxFollow, #postPriceG ,#postPriceL,#min-Eng,#max-Eng").change((element) => {
             this[element.target.dataset.variable] = element.target.value;
         });
     },
