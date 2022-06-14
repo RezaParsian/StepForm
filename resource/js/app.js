@@ -41,7 +41,7 @@ Vue.filter("currency",(x)=>{
     return  x ? new Intl.NumberFormat('en-US', {style: 'decimal'}).format(x) : "-";
 });
 
-export const Bus=new Vue();
+export const Bus = new Vue();
 
 const app = new Vue({
     el: "#step_form"

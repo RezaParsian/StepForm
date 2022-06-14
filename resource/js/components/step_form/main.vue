@@ -73,6 +73,11 @@
 
             <hr>
 
+            <div class="row my-3 mx-auto">
+                <p class="text-right" style="font-size:12pt">موجودی : {{ new_budget | currency }}</p>
+                <p class="ml-auto pl-5" style="font-size:12pt">هزینه: {{ sumPrice | currency }}</p>
+            </div>
+
             <button type="button" v-if="next_step" @click="next" class="btn btn-grad float-left">
                 مرحله بعد
                 <i class="fa fa-caret-left"></i>
@@ -112,6 +117,8 @@ export default {
             camping: "",
             budget: 0,
             content: "",
+            new_budget: 0,
+            sumPrice: 0,
             categories: [],
             province: [],
             current_step: 0,
@@ -234,6 +241,12 @@ export default {
 
         Bus.$on("changeBudget", (budget) => {
             this.budget = budget;
+        });
+        Bus.$on('new_budget', (budget) => {
+            this.new_budget = budget;
+        });
+        Bus.$on('sumPrice', (sumPrice) => {
+            this.sumPrice = sumPrice;
         });
     }
 }

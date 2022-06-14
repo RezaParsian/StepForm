@@ -456,6 +456,7 @@ export default {
             $(document).on("change", "#type2", (element) => {
                 this.types = element.target.value;
             });
+            this.types='INSTAGRAM';
         });
         $.get("https://advn.ad-venture.app/api/cats", (data) => {
             this.work_category = data;
