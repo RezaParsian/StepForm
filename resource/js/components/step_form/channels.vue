@@ -111,7 +111,7 @@
                 </div>
             </div>
             <div class="input-group col-md-3 ml-auto my-3 pl-5">
-                <input class="form-control border-end-0 border rounded-pill" type="text" value="search" id="example-search-input" name="search" v-model="search" placeholder="جستجو کنید">
+                <input class="form-control border-end-0 border rounded-pill" type="text" @keypress.enter.stop value="search" id="example-search-input" name="search" v-model="search" placeholder="جستجو کنید">
                 <span class="input-group-append">
                 <button class="btn btn-outline-primary bg-white border-start-0 border rounded-pill ms-n3" type="button" @click="getChannels">
                     <i class="fa fa-search text-primary"></i>

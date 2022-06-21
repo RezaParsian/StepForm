@@ -21,16 +21,13 @@
                 <div class="row justify-content-center mx-0 px-3">
                     <div class="col-md-5 px-4 text-right">
                         <select name="socialMedia" id="type" class="sabt-input form-control">
-                            <option value="">شبکه اجتماعی موردنظرتان را انتخاب کنید.</option>
                             <option v-for="media in socialMedia" :value="media.value">{{ media.name }}</option>
                         </select>
                     </div>
                     <div class="col-md-5 px-4 text-right">
                         <select name="work_category[]" required id="work_Category" multiple=""
                                 class="form-control mdb-select md-form">
-                            <option v-for="item in work_category.filter((x)=> x.category_isActive===1)"
-                                    :value="item.id">{{ item.category_name }}
-                            </option>
+                            <option v-for="item in work_category.filter((x)=> x.category_isActive===1)" :value="item.id">{{ item.category_name }}</option>
                         </select>
                     </div>
 
@@ -69,13 +66,16 @@
             <div class="row mx-auto px-2 mt-5">
                 <div class="mx-auto mb-3" v-for="channel in channels.filter((x)=> !selected.find((b)=> b.id==x.id))" :key="channel.username" :id="channel.id">
                     <PublisherCart
-                            :social_media="types"
-                            :user="user" :bgColors="bgColors"
+                            :social_media="social_media"
+                            :user="user"
+                            :bgColors="bgColors"
                             :token="token"
                             :like="isLiked(channel.id)"
                             @mouseover="hover"
                             :block="isBlocked(channel.id)"
-                            :channel="channel"></PublisherCart>
+                            :channel="channel">
+
+                    </PublisherCart>
                 </div>
             </div>
         </div>
@@ -96,6 +96,10 @@
             <div class="modal-dialog modal-md">
                 <div class="modal-content">
                     <div class="modal-body row">
+                        <div class="form-group col-md-12 m-0">
+                            <label>جستجو کنید</label>
+                            <input type="text" v-model="filters.q" class="form-control">
+                        </div>
                         <div class="form-group col-md-12 m-0">
                             <label>حداقل دنبال کننده
 
@@ -259,6 +263,7 @@ export default {
             selected: [],
             url: "https://advn.ad-venture.app",
             blackList: [],
+            social_media: "",
             follower_l: 1000,
             types: '',
             work_category: [],
@@ -409,7 +414,9 @@ export default {
             if (this.page > 0)
                 this.getChannels();
         },
-        types() {
+        channels() {
+            console.log("channels")
+            this.social_media = this.types;
             if (this.types === "INSTAGRAM" || this.types === "INFLUENCER")
                 this.bgColors = "middle"
             else if (this.types === "TELEGRAM")

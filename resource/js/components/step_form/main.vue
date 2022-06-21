@@ -1,5 +1,5 @@
 <template>
-    <div id="vue_main" class="card">
+    <div id="vue_main" class="card" @keypress.enter.stop>
         <div class="card-header sticky-top bg-white d-flex">
             ساخت کمپین جدید
             <div class="mr-auto">
@@ -71,11 +71,13 @@
                 <checkout @go_next="nextStep" :social="social" :camping="camping" :budget="budget" :content="content" ref="checkout"></checkout>
             </div>
 
-            <hr>
+            <div v-if="current_step===5">
+                <hr>
 
-            <div class="row my-3 mx-auto">
-                <p class="text-right" style="font-size:12pt">موجودی : {{ new_budget | currency }}</p>
-                <p class="ml-auto pl-5" style="font-size:12pt">هزینه: {{ sumPrice | currency }}</p>
+                <div class="row my-3 mx-auto">
+                    <p class="text-right" style="font-size:12pt">موجودی : {{ new_budget | currency }}</p>
+                    <p class="ml-auto pl-5" style="font-size:12pt">هزینه: {{ sumPrice | currency }}</p>
+                </div>
             </div>
 
             <button type="button" v-if="next_step" @click="next" class="btn btn-grad float-left">
@@ -233,7 +235,7 @@ export default {
         }
     },
     mounted() {
-        this.current_step = 5;
+        this.current_step = Bus.debug ? 5 : 0;
         this.$refs.iran.$watch("selected", () => {
             if (this.$refs.iran.selected.length < 31)
                 this.selectedPlaceButton = "city";
