@@ -87,14 +87,14 @@
                                     <div class="col-md">
                                         <p for="min-Eng">حداکثر نرخ تعامل:</p>
                                         <div class="row">
-                                            <input id="min-Eng" class="mr-3" data-variable="eng_l" type="range" min="0" max="10" step="0.1">
+                                            <input id="min-Eng" class="mr-3" data-variable="eng_l" type="range" min="0" max="30" step="0.1">
                                             <label class="my-auto mx-2 text-info">{{ eng_l }}</label>
                                         </div>
                                     </div>
                                     <div class="col-md">
                                         <p for="max-Eng">حداقل نرخ تعامل:</p>
                                         <div class="row">
-                                            <input id="max-Eng" class="mr-3" type="range" data-variable="eng_g" min="0" max="100" step="0.1">
+                                            <input id="max-Eng" class="mr-3" type="range" data-variable="eng_g" min="0" max="30" value="0" step="0.1">
                                             <label class="my-auto mx-2 text-info">{{ eng_g }}</label>
                                         </div>
                                     </div>
@@ -111,9 +111,9 @@
                 </div>
             </div>
             <div class="input-group col-md-3 ml-auto my-3 pl-5">
-                <input class="form-control border-end-0 border rounded-pill" type="text" @keypress.enter.stop value="search" id="example-search-input" name="search" v-model="search" placeholder="جستجو کنید">
+                <input class="form-control border-end-0 border rounded-pill" type="text" @keypress.enter.prevent="channels=[];page=1;getChannels()" value="search" id="example-search-input" name="search" v-model="search" placeholder="جستجو کنید">
                 <span class="input-group-append">
-                <button class="btn btn-outline-primary bg-white border-start-0 border rounded-pill ms-n3" type="button" @click="getChannels">
+                <button class="btn btn-outline-primary bg-white border-start-0 border rounded-pill ms-n3" type="button" @click="channels=[];page=1;getChannels()">
                     <i class="fa fa-search text-primary"></i>
                 </button>
             </span>
@@ -158,7 +158,7 @@
             <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">کانال های منتخب شما</h5>
+                        <h5 class="modal-title">کانال های منتخب شما</h5>
                     </div>
                     <div class="modal-body">
                         <div class="col-md-12 p-4 justify-content-center table-responsive-sm" id="basket">
@@ -283,7 +283,7 @@ export default {
             postPrice_g: 0,
             postPrice_l: 99999999,
             storyPrice_l: 99999999,
-            eng_l: 99999999,
+            eng_l: 30,
             eng_g: 0,
             storyPrice_g: 0,
             new_budget: 0,
@@ -313,7 +313,6 @@ export default {
             this.grow = "spinner-grow";
 
             $.post("https://advn.ad-venture.app/api/publisher", data, (data) => {
-                this.channels = []
                 this.channels = this.channels.concat(data);
                 this.grow = "";
                 if (data.length > 0)

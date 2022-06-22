@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { Bus } from "../../app";
+import {Bus} from "../../app";
 
 export default {
     name: "budget",
@@ -40,9 +40,12 @@ export default {
             current_budget: "",
             estimatedVisits: "۱۶,۰۰۰",
             prices: [
-                {tooltip: "1,500,000", price: "یک میلیون  و پانصد هزار  تومان"},
-                {tooltip: "2,000,000", price: "دو میلیون تومان"},
+                {tooltip: "1,000,000", price: "یک میلیون تومان"},
                 {tooltip: "2,500,000", price: "دو میلیون و پانصد هزار تومان"},
+                {tooltip: "5,000,000", price: "پنج میلیون تومان"},
+                {tooltip: "10,000,000", price: "ده میلیون تومان"},
+                {tooltip: "20,000,000", price: "بیست میلیون تومان"},
+                {tooltip: "50,000,000", price: "پنچاه میلیون تومان"},
             ],
         }
     },

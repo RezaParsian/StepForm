@@ -1,6 +1,6 @@
 <template>
     <div id="vue_start">
-        <div class="container-fluid p-0">
+        <div class="p-0 container">
             <!--start-hero-section-->
             <div class="row mx-md-auto position-relative pb-5 hero-section" style="overflow: hidden;">
                 <div class="col-md-6 col mt-md-3 p-0 align-self-center">
@@ -351,6 +351,7 @@ export default {
             this.page = 0;
             this.channels = [];
             this.getChannels();
+            $("#filter-modal").modal('hide');
         },
         clearFilters() {
             this.filters = {};
@@ -476,6 +477,7 @@ export default {
             if (urlParams.filter) {
                 this.filters = JSON.parse(urlParams.filter);
                 this.types = this.filters.type;
+                this.social_media = this.filters.type;
                 this.page = 1;
 
                 while (this.page <= this.filters.page) {
@@ -484,6 +486,8 @@ export default {
                     if (this.page > this.filters.page) {
                         setTimeout(() => {
                             location.href = '#' + this.filters.id;
+                            this.types = this.filters.type;
+                            this.social_media = this.filters.type;
                         }, 4000)
                     }
                 }
