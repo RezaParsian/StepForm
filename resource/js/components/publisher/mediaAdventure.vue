@@ -144,7 +144,7 @@
                                 <small>{{ filters.eng_g ? Separate(filters.eng_g) : "" }}</small>
 
                             </label>
-                            <input type="range" step="0.01" min="0.01" max="5" v-model="filters.eng_g"
+                            <input type="range" step="0.01" min="0" max="30" v-model="filters.eng_g"
                                    class="form-control">
                         </div>
 
@@ -152,7 +152,7 @@
                             <label>حداکثر نرخ تعامل
                                 <small>{{ filters.eng_l ? Separate(filters.eng_l) : "" }}</small>
                             </label>
-                            <input type="range" step="0.01" max="5" min="0.01" v-model="filters.eng_l"
+                            <input type="range" step="0.01" max="30" min="0" v-model="filters.eng_l"
                                    class="form-control">
                         </div>
 

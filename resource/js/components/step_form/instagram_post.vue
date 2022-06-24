@@ -109,9 +109,8 @@ export default {
 
             if (element.target.files && element.target.files[0]) {
                 let reader = new FileReader();
-
                 reader.onload = function (e) {
-                    const $selector = $(`#preview_ ${$id}`);
+                    const $selector = $(`#preview_${$id}`);
                     let type = e.target.result.indexOf("video") > 0 ? "src" : "poster";
                     $selector.attr("src", "");
                     $selector.attr("poster", "");
