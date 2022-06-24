@@ -25,14 +25,14 @@
                         </select>
                     </div>
                     <div class="col-md-5 px-4 text-right">
-                        <select name="work_category[]" required id="work_Category" multiple=""
-                                class="form-control mdb-select md-form">
+                        <select name="work_category[]" required multiple=""
+                                class="form-control mdb-select md-form work_category">
                             <option v-for="item in work_category.filter((x)=> x.category_isActive===1)" :value="item.id">{{ item.category_name }}</option>
                         </select>
                     </div>
 
                     <div class="col-md-2">
-                        <button @click="channels=[];getChannels()" type="button"
+                        <button @click="page=1;channels=[];getChannels()" type="button"
                                 class="btn btn-block d-flex text-white btn-sabt d-block icons rpZizi justify-content-center py-2">
                             <label class="p-0 m-0">اعمال</label>
                             <p id="space"></p>
@@ -44,21 +44,18 @@
             <div class="col-10 mx-auto pb-4 mb-5 position-absolute pt-3 sabt-section-phone px-0 d-block d-md-none">
                     <div class="col-12 mb-3 text-right">
                         <select id="type2" class="sabt-input form-control">
-                            <option class="form-control" value="">انتخاب شبکه اجتماعی</option>
                             <option v-for="media in socialMedia" :value="media.value">{{ media.name }}</option>
                         </select>
                     </div>
                     <div class="col-12 mb-3 text-right">
-                        <select class="sabt-input form-control" name="work_category[]" required id="work_category"
-                                multiple="">
-                            <option class="form-control" value="">انتخاب دسته بندی</option>
+                        <select class="sabt-input form-control work_category" name="work_category[]" required multiple="">
                             <option v-for="item in work_category.filter((x)=> x.category_isActive===1)"
                                     :value="item.id">{{ item.category_name }}
                             </option>
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-block text-white btn-sabt py-2" @click="getChannels()"> اعمال<i class="fa fa-arrow-left mr-3 "></i></button>
+                        <button class="btn btn-block text-white btn-sabt py-2" @click="page=1;channels=[];getChannels()"> اعمال<i class="fa fa-arrow-left mr-3 "></i></button>
                     </div>
             </div>
         </div>
@@ -71,7 +68,6 @@
                             :bgColors="bgColors"
                             :token="token"
                             :like="isLiked(channel.id)"
-                            @mouseover="hover"
                             :block="isBlocked(channel.id)"
                             :channel="channel">
 
@@ -291,7 +287,7 @@ export default {
 
             window.history.pushState([], "", `?set=1&&filter=${JSON.stringify(data)}`);
             this.grow = "spinner-grow";
-
+            this.social_media = data.type;
 
             $.post(this.url + "/api/publisher", data, (data) => {
                 this.channels = this.channels.concat(data);
@@ -302,9 +298,6 @@ export default {
                 }
 
             });
-        },
-        hover(element) {
-            console.log($(element.target))
         },
         select(element) {
             const selected = this.selected.find((x) => x.id === +element.target.dataset.id);
@@ -416,8 +409,6 @@ export default {
                 this.getChannels();
         },
         channels() {
-            console.log("channels")
-            this.social_media = this.types;
             if (this.types === "INSTAGRAM" || this.types === "INFLUENCER")
                 this.bgColors = "middle"
             else if (this.types === "TELEGRAM")
@@ -427,7 +418,7 @@ export default {
     computed: {
         channelsShow() {
             this.types = $('#type option:selected').val()
-            const $work_category = $("#work_category");
+            const $work_category = $(".work_category");
             this.selected_category = this.work_category.filter((x) => $work_category.val().indexOf(x.id + '') > -1);
             if (this.selected_category.length > 0 && this.types !== '')
                 this.getChannels()
@@ -471,13 +462,10 @@ export default {
         });
 
         $(() => {
-            console.log(this.user)
-
             const urlParams = Object.fromEntries(new URLSearchParams(location.search));
             if (urlParams.filter) {
                 this.filters = JSON.parse(urlParams.filter);
                 this.types = this.filters.type;
-                this.social_media = this.filters.type;
                 this.page = 1;
 
                 while (this.page <= this.filters.page) {
@@ -487,7 +475,6 @@ export default {
                         setTimeout(() => {
                             location.href = '#' + this.filters.id;
                             this.types = this.filters.type;
-                            this.social_media = this.filters.type;
                         }, 4000)
                     }
                 }
@@ -500,7 +487,7 @@ export default {
                 window.history.pushState([], "", `${Vue.url}/social?set=1&&filter=${JSON.stringify(Vue.filters)}`);
 
             })
-            $(document).on("change", "#work_Category", (element) => {
+            $(document).on("change", ".work_category", (element) => {
                 this.categories = $(element.target).val();
             });
         })

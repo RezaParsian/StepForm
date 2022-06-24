@@ -2,16 +2,21 @@
     <div id="vue_channels" class="position-relative" style="max-height: 98rem;overflow: scroll !important;">
         <div class="row mx-auto">
             <div>
-                <button type="button" id="filter_btn" data-target="#filters" data-toggle="modal"
-                        class="btn position-fixed btn-primary text-muted text-decoration-none rounded-circle mr-3 my-2"
-                        style="z-index: 15"><i class="fa fa-filter text-white"></i>
+                <button
+                    type="button"
+                    id="filter_btn"
+                    data-target="#filters" data-toggle="modal"
+                    class="btn position-fixed btn-primary text-muted text-decoration-none rounded-circle mr-3 my-2"
+                    style="z-index: 15">
+                    <i class="fa fa-filter text-white"></i>
                 </button>
-                <div class="mt-5 px-0">
-                    <button class="btn rounded-circle bg-primary position-fixed mt-1" type="button" data-toggle="modal"
-                            data-target="#exampleModalCenter" style="display: none;z-index: 15" id="shop_button">
-                        <span class="fa fa-shopping-cart text-white"></span>
-                    </button>
-                </div>
+                <button class="btn rounded-circle bg-primary position-fixed"
+                        type="button"
+                        data-toggle="modal"
+                        data-target="#exampleModalCenter"
+                        style="display: none;z-index: 15;left:2rem" id="shop_button">
+                    <span class="fa fa-shopping-cart text-white"></span>
+                </button>
                 <div id="filters" class="my-4 mx-auto modal fade" tabindex="-1" role="dialog"
                      labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
