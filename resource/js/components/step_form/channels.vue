@@ -3,11 +3,11 @@
         <div class="row mx-auto">
             <div>
                 <button
-                    type="button"
-                    id="filter_btn"
-                    data-target="#filters" data-toggle="modal"
-                    class="btn position-fixed btn-primary text-muted text-decoration-none rounded-circle mr-3 my-2"
-                    style="z-index: 15">
+                        type="button"
+                        id="filter_btn"
+                        data-target="#filters" data-toggle="modal"
+                        class="btn position-fixed btn-primary text-muted text-decoration-none rounded-circle mr-3 my-2"
+                        style="z-index: 15">
                     <i class="fa fa-filter text-white"></i>
                 </button>
                 <button class="btn rounded-circle bg-primary position-fixed"
@@ -116,9 +116,10 @@
                 </div>
             </div>
             <div class="input-group col-md-3 ml-auto my-3 pl-5">
-                <input class="form-control border-end-0 border rounded-pill" type="text" @keypress.enter.prevent="channels=[];page=1;getChannels()" value="search" id="example-search-input" name="search" v-model="search" placeholder="جستجو کنید">
+                <input class="form-control border-end-0 border rounded-pill" type="text" @keypress.enter.prevent="searchForm" value="search" id="example-search-input" name="search"
+                       v-model="search" placeholder="جستجو کنید">
                 <span class="input-group-append">
-                <button class="btn btn-outline-primary bg-white border-start-0 border rounded-pill ms-n3" type="button" @click="channels=[];page=1;getChannels()">
+                <button class="btn btn-outline-primary bg-white border-start-0 border rounded-pill ms-n3" type="button" @click="searchForm">
                     <i class="fa fa-search text-primary"></i>
                 </button>
             </span>
@@ -296,6 +297,12 @@ export default {
         }
     },
     methods: {
+        searchForm() {
+            observer.unobserve($("#reza")[0]);
+            this.channels = [];
+            this.page = 1;
+            this.getChannels()
+        },
         getChannels() {
             let data = {
                 category: this.categories,
@@ -386,9 +393,9 @@ export default {
                 return;
 
             if (selected) {
-                this.selected.splice(this.channels.find((x) => x.id === +element.target.dataset.id), 1);
+                this.selected.splice(this.selected.find((x) => x.id === +element.target.dataset.id),1);
                 element.target.innerText = "انتخاب";
-                $("[data-id='" + element.target.dataset.id + "']").text("انتخاب");
+                $("[data-id='" + element.target.dataset.id + "']"[1]).text("انتخاب");
                 $('#gap').find(":contains('انتخاب')").parent(".card").show();
                 this.sumPrice = this.sumPrice - (this.content === "پست" ? post_price : story_price);
             } else {
