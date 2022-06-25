@@ -81,7 +81,7 @@
                                     <div class="col-md">
                                         <p for="maxFollow">حداقل تعداد فالوور:</p>
                                         <div class="row">
-                                            <input id="maxFollow" class="mr-3" type="range" c="maxFollower"
+                                            <input id="maxFollow" class="mr-3" type="range" data-variable="maxFollower"
                                                    min="0" max="9999999">
                                             <label class="my-auto mx-2 text-info">{{ maxFollower }}</label>
                                         </div>
@@ -148,8 +148,13 @@
                     <div class="small text-muted mb-2 text-center">آخرین بروزرسانی : {{ channel.last_update }}</div>
                     <div class="small text-muted mb-2 text-center" v-html="getPrice(channel)"></div>
                     <div class="follow-btn">
-                        <button :data-id="channel.id" @click="select" type="button" :data-post="channel.post_price"
-                                :data-story="channel.story_price" :key="channel.id">انتخاب
+                        <button :data-id="channel.id"
+                                @click="select"
+                                type="button"
+                                :data-post="channel.post_price"
+                                :data-story="channel.story_price"
+                                :key="channel.id">
+                            انتخاب
                         </button>
                     </div>
                 </div>
@@ -284,16 +289,17 @@ export default {
             grow: "",
             search: "",
             selected: [],
-            minFollower: 99999999,
+            minFollower: 0,
             maxFollower: 0,
             postPrice_g: 0,
-            postPrice_l: 99999999,
-            storyPrice_l: 99999999,
-            eng_l: 30,
+            postPrice_l: 0,
+            storyPrice_l: 0,
+            eng_l: 0,
             eng_g: 0,
             storyPrice_g: 0,
             new_budget: 0,
-            sumPrice: 0
+            sumPrice: 0,
+            timeOut: null
         }
     },
     methods: {
@@ -304,7 +310,7 @@ export default {
             this.getChannels()
         },
         getChannels() {
-            let data = {
+            let data = Object.entries({
                 category: this.categories,
                 page: this.page,
                 post_l: this.postPrice_l,
@@ -317,19 +323,27 @@ export default {
                 eng_g: this.eng_g,
                 type: this.types.toUpperCase() === "" ? "INSTAGRAM" : this.types.toUpperCase(),
                 q: this.search,
-            };
+            });
+
+            data = Object.fromEntries(data.filter(([key, value]) => {
+                return value != 0 || value != "";
+            }));
 
             if (this.province.length < 31)
                 data.province = this.province.map((x) => x.name);
 
             this.grow = "spinner-grow";
 
-            $.post("https://advn.ad-venture.app/api/publisher", data, (data) => {
-                this.channels = this.channels.concat(data);
-                this.grow = "";
-                if (data.length > 0)
-                    observer.observe($("#reza")[0])
-            });
+            clearTimeout(this.timeOut);
+
+            this.timeOut = setTimeout(() => {
+                $.post("https://advn.ad-venture.app/api/publisher", data, (data) => {
+                    this.channels = this.channels.concat(data);
+                    this.grow = "";
+                    if (data.length > 0)
+                        observer.observe($("#reza")[0])
+                });
+            }, 1000)
         },
 
         getPrice(channel) {
@@ -389,14 +403,14 @@ export default {
             const post_price = $(element.target).data("post");
             const story_price = $(element.target).data("story");
             const selected = this.selected.find((x) => x.id === +element.target.dataset.id);
+
             if (this.lowBudget(post_price, story_price, selected))
                 return;
 
             if (selected) {
-                this.selected.splice(this.selected.find((x) => x.id === +element.target.dataset.id),1);
+                this.selected.splice(this.selected.indexOf(this.selected.find((x) => x.id === +element.target.dataset.id)), 1);
                 element.target.innerText = "انتخاب";
                 $("[data-id='" + element.target.dataset.id + "']"[1]).text("انتخاب");
-                $('#gap').find(":contains('انتخاب')").parent(".card").show();
                 this.sumPrice = this.sumPrice - (this.content === "پست" ? post_price : story_price);
             } else {
                 this.selected.push(this.channels.find((x) => x.id === +element.target.dataset.id));

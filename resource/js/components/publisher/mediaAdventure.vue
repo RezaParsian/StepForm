@@ -1,5 +1,46 @@
 <template>
     <div id="vue_start">
+
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light pt-2 px-0 px-md-5 bg-white">
+            <a href="https://ad-venture.app/" class="d-md-none d-block">
+                <img src="https://zeroteam.ir/advn/wp-content/uploads/2022/03/adventure-logo.png" style="width: 6rem;" class="mr-2 phone" alt="melal-call">
+            </a>
+            <a class="navbar-brand d-md-block d-none" href="https://ad-venture.app/">
+                <img src="https://zeroteam.ir/advn/wp-content/uploads/2022/03/adventure-logo.png" class="img-fluid" alt="Adventure" style="width: 7rem">
+            </a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item ml-3">
+                        <a class="text-dark menus px-3 pb-1 d-block" href="https://ad-venture.app">خانه</a>
+                    </li>
+                    <li class="nav-item ml-3 dropdown">
+                        <a class="text-dark menus px-3 pb-1 d-block" href="https:/ad-venture.app/خدمات/" id="navbardrop" data-toggle="dropdown">
+                            خدمات ما
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="text-dark dropdown-item" href="https://ad-venture.app/تبلیغات-بازدیدی-cpm/">تبلیغات بازدیدی (CPM)</a>
+                            <a class="text-dark dropdown-item" href="https://ad-venture.app/تبلیغات-بازده-محور-cpa/">تبلیغات بازده محور (CPA)</a>
+                            <a class="text-dark dropdown-item" href="https://ad-venture.app/تبلیغات-کلیکی-cpc-چیست؟/">تبلیغات کلیکی (CPC) چیست؟</a>
+                            <a class="text-dark dropdown-item" href="https://ad-venture.app/تبلیغات-نصب-محور-cpi-چیست؟/">تبلیغات نصب محور (CPI) چیست؟</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="text-dark menus px-3 pb-1 d-block" href="https://ad-venture.app/وبلاگ/">وبلاگ</a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="text-dark menus px-3 pb-1 d-block" href="https://ad-venture.app/125-2/">تماس با ما</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="text-dark menus px-3 pb-1 d-block" href="https://advn.ad-venture.app/social">رسانه های ادونچر</a>
+                    </li>
+                </ul>
+            </div>
+
+            <a href="https://advn.ad-venture.app/login" class="btn btn-outline-danger rounded">
+                <span>ورود | ثبت نام</span>
+            </a>
+        </nav>
+
         <div class="p-0 container">
             <!--start-hero-section-->
             <div class="row mx-md-auto position-relative pb-5 hero-section" style="overflow: hidden;">
@@ -25,8 +66,7 @@
                         </select>
                     </div>
                     <div class="col-md-5 px-4 text-right">
-                        <select name="work_category[]" required multiple=""
-                                class="form-control mdb-select md-form work_category">
+                        <select name="work_category[]" required multiple="" class="form-control mdb-select md-form work_category">
                             <option v-for="item in work_category.filter((x)=> x.category_isActive===1)" :value="item.id">{{ item.category_name }}</option>
                         </select>
                     </div>
@@ -141,7 +181,7 @@
                         <div class="form-group col-md-12 m-0">
                             <label>حداقل نرخ تعامل
 
-                                <small>{{ filters.eng_g ? Separate(filters.eng_g) : "" }}</small>
+                                <small>{{ filters.eng_g ? (filters.eng_g) : "" }}</small>
 
                             </label>
                             <input type="range" step="0.01" min="0" max="30" v-model="filters.eng_g"
@@ -150,7 +190,7 @@
 
                         <div class="form-group col-md-12 m-0">
                             <label>حداکثر نرخ تعامل
-                                <small>{{ filters.eng_l ? Separate(filters.eng_l) : "" }}</small>
+                                <small>{{ filters.eng_l ? (filters.eng_l) : "" }}</small>
                             </label>
                             <input type="range" step="0.01" max="30" min="0" v-model="filters.eng_l"
                                    class="form-control">
@@ -436,14 +476,8 @@ export default {
             })
         });
         this.$nextTick(() => {
-            $("#work_category").select2({
+            $(".work_category").select2({
                 placeholder: "دسته بندی خودرا انتخاب کنید.",
-                dir: "rtl",
-                closeOnSelect: false,
-                width: "100%",
-            }).val("INSTAGRAM").trigger("change");
-            $("#work_Category").select2({
-                placeholder: "دسته بندی ",
                 dir: "rtl",
                 closeOnSelect: false,
                 width: "100%",
@@ -592,16 +626,6 @@ export default {
     text-transform: uppercase;
     padding: 10px;
 }
-
-.overflow-auto {
-    scrollbar-width: none; /* for Firefox */
-    rollbar-width: none;
-}
-
-*::-webkit-scrollbar {
-    display: none; /* for Chrome, Safari, and Opera */
-}
-
 
 .modal-login .modal-content {
     padding: 20px;
@@ -861,5 +885,4 @@ export default {
     transition: .7s;
     background-position: right center;
 }
-
 </style>
