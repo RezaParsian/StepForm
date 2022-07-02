@@ -51,13 +51,14 @@ export default {
     },
     methods: {
         checkData() {
+            Bus.$emit("state", "budgetAmount", this.budgetAmount);
             Bus.$emit("changeBudget", this.budgetAmount);
             this.$emit("go_next", this.budgetAmount !== "0");
             this.$emit("go_next", true);
         }
     },
-    watch:{
-        budget(){
+    watch: {
+        budget() {
             this.current_budget = this.budget;
         }
     },
@@ -76,7 +77,11 @@ export default {
         budgetInteger() {
             return this.current_budget.replaceAll(",", "");
         },
-    },
+    }, mounted() {
+        Bus.$on("budgetAmount", function (value) {
+            Bus.$emit("changeBudget", value);
+        })
+    }
 }
 </script>
 

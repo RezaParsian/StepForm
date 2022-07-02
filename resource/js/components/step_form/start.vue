@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import {Bus} from "../../app";
+
 export default {
     name: "Start",
     props: {
@@ -64,6 +66,7 @@ export default {
         return {
             selected_category: [],
             work_category: [],
+            selected_work: null,
             campaign_goal: [
                 {id: "", name: "یک هدف انتخاب فرمایید"},
                 {id: "آگاهی از برند", name: "آگاهی از برند"},
@@ -92,15 +95,25 @@ export default {
     methods: {
         checkData() {
             const $work_category = $("#work_category");
+            const $vusStart = $("#vue_start");
+
             this.selected_category = this.work_category.filter((x) => $work_category.val().indexOf(x.id + '') > -1);
             this.$emit("input", [
-                $("#vue_start").find("#campaign_goal").find(":selected").text(),
-                $("#vue_start").find("#work_category").val()
+                $vusStart.find("#campaign_goal").find(":selected").text(),
+                $vusStart.find("#work_category").val()
             ])
             this.$emit("go_next", $("#campaign_goal").val() != 0 && $work_category.val() != 0);
         }
     },
     mounted() {
+        Bus.$on("work_category[]", (value) => {
+            this.selected_work = value;
+        });
+
+        Bus.$on("campaign_goal", (value) => {
+            $("[name='campaign_goal']").val(value).trigger("change");
+        });
+
         this.$nextTick(() => {
             $("#vue_start").find("select").select2({
                 placeholder: "انتخاب کنید",
@@ -111,6 +124,7 @@ export default {
         });
 
         $("#vue_start").find("select").on("change", function (e) {
+            Bus.$emit("state", e.target.name, $(e.target).val())
             this.checkData();
         }.bind(this));
 
@@ -118,11 +132,18 @@ export default {
 
         $.get("https://advn.ad-venture.app/api/cats", (data) => {
             this.work_category = data;
+
+            this.$nextTick(() => {
+                if (this.selected_work)
+                    $("[name='work_category[]']").val(this.selected_work).trigger("change");
+            });
         });
     }
 }
 </script>
 
-<style scoped>
-
+<style>
+.select2-selection__choice__display {
+    color: #2592c3 !important;
+}
 </style>

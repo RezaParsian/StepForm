@@ -3,11 +3,11 @@
         <div class="row mx-auto">
             <div>
                 <button
-                        type="button"
-                        id="filter_btn"
-                        data-target="#filters" data-toggle="modal"
-                        class="btn position-fixed btn-primary text-muted text-decoration-none rounded-circle mr-3 my-2"
-                        style="z-index: 15">
+                    type="button"
+                    id="filter_btn"
+                    data-target="#filters" data-toggle="modal"
+                    class="btn position-fixed btn-primary text-muted text-decoration-none rounded-circle mr-3 my-2"
+                    style="z-index: 15">
                     <i class="fa fa-filter text-white"></i>
                 </button>
                 <button class="btn rounded-circle bg-primary position-fixed"
@@ -145,10 +145,10 @@
                         <button :data-id="channel.id"
                                 @click="select"
                                 type="button"
-                                :data-post="channel.post_price"
-                                :data-story="channel.story_price"
+                                :data-post="channel.post_price || 0"
+                                :data-story="channel.story_price || 0"
                                 :key="channel.id">
-                            انتخاب
+                            {{selected.find((x)=>x.id===channel.id) ? 'لفو انتخاب' : 'انتخاب'}}
                         </button>
                     </div>
                 </div>
@@ -202,9 +202,12 @@
                                     <td v-html="getPriceTable(items)"></td>
                                     <td>{{ items.last_update ? items.last_update : 'موجود نیست' }}</td>
                                     <td>
-                                        <button type="button" class="btn fa fa-trash-o btn-danger"
-                                                :data-id="items.id" @click="select" :data-post="items.post_price"
-                                                :data-story="items.story_price">
+                                        <button type="button"
+                                                class="btn fa fa-trash-o btn-danger"
+                                                :data-id="items.id"
+                                                @click="select"
+                                                :data-post="items.post_price || 0"
+                                                :data-story="items.story_price || 0">
                                         </button>
                                     </td>
                                 </tr>
@@ -243,7 +246,7 @@
         </div>
 
         <div class="row p-5 mx-auto" v-model="request">
-            <div id="reza" class="mx-auto p-5" :class="grow"></div>
+            <div id="reza" class="mx-auto" :class="grow"></div>
         </div>
     </div>
 </template>
@@ -326,7 +329,7 @@ export default {
             if (this.province.length < 31)
                 data.province = this.province.map((x) => x.name);
 
-            this.grow = "spinner-grow";
+            this.grow = "rp_spinner";
 
             clearTimeout(this.timeOut);
 
@@ -440,6 +443,8 @@ export default {
             if (val === 5) {
                 $("head").append("<style id='rp_stack'>*{overflow: unset}</style>");
                 filter_observer.observe($("#filter_btn")[0]);
+                if (this.selected.length > 0)
+                    $("#shop_button").show(500)
             } else {
                 $("head").find("#rp_stack").remove();
                 $("#shop_button").hide(500);
@@ -448,6 +453,7 @@ export default {
             }
         },
         selected(val) {
+            Bus.$emit("state", "channels_selected", val);
             if (val.length > 0)
                 $("#shop_button").show(500);
             else
@@ -484,8 +490,6 @@ export default {
                 return;
 
             this.$nextTick(() => {
-                this.page = 0;
-                this.channels = [];
                 observer.observe($("#reza")[0])
             });
 
@@ -504,6 +508,10 @@ export default {
 
     },
     mounted() {
+        Bus.$on("channels_selected", (value) => {
+            this.selected = value;
+        });
+
         window.observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
@@ -714,5 +722,22 @@ export default {
     text-align: justify;
     padding: 0 2rem 2.5rem;
     order: 100;
+}
+
+.rp_spinner {
+    background: url('https://advn.ad-venture.app/logo2.png') center center/cover;
+    width: 4rem;
+    height: 4rem;
+    animation: 4s linear infinite rp;
+}
+
+@keyframes rp {
+    0% {
+        transform: rotate3d(0, 1, 0, 0)
+    }
+
+    100% {
+        transform: rotate3d(0, 1, 0, 360deg)
+    }
 }
 </style>

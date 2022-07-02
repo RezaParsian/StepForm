@@ -10,13 +10,14 @@
                     <button class="btn btn-outline-danger btn-sm" title="حذف کردن فایل" data-toggle="tooltip" @click="post_count!== 1 ? post_count-- : ''" type="button">
                         <i class="fa fa-times"></i>
                     </button>
-                    <input v-for="item in post_count" type="file" name="file[]" required class="form-control-file border rounded mt-2 mb-1" :data-id="item" @change="readFile">
+                    <input v-for="item in post_count" type="file" name="file[]" class="form-control-file border rounded mt-2 mb-1" :data-id="item" @change="readFile"
+                           accept=".jpg, .jpeg, .gif, .mp4, .pdf">
                     <small>تصاویر باید در فرمت‌های .jpeg, .jpg, .png یا .gif و ویدیوها در فرمت .mp4 و سناریو به فرمت pdf باشند. حداکثر حجم مجاز تصاویر ۵ و ویدیوها ۱۹ مگابایت است.</small>
                 </div>
 
                 <div class="form-group">
                     <label>کپشن</label>
-                    <textarea class="form-control" v-model="post_text" required rows="3" id="post_text" name="post_text"></textarea>
+                    <textarea class="form-control" v-model="post_text" rows="3" id="post_text" name="post_text"></textarea>
                 </div>
                 <div class="form-check-inline">
                     <label class="form-check-label">
@@ -32,7 +33,7 @@
 
                 <div class="form-group">
                     <label>لینک <span class="text-muted small">(اختیاری)</span></label>
-                    <input class="form-control" name="link" />
+                    <input class="form-control" v-model="link" name="link"/>
                 </div>
 
             </div>
@@ -72,6 +73,7 @@
                         </div>
                         <div class="col justify-content-end d-flex">
                             <i class="fa mx-1 fa-paper-plane-o"></i>
+                            <i class="fa mx-1 fa-user-o" style="display: none" id="tagged"></i>
                             <i class="fa mx-1 fa-comment-o"></i>
                             <i class="fa mx-1 fa-heart-o"></i>
                         </div>
@@ -89,15 +91,30 @@
 </template>
 
 <script>
+import {Bus} from "../../app";
+
 export default {
     name: "instagram_post",
+    props: ["state"],
     data() {
         return {
             file: [],
             post_count: 1,
-            post_text: "",
-            post_comment: true,
+            post_text: this.state.instagram_post_text,
+            post_comment: this.state.instagram_post_comment,
+            link: this.state.instagram_link
         }
+    },
+    watch: {
+        post_text(val) {
+            Bus.$emit("state", "instagram_post_text", val);
+        },
+        post_comment(val) {
+            Bus.$emit("state", "instagram_post_comment", val)
+        },
+        link(val) {
+            Bus.$emit("state", "instagram_link", val)
+        },
     },
     methods: {
         checkData() {
@@ -110,7 +127,7 @@ export default {
             if (element.target.files && element.target.files[0]) {
                 let reader = new FileReader();
                 reader.onload = function (e) {
-                    const $selector = $(`#preview_${$id}`);
+                    const $selector = $("#preview_".$id);
                     let type = e.target.result.indexOf("video") > 0 ? "src" : "poster";
                     $selector.attr("src", "");
                     $selector.attr("poster", "");
@@ -120,6 +137,19 @@ export default {
                 }
 
                 reader.readAsDataURL(element.target.files[0]);
+            }
+        },
+        post_count(val) {
+            if (val > 10) {
+                this.post_count = 10;
+                Swal.fire({
+                    toast: true,
+                    showConfirmButton: false,
+                    title: "فقط مجاز به انتخاب ۱۰ ایتم برای ارسال در ایسنتاگرام می‌باشید.",
+                    icon: "info",
+                    timer: 1500,
+                    timerProgressBar: true,
+                })
             }
         }
     },
@@ -135,9 +165,35 @@ export default {
     mounted() {
         this.$nextTick(() => {
             $("#vue_instagram_post").find("select").select2({
-                tags: true
+                width: "100%",
+                tags: true,
+                createTag(params) {
+                    return {
+                        id: "@" + params.term,
+                        text: "@" + params.term
+                    }
+                },
+            });
+
+            this.state["tag[]"].forEach((item)=>{
+                let newOption = new Option(item, item, true, true);
+                $("[name='tag[]'").append(newOption).trigger('change');
             });
         });
+
+        $("[name='tag[]']").change((e) => {
+            const $tagged = $("#tagged");
+
+            this.$nextTick(() => {
+                $tagged.hide();
+                if ($("[name='tag[]']").val().length > 0)
+                    $tagged.show();
+            });
+
+            Bus.$emit("state", e.target.name, $(e.target).val())
+        });
+
+        Bus.$emit("state", "instagram_post_comment", true)
     }
 }
 </script>

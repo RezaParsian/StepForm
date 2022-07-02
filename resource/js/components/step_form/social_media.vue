@@ -7,12 +7,12 @@
         </button>
         <div class="row mx-auto justify-content-center">
             <div
-                    class="col-md-4 rounded border m-1 p-2"
-                    v-for="item in social_medias"
-                    :data-id="item.id"
-                    @click="selectMedia(item.id)"
-                    :title="item.tooltip"
-                    data-toggle="tooltip">
+                class="col-md-4 rounded border m-1 p-2"
+                v-for="item in social_medias"
+                :data-id="item.id"
+                @click="selectMedia(item.id)"
+                :title="item.tooltip"
+                data-toggle="tooltip">
                 <div class="row">
                     <img class="col-md-3 col-6 mx-auto img-fluid" :src="item.image" :alt="item.name">
                 </div>
@@ -22,12 +22,12 @@
 
         <div class="row mx-auto justify-content-center" v-if="selected_post_type===null">
             <div
-                    class="col-md-4 rounded border m-1 p-2"
-                    v-for="(item,index) in post_types"
-                    :data-id="item.id"
-                    @click="doAction(index)"
-                    :title="item.tooltip"
-                    data-toggle="tooltip">
+                class="col-md-4 rounded border m-1 p-2"
+                v-for="(item,index) in post_types"
+                :data-id="item.id"
+                @click="doAction(index)"
+                :title="item.tooltip"
+                data-toggle="tooltip">
                 <div class="row">
                     <i :class="item.icon" class="fa-3x mx-auto"></i>
                 </div>
@@ -38,12 +38,14 @@
             </div>
         </div>
 
-        <component :ref="post_types[selected_post_type].component" @check_me="checkData" v-if="selected_post_type!==null" :is="post_types[selected_post_type].component"></component>
+        <component :state="state" :ref="post_types[selected_post_type].component" @check_me="checkData" v-if="selected_post_type!==null" :is="post_types[selected_post_type].component"></component>
 
     </div>
 </template>
 
 <script>
+
+import {Bus} from "../../app";
 
 export default {
     name: "social_media",
@@ -101,6 +103,7 @@ export default {
             ],
             selected_post_type: null,
             post_types: [],
+            state: {},
         }
     },
     watch: {
@@ -133,24 +136,85 @@ export default {
                 else
                     this.$emit("go_next", true);
             });
-        }
-        ,
+        },
         selectMedia(advertise_id) {
+            Bus.$emit("state", "selected_media", advertise_id);
             this.selected_media = advertise_id;
             this.post_types = this.social_medias[advertise_id].services;
-        }
-        ,
+        },
         reset() {
             this.fresh++;
             this.post_types = [];
             this.selected_post_type = null;
             this.selected_media = null;
             this.checkData();
-        }
-        ,
+        },
         doAction(id) {
+            Bus.$emit("state", "selected_post_type", id);
             this.selected_post_type = id;
         }
+    },
+    mounted() {
+        Bus.$on("selected_media", (value) => {
+            this.$nextTick(() => {
+                this.selected_media = value;
+                this.post_types = this.social_medias[value].services;
+            })
+        })
+
+        Bus.$on("instagram_post_text", (value) => {
+            this.state.instagram_post_text = value;
+        });
+
+        Bus.$on("tag[]", (value) => {
+            this.state['tag[]'] = value;
+        });
+
+        Bus.$on("instagram_link", (value) => {
+            this.state.instagram_link = value;
+        });
+
+        Bus.$on("instagram_post_comment", (value) => {
+            this.state.instagram_post_comment = value;
+        });
+
+        Bus.$on("instagram_story_post_comment", (value) => {
+            this.state.instagram_story_post_comment = value;
+        });
+
+        Bus.$on("mention[]", (value) => {
+            this.state['mention[]'] = value;
+        });
+
+        Bus.$on("hashtag[]", (value) => {
+            this.state['hashtag[]'] = value;
+        });
+
+        Bus.$on("instagram_story_detail", (value) => {
+            this.state['instagram_story_detail'] = value;
+        });
+
+        Bus.$on("instagram_story_link", (value) => {
+            this.state['instagram_story_link'] = value;
+        });
+
+        Bus.$on("telegram_post_text", (value) => {
+            this.state['telegram_post_text'] = value;
+        });
+
+        Bus.$on("telegram_post_link", (value) => {
+            this.state['telegram_post_link'] = value;
+        });
+
+        Bus.$on("telegram_more", (value) => {
+            this.state['telegram_more'] = value;
+        });
+
+        Bus.$on("selected_post_type", (value) => {
+            setTimeout(() => {
+                this.selected_post_type = value;
+            }, 2000);
+        })
     }
 }
 </script>

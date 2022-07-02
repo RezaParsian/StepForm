@@ -66,7 +66,7 @@
                         </select>
                     </div>
                     <div class="col-md-5 px-4 text-right">
-                        <select name="work_category[]" required multiple="" class="form-control mdb-select md-form work_category">
+                        <select name="work_category[]" required multiple="" class="form-control mdb-select md-form work_category js-example-placeholder-multiple js-states">
                             <option v-for="item in work_category.filter((x)=> x.category_isActive===1)" :value="item.id">{{ item.category_name }}</option>
                         </select>
                     </div>
@@ -89,9 +89,7 @@
                     </div>
                     <div class="col-12 mb-3 text-right">
                         <select class="sabt-input form-control work_category" name="work_category[]" required multiple="">
-                            <option v-for="item in work_category.filter((x)=> x.category_isActive===1)"
-                                    :value="item.id">{{ item.category_name }}
-                            </option>
+                            <option v-for="item in work_category.filter((x)=> x.category_isActive===1)" :value="item.id">{{ item.category_name }}</option>
                         </select>
                     </div>
                     <div class="col-md-2">
@@ -475,13 +473,18 @@ export default {
                 }
             })
         });
+
         this.$nextTick(() => {
-            $(".work_category").select2({
-                placeholder: "دسته بندی خودرا انتخاب کنید.",
-                dir: "rtl",
-                closeOnSelect: false,
-                width: "100%",
-            }).val("INSTAGRAM").trigger("change");
+            setTimeout(() => {
+                const $category = $(".work_category");
+
+                $category.select2({
+                    placeholder: "دسته بندی خودرا انتخاب کنید.",
+                    dir: "rtl",
+                    closeOnSelect: false,
+                    width: "100%",
+                });
+            }, 500);
 
             $(document).on("change", "#type", (element) => {
                 this.types = element.target.value;
@@ -489,8 +492,9 @@ export default {
             $(document).on("change", "#type2", (element) => {
                 this.types = element.target.value;
             });
-            this.types='INSTAGRAM';
+            this.types = 'INSTAGRAM';
         });
+
         $.get("https://advn.ad-venture.app/api/cats", (data) => {
             this.work_category = data;
         });
@@ -520,20 +524,26 @@ export default {
                 Vue.filters.id = $(this).attr('id');
                 window.history.pushState([], "", `${Vue.url}/social?set=1&&filter=${JSON.stringify(Vue.filters)}`);
 
-            })
+            });
+
             $(document).on("change", ".work_category", (element) => {
                 this.categories = $(element.target).val();
             });
+
+            this.$nextTick(()=>{
+                this.getChannels();
+            });
         })
+
     },
 }
 </script>
 
 <style>
-::-webkit-input-placeholder {
-    font-style: normal !important;
+::placeholder {
+    color: #2592c3 !important;
+    font-size: 9pt
 }
-
 
 .sabt-input {
     border-radius: 5px;

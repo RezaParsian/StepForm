@@ -11,7 +11,11 @@
         </div>
         <div class="card-body">
             <div class="row d-none d-md-flex text-center mt-2">
-                <div class="col steps inactive" v-for="item in steps" :id="item.id" :key="item.name" @click="current_step=item.id">
+                <div class="col steps" :class="{
+                    'current' : current_step===item.id,
+                    'finish':current_step>item.id,
+                    'inactive':current_step!==item.id
+                }" v-for="item in steps" :id="item.id" :key="item.name" @click="current_step=item.id">
                     {{ item.name }}
                 </div>
             </div>
@@ -71,7 +75,7 @@
                 <checkout @go_next="nextStep" :social="social" :camping="camping" :budget="budget" :content="content" ref="checkout"></checkout>
             </div>
 
-            <div v-if="current_step===5">
+            <div v-show="current_step===5">
                 <hr>
 
                 <div class="row my-3 mx-auto">
@@ -90,7 +94,7 @@
                 مرحله قبل
             </button>
 
-            <button type="button" @click="form" class="btn btn-success mr-auto mt-2 float-left" style="margin: 10px" v-if="current_step===6">تایید و ثبت</button>
+            <button type="submit" @click="form" class="btn btn-success mr-auto mt-2 float-left" style="margin: 10px" v-if="current_step===6">تایید و ثبت</button>
         </div>
     </div>
 </template>
@@ -127,6 +131,8 @@ export default {
             categories: [],
             province: [],
             current_step: 0,
+            cache: false,
+            state: {},
             steps: [
                 {
                     id: 0,
@@ -169,7 +175,8 @@ export default {
         };
     },
     methods: {
-        form(){
+        form() {
+            localStorage.removeItem("form");
             Swal.fire({
                 title: "لطفا منتظر بمانید",
                 text: "درخواست شما در حال بررسی می‌باشد.",
@@ -209,6 +216,18 @@ export default {
                 $(item).trigger("hover")
                 this.$refs.iran.select({target: item});
             });
+        },
+        setForm(value) {
+            const fields = JSON.parse(value);
+            this.state=fields;
+
+            Object.entries(fields).forEach(([index, item]) => {
+                Bus.$emit(index, item);
+            })
+
+            setTimeout(() => {
+                this.cache = true;
+            }, 5000)
         }
     },
     watch: {
@@ -251,7 +270,7 @@ export default {
         }
     },
     mounted() {
-        this.current_step = Bus.debug ? 5 : 0;
+        this.current_step = 0;
         this.$refs.iran.$watch("selected", () => {
             if (this.$refs.iran.selected.length < 31)
                 this.selectedPlaceButton = "city";
@@ -266,18 +285,42 @@ export default {
         Bus.$on('sumPrice', (sumPrice) => {
             this.sumPrice = sumPrice;
         });
+        Bus.$on("state", (name, value) => {
+            this.state[name] = value;
+            if (this.cache)
+                localStorage.setItem("form", JSON.stringify(this.state));
+        });
+
+        this.$nextTick(function () {
+            if (Boolean(localStorage.getItem("form")))
+                this.setForm(localStorage.getItem("form"));
+            else
+                this.cache = true;
+        })
     }
 }
 </script>
 
 <style scoped>
 
-.steps::before {
+.steps.finish::before {
     content: "";
     width: 1rem;
     height: 1rem;
     display: block;
-    background: rebeccapurple;
+    background: #447fbd !important;
+    border-radius: 100%;
+    position: absolute;
+    left: calc(50% - 0.5rem);
+    top: -1rem;
+}
+
+.steps.current::before {
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    display: block;
+    background: #e1236f;
     border-radius: 100%;
     position: absolute;
     left: calc(50% - 0.5rem);
@@ -289,21 +332,21 @@ export default {
     width: 1rem;
     height: 1rem;
     display: block;
-    background: #847692 !important;
+    background: #eeb919;
     border-radius: 100%;
     position: absolute;
     left: calc(50% - 0.5rem);
     top: -1rem;
 }
 
-.card{
+.card {
     box-shadow: 20px 20px 50px 10px #8080805c;
     border: none;
 }
 
 
 .btn-grad {
-    background-image: linear-gradient(to right, #314755 0%, #26a0da  51%, #314755  100%);
+    background-image: linear-gradient(to right, #314755 0%, #26a0da 51%, #314755 100%);
     margin: 10px;
     padding: auto 15px;
     text-align: center;

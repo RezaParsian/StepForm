@@ -44,7 +44,7 @@ Vue.filter("currency",(x)=>{
 export const Bus = new Vue({
     data() {
         return {
-            debug: true,
+            debug: false,
         }
     }
 });
