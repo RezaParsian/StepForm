@@ -200,14 +200,14 @@
                             <hr class="m-0">
                         </div>
 
-                        <div class="form-group col-md-12 m-0">
+                        <div class="form-group col-md-12 m-0" v-if="types==='INSTAGRAM'">
                             <label>حداقل مبلغ استوری
                                 <small>{{ filters.story_g | currency }}</small>
                             </label>
                             <input type="range" step="100000" min="100000" max="10000000" v-model="filters.story_g" class="form-control">
                         </div>
 
-                        <div class="form-group col-md-12 m-0">
+                        <div class="form-group col-md-12 m-0" v-if="types==='INSTAGRAM'">
                             <label>حداکثر مبلغ استوری
                                 <small>{{ filters.story_l | currency }}</small>
                             </label>
