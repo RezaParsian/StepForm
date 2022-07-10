@@ -64,9 +64,6 @@
 
       </div>
     </div>
-    <div class="col d-flex">
-      <button type="submit" class="btn btn-success mr-auto mt-2">تایید و ثبت</button>
-    </div>
   </div>
 </template>
 

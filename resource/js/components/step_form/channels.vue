@@ -17,8 +17,7 @@
                         style="display: none;z-index: 15;left:2rem" id="shop_button">
                     <span class="fa fa-shopping-cart text-white"></span>
                 </button>
-                <div id="filters" class="my-4 mx-auto modal fade" tabindex="-1" role="dialog"
-                     labelledby="exampleModalLabel" aria-hidden="true">
+                <div id="filters" class="my-4 mx-auto modal fade" tabindex="-1" role="dialog" labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -28,21 +27,18 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-
                                 <div id="post" class="row mx-auto" v-show="this.content === 'پست'">
                                     <div class="col-md">
-                                        <p>حداکثرقیمت پست:</p>
+                                        <p for="postPriceL">حداقل قیمت پست:</p>
                                         <div class="row">
-                                            <input id="postPriceG" data-variable="postPrice_g" type="range" class="mr-3"
-                                                   min="0" max="999999">
+                                            <input id="postPriceL" data-variable="postPrice_g" type="range" class="mr-3" min="0" max="999999">
                                             <label class="my-auto mx-2 text-info">{{ postPrice_g }}</label>
                                         </div>
                                     </div>
                                     <div class="col-md">
-                                        <p for="postPriceL">حداقل قیمت پست:</p>
+                                        <p>حداکثرقیمت پست:</p>
                                         <div class="row">
-                                            <input id="postPriceL" data-variable="postPrice_l" type="range" class="mr-3"
-                                                   min="0" max="999999">
+                                            <input id="postPriceG" data-variable="postPrice_l" type="range" class="mr-3" min="0" max="999999">
                                             <label class="my-auto mx-2 text-info">{{ postPrice_l }}</label>
                                         </div>
                                     </div>
@@ -51,17 +47,17 @@
                                 <div v-show="this.content !== 'پست'">
                                     <div id="story" class="row mx-auto" v-if="this.content !== 'پست'">
                                         <div class="col-md">
-                                            <p for="storyPriceG">حداکثرقیمت استوری:</p>
+                                            <p for="postPriceL">حداقل قیمت استوری:</p>
                                             <div class="row">
-                                                <input id="storyPriceG" data-variable="storyPrice_g" class="mr-3"
-                                                       type="range" min="0" max="9999999">
+                                                <input id="storyPriceL" class="mr-3" data-variable="storyPrice_g" type="range" min="0" max="9999999">
                                                 <label class="my-auto mx-2 text-info">{{ storyPrice_g }}</label>
                                             </div>
                                         </div>
+
                                         <div class="col-md">
-                                            <p for="postPriceL">حداقل قیمت استوری:</p>
+                                            <p for="storyPriceG">حداکثرقیمت استوری:</p>
                                             <div class="row">
-                                                <input id="storyPriceL" class="mr-3" data-variable="storyPrice_l"
+                                                <input id="storyPriceG" data-variable="storyPrice_l" class="mr-3"
                                                        type="range" min="0" max="9999999">
                                                 <label class="my-auto mx-2 text-info">{{ storyPrice_l }}</label>
                                             </div>
@@ -71,36 +67,34 @@
 
                                 <div id="follower" class="row mx-auto pb-3">
                                     <div class="col-md">
-                                        <p for="minFollow">حداکثرتعداد فالوور:</p>
+                                        <p for="maxFollow">حداقل تعداد فالوور:</p>
                                         <div class="row">
-                                            <input id="minFollow" class="mr-3" data-variable="minFollower" type="range"
-                                                   min="0" max="9999999">
-                                            <label class="my-auto mx-2 text-info">{{ minFollower }}</label>
+                                            <input id="maxFollow" class="mr-3" type="range" data-variable="maxFollower" min="0" max="9999999">
+                                            <label class="my-auto mx-2 text-info">{{ maxFollower }}</label>
                                         </div>
                                     </div>
                                     <div class="col-md">
-                                        <p for="maxFollow">حداقل تعداد فالوور:</p>
+                                        <p for="minFollow">حداکثرتعداد فالوور:</p>
                                         <div class="row">
-                                            <input id="maxFollow" class="mr-3" type="range" data-variable="maxFollower"
-                                                   min="0" max="9999999">
-                                            <label class="my-auto mx-2 text-info">{{ maxFollower }}</label>
+                                            <input id="minFollow" class="mr-3" data-variable="minFollower" type="range" min="0" max="9999999">
+                                            <label class="my-auto mx-2 text-info">{{ minFollower }}</label>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div id="eng" class="row mx-auto pb-3 mb-5">
                                     <div class="col-md">
-                                        <p for="min-Eng">حداکثر نرخ تعامل:</p>
-                                        <div class="row">
-                                            <input id="min-Eng" class="mr-3" data-variable="eng_l" type="range" min="0" max="30" step="0.1">
-                                            <label class="my-auto mx-2 text-info">{{ eng_l }}</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md">
                                         <p for="max-Eng">حداقل نرخ تعامل:</p>
                                         <div class="row">
                                             <input id="max-Eng" class="mr-3" type="range" data-variable="eng_g" min="0" max="30" value="0" step="0.1">
                                             <label class="my-auto mx-2 text-info">{{ eng_g }}</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <p for="min-Eng">حداکثر نرخ تعامل:</p>
+                                        <div class="row">
+                                            <input id="min-Eng" class="mr-3" data-variable="eng_l" type="range" min="0" max="30" step="0.1">
+                                            <label class="my-auto mx-2 text-info">{{ eng_l }}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -422,12 +416,12 @@ export default {
         },
         clearFilters() {
             this.eng_g = 0;
-            this.eng_l = 99999999;
-            this.minFollower = 99999999;
+            this.eng_l = 0;
+            this.minFollower = 0;
             this.maxFollower = 0;
             this.postPrice_g = 0;
-            this.postPrice_l = 99999999;
-            this.storyPrice_l = 99999999;
+            this.postPrice_l = 0;
+            this.storyPrice_l = 0;
             this.storyPrice_g = 0;
             this.page = 0;
             this.channels = [];

@@ -11,7 +11,7 @@
         </div>
         <div class="card-body">
             <div class="row d-none d-md-flex text-center mt-2">
-                <div class="col steps inactive" v-for="item in steps" :id="item.id" :key="item.name">
+                <div class="col steps inactive" v-for="item in steps" :id="item.id" :key="item.name" @click="current_step=item.id">
                     {{ item.name }}
                 </div>
             </div>
@@ -80,7 +80,7 @@
                 </div>
             </div>
 
-            <button type="button" v-if="next_step" @click="next" class="btn btn-grad float-left">
+            <button type="button" v-if="next_step && current_step<6" @click="next" class="btn btn-grad float-left">
                 مرحله بعد
                 <i class="fa fa-caret-left"></i>
             </button>
@@ -89,12 +89,15 @@
                 <i class="fa fa-caret-right"></i>
                 مرحله قبل
             </button>
+
+            <button type="button" @click="form" class="btn btn-success mr-auto mt-2 float-left" style="margin: 10px" v-if="current_step===6">تایید و ثبت</button>
         </div>
     </div>
 </template>
 
 <script>
-import { Bus } from "../../app.js";
+import {Bus} from "../../app.js";
+
 export default {
     name: "Main",
     props: {
@@ -166,6 +169,19 @@ export default {
         };
     },
     methods: {
+        form(){
+            Swal.fire({
+                title: "لطفا منتظر بمانید",
+                text: "درخواست شما در حال بررسی می‌باشد.",
+                icon: "info",
+                showConfirmButton: false,
+                toast: true,
+                timerProgressBar: true,
+                timer: 3000
+            });
+
+            Swal.showLoading();
+        },
         goBack() {
             scrollTo(0, 0);
             this.current_step--;
